@@ -1,0 +1,132 @@
+
+<div fxLayout='column' fxLayout.xs='column' fxLayoutAlign="center center"  class="container">
+
+    <mat-card  fxLayout='column' fxFlex='90' fxFlex.xs="100" fxLayoutGap='20px'fxLayoutGap.xs='0px'>
+        
+                <div class="register-top" fxLayoutAlign="center">
+                        <span class="registertop1_1">f</span>
+                      <span class="registertop1_2">u</span>
+                      <span class="registertop1_3">n</span>
+                      <span class="registertop1_4">d</span>
+                      <span class="registertop1_5">o</span>
+                      <span class="registertop1_6">o</span>
+                      <span class="registertop1_1">N</span>
+                      <span class="registertop1_2">o</span>
+                      <span class="registertop1_3">t</span>
+                      <span class="registertop1_4">e</span>
+                      <span class="registertop1_5">s</span>
+                    </div>
+                    <p fxLayoutAlign="center">Create your fundoo Account </p>
+
+        <div fxLayoutAlign="center" class="fields_empty">
+          {{fieldsEmpty}}
+        </div>
+
+       
+<div fxLayout='row' fxLayout.xs='column' fxLayoutGap.xs="0" fxLayoutGap="10px">
+ 
+  <mat-form-field >
+      <input matInput placeholder="First name" required minlength="3"
+      #firstName="ngModel" pattern="^[a-zA-Z]+$" [(ngModel)]="user.firstName">
+
+      <mat-error *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+      class="alert alert-danger">
+      <div *ngIf="firstName.errors.required">
+            Firstname is required.
+          </div>
+          <div *ngIf="firstName.errors.minlength">
+            Firstname must be at least 3 characters long.
+          </div>
+          <div *ngIf="firstName.errors.pattern">
+            Firstname should have only alphabets.
+          </div>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field  >
+            <input  matInput placeholder="Last name" required required minlength="3"
+            #lastName="ngModel" pattern="^[a-zA-Z]+$"[(ngModel)]="user.lastName" >
+            <mat-error *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+      class="alert alert-danger">
+      <div *ngIf="lastName.errors.required">
+            Lastname is required.
+          </div>
+          <div *ngIf="lastName.errors.minlength">
+            Lastname must be at least 3 characters long.
+          </div>
+          <div *ngIf="lastName.errors.pattern">
+            Lastname should have only alphabets.
+          </div>
+        </mat-error>
+          </mat-form-field>
+</div>
+
+            
+  <mat-form-field  >
+        <input  matInput placeholder="Email"  #email="ngModel" 
+        required pattern="[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [(ngModel)]="user.email">
+         
+        <mat-error *ngIf="email.invalid && (email.dirty || email.touched)"
+        class="alert alert-danger">
+        <div *ngIf="email.errors.required">
+              email is required.
+            </div>
+            <div *ngIf="email.errors.pattern">
+              Invalid mail.
+            </div>
+          </mat-error>   
+    </mat-form-field>
+
+       
+<div fxLayout='row' fxLayoutGap="5px" fxLayoutGap.xs="0px" fxLayout.xs='column'>
+  <mat-form-field  hintLabel="Use 5 or more characters">
+      <input type="password" matInput placeholder="Password" required #password="ngModel"
+      minlength="5" [(ngModel)]="user.password">
+
+      <mat-error *ngIf="password.invalid && (password.dirty || password.touched)"
+      class="alert alert-danger">
+      <div *ngIf="password.errors.required">
+            password is required.
+          </div>
+          <div *ngIf="password.errors.minlength">
+            Use 5 or more characters.
+          </div>
+        </mat-error>  
+    </mat-form-field>
+
+    <mat-form-field >
+            <input matInput type="password" placeholder="Confirm password" required [(ngModel)]="confimPassword" 
+            minlength="5" #confirmPassword="ngModel"  >
+  
+            
+            <mat-error *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
+            class="alert alert-danger">
+            <div *ngIf="confirmPassword.errors.required">
+                  password is required.
+                </div>
+                <div *ngIf="confirmPassword.errors.minlength">
+                  Use 5 or more characters.
+                </div>
+              </mat-error>        
+          </mat-form-field>
+           
+</div>                                                                                  
+<div fxLayout='row'  fxLayoutGap="20px" fxLayoutGap.xs="10px" >
+
+    <mat-card *ngFor="let service of newServices" class="card" (click)="onClickChange(service)" [ngClass]="service.first? 'first': 'second'" >
+        <div class='text1' fxLayoutAlign='center' >{{service.name}}</div> 
+       <div class='text2' fxLayoutAlign='center'>
+            {{service.description}}
+       </div> 
+    </mat-card>
+</div>
+  <div fxLayout='row' class="footer" fxLayout.xs = 'row' fxLayoutGap="150px"fxLayoutGap.xs="50px" >
+        <a mat-button routerLink="/login" >Sign in instead</a>
+        <button mat-raised-button  class = 'next_button' (click)="newUser()" >Next</button>
+        
+    </div> 
+  
+
+    </mat-card>
+
+</div>

@@ -1,0 +1,75 @@
+
+
+.register-top { 
+    font-size: 25px;
+}
+.registertop1_1 {
+    color: #3399ff
+}
+
+.registertop1_2 {
+    color: #ff0000
+}
+
+.registertop1_3 {
+    color: #ff6600
+}
+.registertop1_4 {
+    color: #3399ff
+}
+
+.registertop1_5 {
+    color: #33cc33
+}
+
+.registertop1_6 {
+    color: #ff0000
+}
+
+.container {
+ height: 100vh;
+}   
+
+.card {
+    max-width:170px;
+    max-height:140px;
+    height:120px;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 10px;
+  
+}
+ 
+  .first{
+    background-color:   #999966
+  }
+  .second{
+    background-color: #546e7a
+  }
+
+  .text1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: aliceblue
+  }
+
+  .text2 {
+    font-size: 15px;
+    text-align: center;
+    color: aliceblue
+    
+} 
+
+.fields_empty {
+    color: #ff0000;
+    font-size: 12px;
+}
+
+.footer {
+    margin-top: 18px
+}
+
+.next_button {
+    color: aliceblue;
+    background-color: #3399ff
+}
