@@ -4,9 +4,43 @@
 
 .sidenav {
   width: 200px;
+ margin-top: 65px;
 }
 
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
+}
+
+.tool-bar {
+  background-color: #fb0
+}
+
+.search-box {
+  height: 40px;  
+  background-color: white;
+  border-radius: 5px;
+ 
+}
+
+.search-box input {
+  border:none;
+  outline: none;
+  font-size: 16px;
+  
+}
+
+.child-links {
+  margin-left:20px;
+  font-size: 12px
+
+}
+
+.drop-down {
+  background-color:#f2f2f2;
+  color:#0d0d0d
+}
+
+.drop-down-button {
+  width:500px
 }

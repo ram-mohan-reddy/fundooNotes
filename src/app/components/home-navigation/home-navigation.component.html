@@ -1,31 +1,45 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-toolbar class="tool-bar" fxLayout='row' fxLayout.xs="row" fxLayoutGap="30px" fxLayoutGap.xs="0">
+    <button fxFlex=5 type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <span fxFlex=15>fundooNotes</span>
 
-    <mat-sidenav-content>
-        <mat-toolbar color="primary">
-          <button
-            type="button"
-            aria-label="Toggle sidenav"
-            mat-icon-button
-            (click)="drawer.toggle()">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-          </button>
-          <span>fundoo</span>
-        </mat-toolbar>
-        <!-- Add Content Here -->
-      </mat-sidenav-content>
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <form class="search-box" fxFlex>
+      <button mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
+      <input type='text'>
+
+    </form>
+
+    <div fxFlex=25 fxLayoutAlign='end'>
+      <button mat-icon-button routerLink="/home"><mat-icon>refresh</mat-icon></button>
+
+      <button mat-icon-button><mat-icon>view_stream</mat-icon></button>
+      <button mat-icon-button><mat-icon>notifications_none</mat-icon></button>
+      <button mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">R</button>
+      <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+        <ng-template matMenuContent let-name="name">
+          <button class="drop-down-button" mat-menu-item routerLink="/register">Add account</button>
+          <button mat-menu-item routerLink="/login">Signout </button>
+        </ng-template>
+      </mat-menu>
+
+    </div>
+
+  </mat-toolbar>
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a mat-list-item routerLink="/home/notes"><img src="../../../assets/images/notes.svg"><span class="child-links">Notes</span></a>
+
+      <a mat-list-item routerLink="/home/reminders"><img src="../../../assets/images/reminders.svg"><span class="child-links">Reminders</span></a>
+      <a mat-list-item routerLink="/home/archive"><img src="../../../assets/images/archives.svg"><span class="child-links">Archive</span></a>
+      <a mat-list-item routerLink="/home/trash"><mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
     </mat-nav-list>
   </mat-sidenav>
-  
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

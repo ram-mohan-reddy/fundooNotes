@@ -16,6 +16,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -26,6 +27,10 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { HomeNavigationComponent } from './components/home-navigation/home-navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { NotesComponent } from './components/notes/notes.component';
+import { RemindersComponent } from './components/reminders/reminders.component';
+import { ArchiveComponent } from './components/archive/archive.component';
+import { TrashComponent } from './components/trash/trash.component';
 
 
 
@@ -37,6 +42,10 @@ import { LayoutModule } from '@angular/cdk/layout';
     ResetPasswordComponent,
     HomePageComponent,
     HomeNavigationComponent,
+    NotesComponent,
+    RemindersComponent,
+    ArchiveComponent,
+    TrashComponent,
    
   ],
   imports: [
@@ -57,7 +66,9 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    LayoutModule
+    LayoutModule,
+    MatMenuModule
+   
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]
