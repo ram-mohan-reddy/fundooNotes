@@ -17,6 +17,10 @@ postService(url,user) {
   return this.http.post<any>(url, user);   
 }
 
+getUserData(url) {
+  url = this.server_url + url;
+  return this.http.get<any>(url);
+}
 resetPassword(url, data, token) {
   console.log(token);
   console.log(data);

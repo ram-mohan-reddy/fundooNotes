@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
   emptyEmail = '';
   emptyPassword = '';
   confirmPassword='';
-
+  userName = '';
   ngOnInit() {
     
     
@@ -69,10 +69,53 @@ export class LoginComponent implements OnInit {
 
     this.userService.postService('api/user/login',this.userLogin)
       .subscribe(data => {
-        console.log(data); 
+        console.log(data);
+        // this.uesrData();
+        this.userService.getUserData('api/user')
+        .subscribe(data => {
+          console.log(data);
+          data.forEach(element => {
+    
+            if (element.email == this.userLogin.email) {
+    
+            this.userName = element.firstName;
+              console.log(element.firstName);
+              localStorage.setItem('token',data.id);
+              localStorage.setItem('userName',this.userName);
+              localStorage.setItem('email',this.userLogin.email);
+              window.location.replace('home') 
+            } 
+            
+          });
+         
+         
+          error => console.log('Error ', error);       
+        });
+       
         error => console.log('Error ', error);       
       });
 
+  }
+
+  uesrData() {
+    this.userService.getUserData('api/user')
+    .subscribe(data => {
+      console.log(data);
+      data.forEach(element => {
+
+        if (element.email == this.userLogin.email) {
+
+        this.userName = element.firstName;
+          console.log(element.firstName);
+          
+          
+        }
+        
+      });
+     
+     
+      error => console.log('Error ', error);       
+    });
   }
   reset = {
     "email": '',

@@ -1,0 +1,55 @@
+<div fxLayout='column' fxLayoutAlign="center center" style="margin-top:30px ">
+    <mat-card fxFlex *ngIf="show" class="example-card" style="  width:50%; ;position: relative;; padding: 0">
+      <mat-card-content fxLayout='row' fxLayout.xs='row' style="margin-left:15px">
+        <div (click)="open()" fxFlex style="margin-top:12px">
+          Take a note...
+        </div>
+  
+        <div fxFlex=40 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" fxLayoutAlign="end" fxLayoutAlign.xs="center">
+          <button fxFlex=20 mat-icon-button matTooltip="New list"><mat-icon>list</mat-icon></button>
+          <button fxFlex=20 mat-icon-button matTooltip="New note with image"><mat-icon>image</mat-icon></button>
+          <button fxFlex=20 mat-icon-button matTooltip="Drawing"><mat-icon>brush</mat-icon></button>
+        </div>
+  
+      </mat-card-content>
+  
+    </mat-card>
+  
+    <mat-card fxFlex *ngIf="!show" class="example-card" style=" width:50%; ;position: relative;padding: 5">
+  
+      <mat-card-content>
+        <div fxLayout='row' fxLayout.xs='row'>
+          <div fxFlex=98 contenteditable="true" placeholder="Title"> </div>
+          <div fxFlex matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
+        </div>
+  
+        <div style="margin-top:20px" contenteditable="true" placeholder="Take a note..."></div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div fxLayout='row' fxLayout.xs='row'>
+          <div fxFlex=7>
+            <app-remind-icon></app-remind-icon>
+          </div>
+          <div fxFlex=7>
+            <app-collaborator-icon></app-collaborator-icon>
+          </div>
+          <div fxFlex=7>
+            <app-color-icon></app-color-icon>
+          </div>
+          <div fxFlex=7>
+            <app-image-icon></app-image-icon>
+          </div>
+          <div fxFlex=7>
+            <app-archive-icon></app-archive-icon>
+          </div>
+          <div fxFlex=7>
+            <app-more-icon></app-more-icon>
+          </div>
+          <div fxFlex>
+            <app-icons (messageEvent)="receiveMessage($event)"></app-icons>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  
+  </div>

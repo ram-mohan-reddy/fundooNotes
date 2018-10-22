@@ -1,0 +1,10 @@
+[contenteditable=true]:empty:before{
+    content: attr(placeholder);
+    display: block;
+   
+  }
+  
+  div[contenteditable=true] {
+    outline: none;
+  }
+  

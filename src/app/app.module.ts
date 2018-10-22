@@ -17,6 +17,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -31,11 +33,24 @@ import { NotesComponent } from './components/notes/notes.component';
 import { RemindersComponent } from './components/reminders/reminders.component';
 import { ArchiveComponent } from './components/archive/archive.component';
 import { TrashComponent } from './components/trash/trash.component';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { IconsComponent } from './components/icons/icons.component';
+import { RemindIconComponent } from './components/remind-icon/remind-icon.component';
+import { ColorIconComponent } from './components/color-icon/color-icon.component';
+import { ImageIconComponent } from './components/image-icon/image-icon.component';
+import { ArchiveIconComponent } from './components/archive-icon/archive-icon.component';
+import { MoreIconComponent } from './components/more-icon/more-icon.component';
+import { CollaboratorIconComponent } from './components/collaborator-icon/collaborator-icon.component';
+import { NotesCollectionComponent } from './components/notes-collection/notes-collection.component';
+import { NotesCreationComponent } from './components/notes-creation/notes-creation.component';
+import { AuthService } from './services/auth/auth.service';
+import { AuthGuard  } from './guards/auth.guard';
+
 
 
 
 @NgModule({
-  declarations: [
+  declarations: [ 
     AppComponent,
     LoginComponent,
     RegisterComponent,
@@ -46,8 +61,18 @@ import { TrashComponent } from './components/trash/trash.component';
     RemindersComponent,
     ArchiveComponent,
     TrashComponent,
-   
+    DialogComponent,
+    IconsComponent,
+    RemindIconComponent,
+    ColorIconComponent,
+    ImageIconComponent,
+    ArchiveIconComponent,
+    MoreIconComponent,
+    CollaboratorIconComponent,
+    NotesCollectionComponent,
+    NotesCreationComponent,  
   ],
+  entryComponents : [DialogComponent],
   imports: [
     BrowserModule,
     FlexLayoutModule,
@@ -67,10 +92,13 @@ import { TrashComponent } from './components/trash/trash.component';
     MatSidenavModule,
     MatListModule,
     LayoutModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule,
+    MatDialogModule
    
   ],
-  providers: [HttpService],
+  providers: [HttpService,AuthService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

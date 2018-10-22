@@ -1,10 +1,13 @@
 .sidenav-container {
-  height: 100%;
+  height: 90%;
+  width: 100%
+
 }
 
 .sidenav {
   width: 200px;
  margin-top: 65px;
+ box-shadow: none;
 }
 
 .mat-toolbar.mat-primary {
@@ -20,14 +23,14 @@
   height: 40px;  
   background-color: white;
   border-radius: 5px;
- 
+  overflow: hidden;
 }
 
 .search-box input {
   border:none;
   outline: none;
   font-size: 16px;
-  
+  overflow: hidden;
 }
 
 .child-links {
@@ -44,3 +47,8 @@
 .drop-down-button {
   width:500px
 }
+
+/* .search-text {
+  
+} */
+

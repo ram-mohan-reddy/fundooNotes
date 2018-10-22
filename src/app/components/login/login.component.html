@@ -66,7 +66,7 @@
                                         {{emptyPassword}}
                                 </div>
                                 <mat-form-field   >
-                                        <input matInput placeholder="Enter your password" [(ngModel)]="userLogin.password" [type]="hide ? 'password' : 'text'">
+                                        <input matInput placeholder="Enter your password" [(ngModel)]="userLogin.password" [type]="hide ? 'text' : 'password'"> 
                                         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                                 </mat-form-field>
                                 <div fxLayoutGap="150px" fxLayoutGap.xs="0">
