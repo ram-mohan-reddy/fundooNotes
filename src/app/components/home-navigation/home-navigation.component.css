@@ -48,7 +48,13 @@
   width:500px
 }
 
-/* .search-text {
-  
-} */
+.icons {
+  opacity: 0.5;
+ 
+}
+
+.icons:hover {
+  opacity: 1.0;    
+}
+
 

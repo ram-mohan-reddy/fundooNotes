@@ -17,8 +17,44 @@ postService(url,user) {
   return this.http.post<any>(url, user);   
 }
 
-getUserData(url) {
+saveNote(url,data,token) {
   url = this.server_url + url;
+  var httpAuthenticate = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+
+  };
+  return this.http.post(url,data,httpAuthenticate);
+}
+
+getNotesList(url,token) {
+  url = this.server_url + url;
+  var httpAuthenticate = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+
+  };
+  return this.http.get(url,httpAuthenticate);
+
+}
+userLogout(url,token) {
+  url = this.server_url + url;
+  var httpAuthenticate = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+
+  };
+  return this.http.post(url,{},httpAuthenticate);
+}
+
+getUserData(url) {
+  url = this.server_url + url; 
   return this.http.get<any>(url);
 }
 resetPassword(url, data, token) {
@@ -34,11 +70,7 @@ resetPassword(url, data, token) {
     })
 
   };
-
-
-
   return this.http.post(url, this.getFormUrlEncoded(data), httpAuthenticate);
-
 }
 
 

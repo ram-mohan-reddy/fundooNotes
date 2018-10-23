@@ -13,11 +13,12 @@ import { TrashComponent } from './components/trash/trash.component';
 import { AuthGuard as AuthGuardService } from './guards/auth.guard';
 
 const routes: Routes = [
+ 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path:'resetpassword/:id',component: ResetPasswordComponent},
-  { path:'home',component: HomePageComponent,canActivate: [AuthGuardService],children:[
+  { path:'home',component: HomePageComponent,children:[
     {
       path: '',
       pathMatch: 'full',
@@ -27,7 +28,9 @@ const routes: Routes = [
     {path:'reminders',component: RemindersComponent},
     {path:'archive',component: ArchiveComponent},
     {path:'trash',component: TrashComponent}
-  ]}
+  ]},
+  {path:'**',redirectTo: '/login'},
+
   
 ];
 

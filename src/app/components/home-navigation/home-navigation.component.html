@@ -1,6 +1,6 @@
 <mat-toolbar class="tool-bar" fxLayout='row' fxLayout.xs="row" fxLayoutGap="30px" fxLayoutGap.xs="20px" style="padding-right:0px">
     <button fxFlex=5  matTooltip="Main menu" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      <mat-icon class="icons" aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
     <span fxFlex=10 fxShow="true" fxHide.xs="true" >fundooNotes</span>
 
@@ -11,10 +11,10 @@
     </form>
 <div fxFlex=30 fxFlex.xs=35 fxLayoutGap.xs="0px" fxLayoutAlign='end'>
     <div fxFlex=50 fxLayoutGap="10px" fxFlex.xs=100>
-        <button matTooltip="Refresh" fxFlex mat-icon-button routerLink="/home"><mat-icon>refresh</mat-icon></button>
+        <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button routerLink="/home"><mat-icon>refresh</mat-icon></button>
   
-        <button matTooltip="List view" fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
-        <button matTooltip="Notification" fxFlex mat-icon-button><mat-icon>notifications_none</mat-icon></button>
+        <button class="icons" matTooltip="List view" fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
+        <button class="icons" matTooltip="Notification" fxFlex mat-icon-button><mat-icon>notifications_none</mat-icon></button>
         <button matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
         <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template matMenuContent let-name="name">
@@ -23,17 +23,17 @@
             <hr>
             <div fxLayout='row' fxLayoutGap="30px" style="padding:10px">
                 <button fxFlex  class="drop-down-button" routerLink="/register">Add account</button>
-                <button fxFlex  routerLink="/login">Signout </button>
+                <button fxFlex (click)=logout() >Signout </button>
             </div>
             
-          </ng-template>
+          </ng-template> 
         </mat-menu>
   
       </div>
 </div>
     
 
-  </mat-toolbar>
+</mat-toolbar>
 <mat-sidenav-container class="sidenav-container" style="background-color:#cccccc">
     <mat-sidenav #drawer class="sidenav" style="background-color:#cccccc" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">

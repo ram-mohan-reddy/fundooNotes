@@ -1,0 +1,12 @@
+.example-card {
+    margin: 10px;
+  }
+
+.icons {
+    opacity: 0.5;
+   
+}
+
+.icons:hover {
+    opacity: 1.0;    
+}

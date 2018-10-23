@@ -70,28 +70,11 @@ export class LoginComponent implements OnInit {
     this.userService.postService('api/user/login',this.userLogin)
       .subscribe(data => {
         console.log(data);
-        // this.uesrData();
-        this.userService.getUserData('api/user')
-        .subscribe(data => {
-          console.log(data);
-          data.forEach(element => {
-    
-            if (element.email == this.userLogin.email) {
-    
-            this.userName = element.firstName;
-              console.log(element.firstName);
-              localStorage.setItem('token',data.id);
-              localStorage.setItem('userName',this.userName);
-              localStorage.setItem('email',this.userLogin.email);
-              window.location.replace('home') 
-            } 
-            
-          });
-         
-         
-          error => console.log('Error ', error);       
-        });
-       
+
+        console.log(data.id);
+              
+        localStorage.setItem('token',data['id']);      
+        this.uesrData();
         error => console.log('Error ', error);       
       });
 
@@ -107,8 +90,9 @@ export class LoginComponent implements OnInit {
 
         this.userName = element.firstName;
           console.log(element.firstName);
-          
-          
+          localStorage.setItem('userName',this.userName);
+          localStorage.setItem('email',this.userLogin.email);
+          window.location.replace('home')
         }
         
       });
