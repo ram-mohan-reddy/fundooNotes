@@ -19,14 +19,13 @@
   
       <mat-card-content>
         <div fxLayout='row' fxLayout.xs='row'>
-          <!-- <div fxFlex=98 contenteditable="true" (input)="notesContent.title=$event.target.textContent" placeholder="Title"> </div> -->
           <div fxFlex=98 contenteditable="true"
-           (input)="notesContent.title=$event.target.textContent" placeholder="Title"> </div>
+           (input)="notesContent.title=$event.target.innerText" placeholder="Title"> </div>
           <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
         </div>
   
         <div style="margin-top:20px" contenteditable="true" 
-        (input)="notesContent.description=$event.target.textContent" placeholder="Take a note..."></div>
+         (input)="notesContent.description=$event.target.innerText" placeholder="Take a note..."></div>
       </mat-card-content>
       <mat-card-actions>
         <div fxLayout='row' fxLayout.xs='row'>

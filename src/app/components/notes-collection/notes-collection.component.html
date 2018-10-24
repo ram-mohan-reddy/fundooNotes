@@ -1,17 +1,17 @@
 
-<div fxLayout='row wrap' fxLayout.xs='column' fxLayoutGap='20px'style="padding:50px;">
-  <mat-card fxLayout='column' fxFlex=30  *ngFor = 'let index of list'  class="example-card" >
+<div fxLayout='row wrap' fxLayoutAlign='start start' fxLayout.xs='column' fxLayoutGap='20px'style="padding:50px;">
+  <mat-card fxLayout='column' fxFlex=30  *ngFor = 'let index of notesListArray '  class="example-card" >
     <mat-card-header style="padding:0; margin:0" fxflex>
      
       <mat-card-title style="font-weight: bold">{{index.title}}</mat-card-title>
       
     </mat-card-header>
-    <mat-card-content fxflex>
+    <mat-card-content fxflex=auto>
       <p style="word-wrap: break-word; margin-left: 10px">
         {{index.description}}
       </p>
     </mat-card-content>
-    <mat-card-actions fxflex >
+    <mat-card-actions fxflex>
       <div fxLayout='row' fxLayoutGap.xs=10px >
         <div fxFlex fxFlex.xs=10 class="icons">
           <app-remind-icon></app-remind-icon>

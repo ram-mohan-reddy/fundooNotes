@@ -17,15 +17,21 @@
         <button class="icons" matTooltip="Notification" fxFlex mat-icon-button><mat-icon>notifications_none</mat-icon></button>
         <button matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
         <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
-          <ng-template matMenuContent let-name="name">
-            <div style="text-align:center;padding: 10px">{{userName}}</div>
-            <div style="text-align:center">{{email}}</div>
+          <ng-template  matMenuContent >
+            <div style='padding: 20px'fxLayout='row' >
+              <div fxFlex>
+                <button mat-mini-fab class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
+              </div>
+              <div fxFlex>
+                <div>{{userName}}</div>
+                <div>{{email}}</div>  
+              </div>
+            </div>          
             <hr>
-            <div fxLayout='row' fxLayoutGap="30px" style="padding:10px">
-                <button fxFlex  class="drop-down-button" routerLink="/register">Add account</button>
-                <button fxFlex (click)=logout() >Signout </button>
-            </div>
-            
+            <div  fxLayout='row' fxLayoutGap="30px" style="padding:10px">
+                <button fxFlex class="drop-down-button" routerLink="/register">Add account</button>
+                <button fxFlex class="drop-down-button" (click)=logout() >Signout </button>
+            </div>           
           </ng-template> 
         </mat-menu>
   

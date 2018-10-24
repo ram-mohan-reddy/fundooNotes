@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output, EventEmitter } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {DialogComponent} from '../dialog/dialog.component'
 import { HttpService } from '../../services/http.service';
@@ -13,6 +13,7 @@ export class NotesCreationComponent implements OnInit {
   public show:boolean = true;
   message:string;
   token: string;
+  event: boolean = true
   notesContent = {
 
     "file" : File,
@@ -22,12 +23,12 @@ export class NotesCreationComponent implements OnInit {
     "checkList" : String,
     "isPinned" : Boolean
   }
-
+  @Output() eventClicked = new EventEmitter<boolean>();
   receiveMessage(event) {
     if (event) {
       this.saveNote();
+      this.eventClicked.emit(event);
       this.show = !this.show;
-     
     }
   }
   saveNote() {
@@ -65,6 +66,5 @@ export class NotesCreationComponent implements OnInit {
   
     open(): void {
       this.show = !this.show;
-
     }
 }
