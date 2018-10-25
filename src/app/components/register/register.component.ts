@@ -47,7 +47,8 @@ valid = false
 
       this.userService.postService('api/user/userSignUp',this.user)
       .subscribe(data => {
-        console.log(data);        
+        console.log(data);   
+        window.location.replace('login');     
       });
       
     }

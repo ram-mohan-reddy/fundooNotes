@@ -18,10 +18,10 @@
         <button matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
         <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template  matMenuContent >
-            <div style='padding: 20px'fxLayout='row' >
+            <div style='padding: 10px' fxLayoutGap=10px fxLayout='row' >
               <div fxFlex>
                 <button mat-mini-fab class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
-              </div>
+              </div> 
               <div fxFlex>
                 <div>{{userName}}</div>
                 <div>{{email}}</div>  

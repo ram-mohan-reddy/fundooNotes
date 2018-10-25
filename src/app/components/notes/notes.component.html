@@ -1,4 +1,4 @@
 
-<app-notes-creation (eventClicked)="childEventClicked($event)"></app-notes-creation>
+<app-notes-creation (notesAdded)="notesAddRequest($event)"></app-notes-creation>
 
-<app-notes-collection [notesListArray]="totalNotes"></app-notes-collection>
+<app-notes-collection (deleteRequest)="notesAddRequest($event)" [notesListArray]="totalNotes"></app-notes-collection> 

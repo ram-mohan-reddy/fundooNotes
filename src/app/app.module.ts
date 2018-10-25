@@ -45,6 +45,7 @@ import { NotesCollectionComponent } from './components/notes-collection/notes-co
 import { NotesCreationComponent } from './components/notes-creation/notes-creation.component';
 import { AuthService } from './services/auth/auth.service';
 import { AuthGuard  } from './guards/auth.guard';
+import { GetNotesService } from './services/notes/get-notes.service';
 
 
 
@@ -97,7 +98,7 @@ import { AuthGuard  } from './guards/auth.guard';
     MatDialogModule
    
   ],
-  providers: [HttpService,AuthService,AuthGuard],
+  providers: [HttpService,AuthService,AuthGuard,GetNotesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

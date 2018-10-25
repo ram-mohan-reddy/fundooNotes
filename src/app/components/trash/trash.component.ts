@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpService } from '../../services/http.service';
+import { GetNotesService } from '../../services/notes/get-notes.service';
 
 @Component({
   selector: 'app-trash',
@@ -7,9 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrashComponent implements OnInit {
 
-  constructor() { }
+  totalNotes = [];
+  token: string;
+  list;
+  constructor(private userService: HttpService,private notesService : GetNotesService) { }
 
   ngOnInit() {
-  }
 
+    this.getNotes();
+  }
+  getNotes() {
+
+    this.notesService.getNotes()
+    .subscribe(data => {
+      console.log(data);
+
+      this.list = [];
+
+      for (let index = 0; index < data['data'].data.length; index++) {
+        if (data['data'].data[index].isDeleted == true) {
+          this.list.push(data['data'].data[index])
+        }        
+      }    
+     this.totalNotes = this.list.reverse();     
+    });
+    error => console.log('Error ', error);
+  }
 }

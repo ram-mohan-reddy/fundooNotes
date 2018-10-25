@@ -1,5 +1,5 @@
 <div  fxLayout='column' fxLayoutAlign="center center" style="margin-top:30px ">
-    <mat-card fxFlex   *ngIf="show" class="example-card" style="  width:50%; padding: 0">
+    <mat-card fxFlex   *ngIf="show" class="example-card" style="  width:50%; padding: 0; border-radius: 10px">
       <mat-card-content fxLayout='row' fxLayout.xs='row' style="margin-left:15px">
         <div (click)="open()" fxFlex style="margin-top:12px">
           Take a note...
@@ -15,7 +15,7 @@
   
     </mat-card>
   
-    <mat-card   fxFlex *ngIf="!show" class="example-card" style=" width:50%; ;position: relative;padding: 5">
+    <mat-card   fxFlex *ngIf="!show" class="example-card" style=" width:50%; ;position: relative;padding: 5;border-radius: 10px">
   
       <mat-card-content>
         <div fxLayout='row' fxLayout.xs='row'>
@@ -54,4 +54,4 @@
       </mat-card-actions>
     </mat-card>
   
-  </div>
+  </div> 

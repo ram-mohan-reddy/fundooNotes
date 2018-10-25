@@ -29,6 +29,20 @@ saveNote(url,data,token) {
   return this.http.post(url,data,httpAuthenticate);
 }
 
+deleteNote(url,data,token){
+
+  url = this.server_url + url;
+  var httpAuthenticate = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+
+  };
+  return this.http.post(url,data,httpAuthenticate);
+
+}
+
 getNotesList(url,token) {
   url = this.server_url + url;
   var httpAuthenticate = {

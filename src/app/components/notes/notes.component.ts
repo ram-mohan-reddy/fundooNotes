@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../services/http.service';
+import { GetNotesService } from '../../services/notes/get-notes.service';
 
 @Component({
   selector: 'app-notes',
@@ -10,45 +10,37 @@ export class NotesComponent implements OnInit {
 
   token: string;
   list;
-  interval: any;
-  totalNotes : any = [];
+  totalNotes: any = [];
 
-  constructor(private userService: HttpService) { }
-  
-  ngOnInit() {
-this.getNotes();
-  }
+  constructor(private notesService : GetNotesService) { }
 
-  childEventClicked(event) {
-
-if (event) {
-
-  console.log(event);
-  
-  this.getNotes();
-}
-
-    // this.getNotes()
-    // this.token = localStorage.getItem('token')
-    // this.userService.getNotesList('api/notes/getNotesList',this.token)
-    // .subscribe(data => {
-    //   console.log(data); 
-    //   this.list = data['data'].data;
-    //   this.totalNotes = this.list.reverse(); 
-    //   error => console.log('Error ', error);       
-    // });
-    
-  }
-
-  getNotes() {
-    this.token = localStorage.getItem('token')
-    this.userService.getNotesList('api/notes/getNotesList',this.token)
+  ngOnInit() { 
+    this.notesService.getNotes()
     .subscribe(data => {
-      console.log(data); 
-      this.list = data['data'].data;
-      this.totalNotes = this.list.reverse(); 
-      error => console.log('Error ', error);       
+      console.log(data);
+      this.notesCollection(data) 
     });
+    error => console.log('Error ', error);
   }
 
+  notesAddRequest(event) {
+    if (event) {
+      console.log(event);
+      this.notesService.getNotes().subscribe(data => {
+        console.log(data);
+         this.notesCollection(data)
+      });
+      error => console.log('Error ', error);
+    }
+  }
+
+  notesCollection(data) {
+    this.list = [];
+        for (let index = 0; index < data['data'].data.length; index++) {
+          if (data['data'].data[index].isDeleted == false) {
+            this.list.push(data['data'].data[index])
+          }
+        }
+        this.totalNotes = this.list.reverse(); 
+  }
 }

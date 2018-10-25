@@ -1,6 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { HttpService } from '../../services/http.service';
-
+import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-notes-collection',
   templateUrl: './notes-collection.component.html',
@@ -8,10 +6,19 @@ import { HttpService } from '../../services/http.service';
 })
 export class NotesCollectionComponent implements OnInit {
   
-  constructor(private userService: HttpService) { }
+  constructor() { }
   @Input() notesListArray: any;
+  @Output() deleteRequest = new EventEmitter<boolean>();
   ngOnInit(){
     // this.notesList();  
   }
-
+ 
+  childEventClicked(event) {
+    console.log(event);
+    console.log('in notes collection');
+    if (event) {
+      this.deleteRequest.emit(event);
+    }
+   
+    }
 }

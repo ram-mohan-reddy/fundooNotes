@@ -1,1 +1,12 @@
-<button  mat-icon-button  matTooltip="more"><mat-icon>more_vert</mat-icon></button>
+<button  mat-icon-button  matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
+
+<mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+    <ng-template  matMenuContent >
+     <div>
+        <button mat-button (click)='deleteCard()' style="width:100% ; padding: 5px">Delete Note</button>
+     </div>
+         <!-- <div>
+            <button mat-button style="width:100%; padding: 5px" >Signout </button>
+         </div> -->              
+    </ng-template> 
+  </mat-menu>

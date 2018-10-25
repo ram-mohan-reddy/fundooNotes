@@ -1,1 +1,26 @@
-<button  mat-icon-button  matTooltip="Change color"><mat-icon>color_lens</mat-icon></button>
+<button  mat-icon-button  matTooltip="Change color" [matMenuTriggerFor]="appMenu"><mat-icon>color_lens</mat-icon></button> 
+
+<mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+    <ng-template matMenuContent>
+        <div style="padding:5px">
+                <div style='margin-bottom: 10px'fxLayout=row fxLayoutGap = 10px >
+                        <button (click) = 'changeColor(0)'  matTooltip="White" class="color1"   mat-mini-fab></button>
+                        <button (click) = 'changeColor(1)' matTooltip="Red" class="color2"  mat-mini-fab></button>
+                        <button (click) = 'changeColor(2)' matTooltip="Orange" class="color3" mat-mini-fab></button>
+                        <button (click) = 'changeColor(3)' matTooltip="Yellow" class="color4" mat-mini-fab></button>
+                </div>
+                <div  style='margin-bottom: 10px' fxLayout=row fxLayoutGap = 10px>
+                        <button (click) = 'changeColor(4)' matTooltip="Green" class="color5" mat-mini-fab></button>
+                        <button (click) = 'changeColor(5)' matTooltip="Teal" class="color6"  mat-mini-fab></button>
+                        <button (click) = 'changeColor(6)' matTooltip="Blue" class="color7"  mat-mini-fab></button>
+                        <button (click) = 'changeColor(7)' matTooltip="Dark blue" class="color8" mat-mini-fab></button>
+                </div>
+                <div  fxLayout=row fxLayoutGap = 10px>
+                        <button (click) = 'changeColor(8)' matTooltip="Purple" class="color9"  mat-mini-fab></button>
+                        <button (click) = 'changeColor(9)' matTooltip="Pink" class="color10"  mat-mini-fab></button>
+                        <button (click) = 'changeColor(10)' matTooltip="Brown" class="color11"  mat-mini-fab></button>
+                        <button (click) = 'changeColor(11)' matTooltip="Gray" class="color12"  mat-mini-fab></button>
+                </div>
+        </div>    
+    </ng-template>
+</mat-menu>
