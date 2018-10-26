@@ -1,4 +1,7 @@
 import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { DialogComponent } from '../dialog/dialog.component'
+import { GetNotesService } from '../../services/notes/get-notes.service';
 @Component({
   selector: 'app-notes-collection',
   templateUrl: './notes-collection.component.html',
@@ -6,9 +9,9 @@ import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
 })
 export class NotesCollectionComponent implements OnInit {
   
-  constructor() { }
+  constructor(public dialog: MatDialog,private notesService : GetNotesService) { }
   @Input() notesListArray: any;
-  @Output() deleteRequest = new EventEmitter<boolean>();
+  @Output() notesEditRequest = new EventEmitter<boolean>();
   ngOnInit(){
     // this.notesList();  
   }
@@ -17,8 +20,32 @@ export class NotesCollectionComponent implements OnInit {
     console.log(event);
     console.log('in notes collection');
     if (event) {
-      this.deleteRequest.emit(event);
+      this.notesEditRequest.emit(event);  
     }
    
     }
+    
+    openDialog(notes): void {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '600px',
+        position: { top: '250px', left: '450px'},
+        panelClass: 'myapp-no-padding-dialog',
+        data: {notesData : notes}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result != undefined) {
+          console.log(result);
+
+          this.notesService.notesUpdateService('api/notes/updateNotes',result)
+            .subscribe(data => {
+              console.log(data);
+              this.notesEditRequest.emit(true);
+            });
+          error => console.log('Error ', error);
+        }       
+        console.log('The dialog was closed');
+      });
+    }
+  
 }

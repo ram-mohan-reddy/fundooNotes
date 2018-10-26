@@ -1,26 +1,36 @@
-<div>
-
-  <div mat-dialog-title>
-      <div   contenteditable="true" placeholder="Title"> </div>
-  
-      <span style="position:fixed"><img src="../../../assets/images/pin.svg"></span>
-    
-  </div>
-  
-  <div mat-dialog-content>
-    <!-- <mat-form-field > -->
-      <!-- <input style="background: transparent;" contenteditable="true" matInput type="text" placeholder="Take a note..." > -->
-    <div cdkFocusInitial contenteditable="true" placeholder="Take a note...">
-
+<mat-card fxFlex *ngIf="!show"  [ngStyle] = "{'background-color': data.notesData.color }" class="example-card" style=" width:50%; ;position: relative;padding: 5;border-radius: 10px">
+  <mat-card-content>
+    <div fxLayout='row' fxLayout.xs='row'>
+      <div fxFlex=98 style=" font-weight: bold" placeholder="Title" contenteditable="true" (input)="notesEditContent.title=$event.target.innerText">{{data.notesData.title}}</div>
+      <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
     </div>
-    <!-- </mat-form-field> -->
-  </div>
-  <!-- <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
-  </div> -->
-</div>
+    <div cdkFocusInitial  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div fxLayout='row' fxLayout.xs='row'>
+      <div fxFlex=7 class="icons">
+        <app-remind-icon></app-remind-icon>
+      </div>
+      <div fxFlex=7 class="icons">
+        <app-collaborator-icon></app-collaborator-icon>
+      </div>
+      <div fxFlex=7 class="icons">
+        <app-color-icon></app-color-icon>
+      </div>
+      <div fxFlex=7 class="icons">
+        <app-image-icon></app-image-icon>
+      </div>
+      <div fxFlex=7 class="icons">
+        <app-archive-icon></app-archive-icon>
+      </div>
+      <div fxFlex=7 class="icons">
+        <app-more-icon></app-more-icon>
+      </div>
+      <div fxFlex fxLayoutAlign="end" class="icons">
+        <button mat-button [mat-dialog-close]="notesEditContent" cdkFocusInitial>Close</button>
+      </div>
+    </div>
+  </mat-card-actions>
+</mat-card>
 
 
-    
- 

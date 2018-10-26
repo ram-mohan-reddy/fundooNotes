@@ -9,6 +9,7 @@ import { GetNotesService } from '../../services/notes/get-notes.service';
 export class ColorIconComponent implements OnInit {
   event: boolean = true
   @Output() colorEvent = new EventEmitter<boolean>();
+  @Output() colorCodeEvent = new EventEmitter<string>();
   @Input() notesDetails;
 
   colorDetails ;
@@ -19,21 +20,27 @@ export class ColorIconComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  
   changeColor(colorCode) {
-
+ this.colorCodeEvent.emit(this.colorArray[colorCode])
     console.log(this.colorArray[colorCode]);
-    console.log(this.notesDetails.id);
+
+    if (this.notesDetails != undefined) {
+
+      console.log(this.notesDetails.id);
     this.colorDetails = {
-      "color": this.colorArray[colorCode],
+      "color": this.colorArray[colorCode], 
       "noteIdList":[this.notesDetails.id]
     }
 
-    this.notesService.colorChange(this.colorDetails)
+    this.notesService.notesPostService('api/notes/changesColorNotes',this.colorDetails)
     .subscribe(data => {
       this.colorEvent.emit(this.event);
       console.log(data);  
     });
     error => console.log('Error ', error);
+      
+    }
+    
   }
 }

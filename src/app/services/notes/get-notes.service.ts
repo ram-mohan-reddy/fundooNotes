@@ -10,20 +10,16 @@ export class GetNotesService {
   token: string = localStorage.getItem('token')
   constructor(private userService: HttpService) { }
   getNotes() {
-    // this.token = localStorage.getItem('token')
-   return  this.userService.getNotesList('api/notes/getNotesList', this.token)
+    return this.userService.getNotesList('api/notes/getNotesList', this.token)
+  }
+  notesPostService(url, noteDetails) {
+    return this.userService.postServiceAuthentication(url,noteDetails, this.token)
   }
 
-  deleteNotes(note){
-return this.userService.deleteNote('api/notes/trashNotes',note,this.token)
+  notesUpdateService(url,updateData){
+
+    return this.userService.resetPassword(url,updateData,this.token)
+
   }
 
-  saveNotes(newNote) {
-return this.userService.saveNote('api/notes/addNotes', newNote,this.token)
-  }
-
-  colorChange(data){
-    return this.userService.saveNote('api/notes/changesColorNotes', data,this.token)
-  }
 }
- 

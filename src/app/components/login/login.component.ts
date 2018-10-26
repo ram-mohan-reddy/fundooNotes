@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
   }
 
   uesrData() {
-    this.userService.getUserData('api/user')
+    this.userService.getService('api/user')
     .subscribe(data => {
       console.log(data);
       data.forEach(element => {

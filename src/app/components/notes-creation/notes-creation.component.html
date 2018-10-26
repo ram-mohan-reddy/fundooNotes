@@ -15,7 +15,7 @@
   
     </mat-card>
   
-    <mat-card   fxFlex *ngIf="!show" class="example-card" style=" width:50%; ;position: relative;padding: 5;border-radius: 10px">
+    <mat-card  [ngStyle] = "{'background-color': colorCode }" fxFlex *ngIf="!show" class="example-card" style=" width:50%; ;position: relative;padding: 5;border-radius: 10px">
   
       <mat-card-content>
         <div fxLayout='row' fxLayout.xs='row'>
@@ -29,16 +29,16 @@
       </mat-card-content>
       <mat-card-actions>
         <div fxLayout='row' fxLayout.xs='row'>
-          <div fxFlex=7 class="icons">
+          <div fxFlex=7 class="icons"> 
             <app-remind-icon></app-remind-icon>
           </div>
           <div fxFlex=7 class="icons">
             <app-collaborator-icon></app-collaborator-icon>
           </div>
           <div fxFlex=7 class="icons">
-            <app-color-icon></app-color-icon>
+            <app-color-icon [notesDetails]="color" (colorCodeEvent)="receiveColor($event)" ></app-color-icon>
           </div>
-          <div fxFlex=7 class="icons">
+          <div fxFlex=7 class="icons"> 
             <app-image-icon></app-image-icon>
           </div>
           <div fxFlex=7 class="icons">

@@ -1,4 +1,4 @@
-.example-card {
+.mat-card {
     margin: 10px;
     border-radius: 10px
   }
@@ -9,5 +9,13 @@
 }
 
 .icons:hover {
+    opacity: 1.0;    
+}
+
+.icons-hide {
+    opacity: 0;
+}
+
+.icons-hide:hover {
     opacity: 1.0;    
 }

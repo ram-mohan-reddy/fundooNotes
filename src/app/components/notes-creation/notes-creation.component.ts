@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DialogComponent } from '../dialog/dialog.component'
+
 import { GetNotesService } from '../../services/notes/get-notes.service';
 @Component({
   selector: 'app-notes-creation',
@@ -8,10 +7,11 @@ import { GetNotesService } from '../../services/notes/get-notes.service';
   styleUrls: ['./notes-creation.component.css']
 })
 export class NotesCreationComponent implements OnInit {
-  constructor(public dialog: MatDialog,private notesService:GetNotesService) { }
+  constructor(private notesService:GetNotesService) { }
   public show: boolean = true;
   message: string;
   token: string;
+  colorCode;
   addMessage: boolean = false;
   notesContent = {
     "file": File,
@@ -19,7 +19,8 @@ export class NotesCreationComponent implements OnInit {
     "description": String,
     "labelIdList": String,
     "checkList": String,
-    "isPinned": Boolean
+    "isPinned": Boolean,
+    "color" : String
   }
   @Output() notesAdded = new EventEmitter<boolean>();
 
@@ -29,43 +30,45 @@ export class NotesCreationComponent implements OnInit {
 
   receiveMessage(event) {
     if (event) {
+      console.log(this.colorCode);
+      console.log(this.notesContent);  
       this.saveNote()
       this.show = !this.show;
     }
   } 
 
+  receiveColor(event) {
+    if (event) {
+     this.colorCode = event;
+     console.log(this.colorCode);
+    }
+  } 
+  
+
   saveNote() {
-    this.notesService.saveNotes(this.notesContent)
+    this.notesContent.color = this.colorCode
+    this.colorCode = '#ffffff';
+    console.log(this.notesContent);
+    
+    this.notesService.notesPostService('api/notes/addNotes',this.notesContent)
     .subscribe(data => {
       this.addMessage = true;
       this.notesAdded.emit(this.addMessage);
+     this.notesContent.title= null;
+     this.notesContent.description= null;
       console.log(data);  
     });
     error => console.log('Error ', error);
   }
-  update() {
-    this.show = !this.show;
-    console.log(this.notesContent.title);
-    console.log(this.notesContent.description)
-  }
+
+  // update() {
+  //   this.show = !this.show;
+  //   console.log(this.notesContent.title);
+  //   console.log(this.notesContent.description)
+  // }
 
  
-  openDialog(): void {
-    this.show = !this.show
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '600px',
-      position: { top: '100px', left: '450px' },
-
-      // data: {name: this.name, animal: this.animal}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.show = !this.show
-      console.log('The dialog was closed');
-      // this.animal = result;
-    });
-  }
-
+  
   open(): void {
     this.show = !this.show;
   }

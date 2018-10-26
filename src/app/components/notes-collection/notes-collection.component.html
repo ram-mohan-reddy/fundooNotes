@@ -1,17 +1,22 @@
 
-<div fxLayout='row wrap' fxLayoutAlign='start start' fxLayout.xs='column' style="padding:50px;">
-  <mat-card  fxFlex=30   *ngFor = 'let index of notesListArray ' [ngStyle] = "{'background-color': index.color }" class="example-card" >
-    <mat-card-content >
-        <p style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
-            {{index.title}}
-          </p>
-          <hr>
+<div fxLayout='row wrap ' fxLayoutAlign='start start' fxLayout.xs='column' style="padding:50px;">
+  <mat-card  fxFlex=30   *ngFor = 'let index of notesListArray ' [ngStyle] = "{'background-color': index.color }" class="mat-card" >
+    <mat-card-content (click)='openDialog(index)' >
+
+      <div fxLayout='row' fxLayout.xs='row'>
+          <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
+              {{index.title}}
+          </div>
+            <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
+      </div>
+        
+          
       <p style="word-wrap: break-word; margin-left: 10px">
         {{index.description}}
       </p>
     </mat-card-content>
     <mat-card-actions >
-      <div fxLayout='row' fxLayoutGap.xs=10px > 
+      <div fxLayout='row' class="icons-hide" fxLayoutGap.xs=10px > 
         <div fxFlex fxFlex.xs=10 class="icons">
           <app-remind-icon></app-remind-icon>
         </div>

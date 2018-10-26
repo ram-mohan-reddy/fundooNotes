@@ -20,7 +20,7 @@ export class MoreIconComponent implements OnInit {
       "isDeleted": true,
       "noteIdList":[this.notesDetails.id]
     }
-    this.notesService.deleteNotes(this.note)
+    this.notesService.notesPostService('api/notes/trashNotes',this.note)
     .subscribe(data => {
       this.eventClicked.emit(this.event); 
       console.log(data);  
