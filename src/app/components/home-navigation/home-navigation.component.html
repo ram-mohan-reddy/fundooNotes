@@ -49,6 +49,9 @@
 
       <a mat-list-item routerLink="/home/reminders"><img src="../../../assets/images/reminders.svg"><span class="child-links">Reminders</span></a>
       <hr>
+      <p class="label">LABELS</p>
+      <a mat-list-item (click)='createLabel()'><mat-icon>edit</mat-icon><span class="child-links">Edit labels</span></a>
+      <hr>
       <a mat-list-item routerLink="/home/archive"><img src="../../../assets/images/archives.svg"><span class="child-links">Archive</span></a>
       <a mat-list-item routerLink="/home/trash"><mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
     </mat-nav-list>

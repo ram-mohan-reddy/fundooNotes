@@ -1,5 +1,5 @@
 <div  fxLayout='column' fxLayoutAlign="center center" style="margin-top:30px ">
-    <mat-card fxFlex   *ngIf="show" class="example-card" style="  width:50%; padding: 0; border-radius: 10px">
+    <mat-card   *ngIf="show" class="example-card" style="  width:640px; padding: 0; border-radius: 10px">
       <mat-card-content fxLayout='row' fxLayout.xs='row' style="margin-left:15px">
         <div (click)="open()" fxFlex style="margin-top:12px">
           Take a note...
@@ -23,10 +23,10 @@
            (input)="notesContent.title=$event.target.innerText" placeholder="Title"> </div>
           <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
         </div>
-  
-        <div style="margin-top:20px" contenteditable="true" 
+   
+        <div (blur)="update()" style="margin-top:20px" contenteditable="true" 
          (input)="notesContent.description=$event.target.innerText" placeholder="Take a note..."></div>
-      </mat-card-content>
+      </mat-card-content> 
       <mat-card-actions>
         <div fxLayout='row' fxLayout.xs='row'>
           <div fxFlex=7 class="icons"> 
@@ -41,11 +41,19 @@
           <div fxFlex=7 class="icons"> 
             <app-image-icon></app-image-icon>
           </div>
-          <div fxFlex=7 class="icons">
+          <div fxFlex=7 class="icons"> 
             <app-archive-icon></app-archive-icon>
           </div>
           <div fxFlex=7 class="icons">
-            <app-more-icon></app-more-icon>
+              <button  mat-icon-button  matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
+
+              <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+                  <ng-template  matMenuContent >
+                   <div>
+                      <button mat-button style="width:100% ; padding: 5px">Add label</button>
+                   </div>             
+                  </ng-template> 
+                </mat-menu>
           </div>
           <div fxFlex class="icons">
             <app-icons (messageEvent)="receiveMessage($event)"></app-icons>

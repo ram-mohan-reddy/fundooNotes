@@ -3,6 +3,8 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '../../services/http.service';
+import { MatDialog} from '@angular/material';
+import { LabelDialogComponent } from '../label-dialog/label-dialog.component'
 
 @Component({
   selector: 'app-home-navigation',
@@ -16,7 +18,7 @@ export class HomeNavigationComponent implements OnInit{
       map(result => result.matches)
     );
     
-  constructor(private breakpointObserver: BreakpointObserver,private userService: HttpService) {}
+  constructor(private breakpointObserver: BreakpointObserver,private userService: HttpService,public dialog: MatDialog) {}
 
   userName: string = ''; 
   email: string='';
@@ -43,5 +45,22 @@ export class HomeNavigationComponent implements OnInit{
       });
       error => console.log('Error ', error);         
   }
+  createLabel(): void {
+    const dialogRef = this.dialog.open(LabelDialogComponent, {
+      width: '300px',
+      position: { top: '250px', left: '450px'},
+      panelClass: 'myapp-no-padding-dialog',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        console.log(result);
+
+        error => console.log('Error ', error);
+      }       
+      console.log('The dialog was closed');
+    });
  
+}
 }

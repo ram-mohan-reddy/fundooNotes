@@ -61,11 +61,15 @@ export class NotesCreationComponent implements OnInit {
     error => console.log('Error ', error);
   }
 
-  // update() {
-  //   this.show = !this.show;
-  //   console.log(this.notesContent.title);
-  //   console.log(this.notesContent.description)
-  // }
+  update() {
+    console.log(this.notesContent.title);
+    console.log(this.notesContent.description)
+
+    this.saveNote()
+    this.show = !this.show;
+    
+    
+  }
 
  
   

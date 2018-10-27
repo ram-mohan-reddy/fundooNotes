@@ -1,5 +1,5 @@
 import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog} from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component'
 import { GetNotesService } from '../../services/notes/get-notes.service';
 @Component({
@@ -11,9 +11,14 @@ export class NotesCollectionComponent implements OnInit {
   
   constructor(public dialog: MatDialog,private notesService : GetNotesService) { }
   @Input() notesListArray: any;
+  @Input() firstArray;
+  @Input() secondArray;
+  @Input() thirdArray;
+
   @Output() notesEditRequest = new EventEmitter<boolean>();
   ngOnInit(){
     // this.notesList();  
+    console.log(this.notesListArray.length)
   }
  
   childEventClicked(event) {

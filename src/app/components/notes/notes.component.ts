@@ -12,6 +12,9 @@ export class NotesComponent implements OnInit {
   list;
   totalNotes: any = [];
 
+  firstArray;
+  secondArray;
+  thirdArray;
   constructor(private notesService : GetNotesService) { }
 
   ngOnInit() { 
@@ -35,12 +38,26 @@ export class NotesComponent implements OnInit {
   }
 
   notesCollection(data) {
-    this.list = [];
+    this.list = []; 
+   
         for (let index = 0; index < data['data'].data.length; index++) {
           if (data['data'].data[index].isDeleted == false) {
             this.list.push(data['data'].data[index])
           }
         }
         this.totalNotes = this.list.reverse(); 
+        this.firstArray = [];
+        this.secondArray = [];
+        this.thirdArray = [];
+     
+        for (let index = 0; index < (this.totalNotes.length)-2; index=index+3) {
+          if (this.totalNotes[index].isDeleted == false) { 
+            this.firstArray.push(this.totalNotes[index]);
+            this.secondArray.push(this.totalNotes[index+1]);
+            this.thirdArray.push(this.totalNotes[index+2]);
+          }
+        }
+
+      
   }
 }

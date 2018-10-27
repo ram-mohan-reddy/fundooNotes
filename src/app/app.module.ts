@@ -46,6 +46,8 @@ import { NotesCreationComponent } from './components/notes-creation/notes-creati
 import { AuthService } from './services/auth/auth.service';
 import { AuthGuard  } from './guards/auth.guard';
 import { GetNotesService } from './services/notes/get-notes.service';
+import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
+
 
 
 
@@ -71,9 +73,10 @@ import { GetNotesService } from './services/notes/get-notes.service';
     MoreIconComponent,
     CollaboratorIconComponent,
     NotesCollectionComponent,
-    NotesCreationComponent,  
+    NotesCreationComponent,
+    LabelDialogComponent,
   ],
-  entryComponents : [DialogComponent],
+  entryComponents : [DialogComponent,LabelDialogComponent],
   imports: [
     BrowserModule,
     FlexLayoutModule,
