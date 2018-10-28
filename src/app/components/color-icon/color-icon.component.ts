@@ -38,7 +38,7 @@ export class ColorIconComponent implements OnInit {
       this.colorEvent.emit(this.event);
       console.log(data);  
     });
-    error => console.log('Error ', error);
+    error => console.log('Error ', error); 
       
     }
     

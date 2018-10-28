@@ -5,9 +5,10 @@ import { HttpService } from '../http.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class GetNotesService {
 
-  token: string = localStorage.getItem('token')
+  token: string = localStorage.getItem('token') 
   constructor(private userService: HttpService) { }
   getNotes() {
     return this.userService.getNotesList('api/notes/getNotesList', this.token)

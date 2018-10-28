@@ -23,8 +23,8 @@
            (input)="notesContent.title=$event.target.innerText" placeholder="Title"> </div>
           <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
         </div>
-   
-        <div (blur)="update()" style="margin-top:20px" contenteditable="true" 
+        <!-- (blur)="update()"  -->
+        <div  style="margin-top:20px" contenteditable="true" 
          (input)="notesContent.description=$event.target.innerText" placeholder="Take a note..."></div>
       </mat-card-content> 
       <mat-card-actions>
@@ -48,9 +48,15 @@
               <button  mat-icon-button  matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
               <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+                 
+              <button mat-menu-item [matMenuTriggerFor]="labelMenu" style="height: 50px;">Add label</button>
+                   
+                </mat-menu>
+
+                <mat-menu #labelMenu="matMenu">
                   <ng-template  matMenuContent >
                    <div>
-                      <button mat-button style="width:100% ; padding: 5px">Add label</button>
+                      <button mat-menu-item  style="width:100% ; padding: 5px">Add label</button>
                    </div>             
                   </ng-template> 
                 </mat-menu>

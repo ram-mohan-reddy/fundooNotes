@@ -25,7 +25,7 @@ export class NotesCollectionComponent implements OnInit {
     console.log(event);
     console.log('in notes collection');
     if (event) {
-      this.notesEditRequest.emit(event);  
+      this.notesEditRequest.emit(event);   
     }
    
     }

@@ -73,7 +73,8 @@ export class LoginComponent implements OnInit {
 
         console.log(data.id);
               
-        localStorage.setItem('token',data['id']);      
+        localStorage.setItem('token',data['id']);  
+        localStorage.setItem('userId',data['userId']);     
         this.uesrData();
         error => console.log('Error ', error);       
       });

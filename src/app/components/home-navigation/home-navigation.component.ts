@@ -11,6 +11,8 @@ import { LabelDialogComponent } from '../label-dialog/label-dialog.component'
   templateUrl: './home-navigation.component.html',
   styleUrls: ['./home-navigation.component.css']
 })
+
+
 export class HomeNavigationComponent implements OnInit{
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -22,7 +24,14 @@ export class HomeNavigationComponent implements OnInit{
 
   userName: string = ''; 
   email: string='';
-  token: string='';
+  token: string=''; 
+  userId: string;
+  labelList;
+  labelData = {
+    "label": "string",
+    "isDeleted": false,
+    "userId": "string"
+  }
 
   ngOnInit() {
 
@@ -30,7 +39,9 @@ export class HomeNavigationComponent implements OnInit{
    console.log(localStorage.getItem('email'));
    this.email = localStorage.getItem('email');
     this.userName = localStorage.getItem('userName');
-    this.token = localStorage.getItem('token')
+    this.token = localStorage.getItem('token');
+    this.userId = localStorage.getItem('userId');
+    this.getLabel();
   }
 
   logout() {
@@ -45,21 +56,44 @@ export class HomeNavigationComponent implements OnInit{
       });
       error => console.log('Error ', error);         
   }
+  getLabel(): void {
+    this.userService.getNotesList('api/noteLabels/getNoteLabelList',this.token)
+    .subscribe(data => {
+      console.log("get  :",data);
+      this.labelList = [];
+      for (let index = 0; index < data['data'].details.length; index++) {
+        if (data['data'].details[index].isDeleted == false) {
+          this.labelList.push(data['data'].details[index])
+        }
+      }
+      
+      });
+      error => console.log('Error ', error);
+  }
   createLabel(): void {
     const dialogRef = this.dialog.open(LabelDialogComponent, {
       width: '300px',
-      position: { top: '250px', left: '450px'},
+      position: { top: '100px', left: '450px'},
       panelClass: 'myapp-no-padding-dialog',
-      data: {}
+      data: {label:this.labelList}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) {
-        console.log(result);
 
-        error => console.log('Error ', error);
-      }       
+      console.log(result);
+      this.labelData.label = result;
+      this.labelData.userId = this.userId;
+      console.log(this.labelData.label);
+      console.log(this.labelData.userId);
+      console.log(this.labelData.isDeleted);
       console.log('The dialog was closed');
+
+      this.userService.postServiceAuthentication('api/noteLabels',this.labelData,this.token)
+      .subscribe(data => {
+        console.log(data);
+        this.getLabel();
+        });
+        error => console.log('Error ', error);
     });
  
 }
