@@ -9,14 +9,21 @@
   }
   
   div[contenteditable=true] {
-   
-    /* width: 290px; */
-    /* padding: 5px; */
     outline: none;
   }
 
   .child-links {
     margin-left:20px;
-    font-size: 12px
+    font-size: 12px;
+    overflow-x: hidden;
   
   }
+ 
+  .content-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+   
+  }
+
+  

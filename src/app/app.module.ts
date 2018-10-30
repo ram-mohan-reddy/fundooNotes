@@ -47,6 +47,7 @@ import { AuthService } from './services/auth/auth.service';
 import { AuthGuard  } from './guards/auth.guard';
 import { GetNotesService } from './services/notes/get-notes.service';
 import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
+import { ChecklistModule } from 'angular-checklist';
 
 
 
@@ -98,7 +99,8 @@ import { LabelDialogComponent } from './components/label-dialog/label-dialog.com
     LayoutModule,
     MatMenuModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    ChecklistModule
    
   ],
   providers: [HttpService,AuthService,AuthGuard,GetNotesService],

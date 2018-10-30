@@ -9,10 +9,18 @@ import { GetNotesService } from '../../services/notes/get-notes.service';
 export class NotesCreationComponent implements OnInit {
   constructor(private notesService:GetNotesService) { }
   public show: boolean = true;
+  public checkList: boolean = false;
   message: string;
   token: string;
   colorCode;
   addMessage: boolean = false;
+  myArray = [ 'guest', 
+  'user', 
+  'customer', 
+  'admin']
+  user = {
+    roles: []
+  };
   notesContent = {
     "file": File,
     "title": String,
@@ -34,6 +42,7 @@ export class NotesCreationComponent implements OnInit {
       console.log(this.notesContent);  
       this.saveNote()
       this.show = !this.show;
+      this.checkList = !this.checkList;
     }
   } 
 
@@ -77,4 +86,8 @@ export class NotesCreationComponent implements OnInit {
     this.show = !this.show;
   }
 
+  onClick(value): void {
+console.log(this.user.roles);
+
+  } 
 }

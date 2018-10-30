@@ -6,12 +6,12 @@
         </div> 
   
         <div fxFlex=40 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" fxLayoutAlign="end" fxLayoutAlign.xs="center">
-          <button fxFlex=20 mat-icon-button class="icons" matTooltip="New list"><mat-icon>list</mat-icon></button>
+          <button fxFlex=20 mat-icon-button class="icons" (click)='checkList = true' (click)='show = !show' matTooltip="New list"><mat-icon>list</mat-icon></button>
           <button fxFlex=20 mat-icon-button class="icons" matTooltip="New note with image"><mat-icon>image</mat-icon></button>
           <button fxFlex=20 mat-icon-button class="icons" matTooltip="Drawing"><mat-icon>brush</mat-icon></button>
         </div>
   
-      </mat-card-content>
+      </mat-card-content> 
   
     </mat-card>
   
@@ -24,8 +24,10 @@
           <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
         </div>
         <!-- (blur)="update()"  -->
-        <div  style="margin-top:20px" contenteditable="true" 
+        <div *ngIf="!checkList" style="margin-top:20px" contenteditable="true" 
          (input)="notesContent.description=$event.target.innerText" placeholder="Take a note..."></div>
+         <div *ngIf="checkList" style="margin-top:20px" contenteditable="true" 
+         (input)="notesContent.description=$event.target.innerText" placeholder="List item"></div>
       </mat-card-content> 
       <mat-card-actions>
         <div fxLayout='row' fxLayout.xs='row'>
@@ -56,7 +58,15 @@
                 <mat-menu #labelMenu="matMenu">
                   <ng-template  matMenuContent >
                    <div>
-                      <button mat-menu-item  style="width:100% ; padding: 5px">Add label</button>
+                      <label fxLayout = 'column' *ngFor="let opt of myArray">
+                        <div>
+                            <input (click)='onClick(opt)' type="checkbox"
+                            [(checklist)]="list"
+                            checklist-model="user.roles"
+                            [checklistValue]="opt" />{{opt}}
+                        </div>
+                          
+                        </label>
                    </div>             
                   </ng-template> 
                 </mat-menu>

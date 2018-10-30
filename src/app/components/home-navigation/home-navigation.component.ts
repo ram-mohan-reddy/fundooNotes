@@ -65,8 +65,14 @@ export class HomeNavigationComponent implements OnInit{
         if (data['data'].details[index].isDeleted == false) {
           this.labelList.push(data['data'].details[index])
         }
-      }
-      
+      }   
+      });
+      error => console.log('Error ', error);
+  }
+  updateLabel(data):void {
+    this.userService.postServiceAuthentication("api/noteLabels/"+ data.id +'/updateNoteLabel',data,this.token)
+    .subscribe(data => {
+      console.log(data);
       });
       error => console.log('Error ', error);
   }
@@ -77,24 +83,30 @@ export class HomeNavigationComponent implements OnInit{
       panelClass: 'myapp-no-padding-dialog',
       data: {label:this.labelList}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      console.log(result);
-      this.labelData.label = result;
-      this.labelData.userId = this.userId;
-      console.log(this.labelData.label);
-      console.log(this.labelData.userId);
-      console.log(this.labelData.isDeleted);
-      console.log('The dialog was closed');
-
-      this.userService.postServiceAuthentication('api/noteLabels',this.labelData,this.token)
-      .subscribe(data => {
-        console.log(data);
+    const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
+      alert('label will be deleted permanently');
+      if (data) {
         this.getLabel();
-        });
-        error => console.log('Error ', error);
+      }  
     });
- 
+
+    const sub1 = dialogRef.componentInstance.onEdit.subscribe((data) => {
+     console.log(data);
+     this.updateLabel(data)
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result != undefined) {
+        this.labelData.label = result;
+        this.labelData.userId = this.userId;
+        this.userService.postServiceAuthentication('api/noteLabels',this.labelData,this.token)
+        .subscribe(data => {
+          console.log(data);
+          this.getLabel();
+          });
+          error => console.log('Error ', error);
+      }
+     
+    });
 }
 }

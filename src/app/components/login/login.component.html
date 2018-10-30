@@ -1,5 +1,5 @@
 
-<div fxLayout='column' *ngIf=value fxLayoutAlign="center center" fxLayout.xs="column" class="container">
+<div fxLayout='column' *ngIf=value fxLayoutAlign="center center" fxLayoutAlign.xs="center" fxLayout.xs="column" class="container">
         <mat-card fxLayout='column' fxLayoutGap="20px" fxLayoutGap.xs="0px" fxLayout.xs="column" fxFlex.xs="100" fxFlex="60">
                 <div class="top1" fxLayoutAlign="center">
                         <span class="top1_1">f</span>
@@ -37,7 +37,7 @@
                 </mat-form-field>
 
 
-                <div fxLayout.xs= 'column' fxLayoutGap="150px" fxLayoutGap.xs="0">
+                <div fxLayout.xs= 'column' fxLayout.md= 'column' fxLayoutGap="150px" fxLayoutGap.xs="0">
                         <a mat-button routerLink="/register">Create account</a>
                         <button mat-raised-button color="primary" (click)='toggle()'>Next</button>
 
@@ -49,7 +49,7 @@
 
 
 
-<div fxLayout='column' @flyInOut *ngIf=!value fxLayoutAlign="center center" fxLayout.xs="column" class="container">
+<div fxLayout='column' @flyInOut *ngIf=!value fxLayoutAlign="center center" fxLayoutAlign.xs="center"  fxLayout.xs="column" class="container">
         <mat-card fxLayout='column' fxLayoutGap="20px" fxLayout.xs="column" fxFlex="60" fxFlex.xs="100" class="login-form">
                 <div class="top1" fxLayoutAlign="center">
                         <span class="top1_1">f</span>

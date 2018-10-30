@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +36,7 @@ export class HttpService {
   }
 
   //get service with authentication
-  getNotesList(url, token) {
+  getNotesList(url, token){
     url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({
@@ -62,7 +63,10 @@ export class HttpService {
   }
 
  
-
+deleteLabel(url){
+  url = this.server_url + url;
+  return this.http.delete(url);
+}
 
   //post service for reset password
   resetPassword(url, data, token) {
