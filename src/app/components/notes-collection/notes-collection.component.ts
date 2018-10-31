@@ -30,6 +30,19 @@ export class NotesCollectionComponent implements OnInit {
    
     }
     
+  deleteNoteLabel(labelId,noteId) {
+  console.log('delete label');
+  console.log(labelId);
+  console.log(noteId);
+  this.notesService.notesPostService('api/notes/' + noteId + "/addLabelToNotes/" + labelId + '/remove', {})
+  .subscribe(data => {
+    console.log(data);
+    this.notesEditRequest.emit(true); 
+  });
+error => console.log('Error ', error);
+  
+  
+  }
     openDialog(notes): void {
       const dialogRef = this.dialog.open(DialogComponent, {
         width: '600px',

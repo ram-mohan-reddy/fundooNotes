@@ -17,12 +17,12 @@
 </div>
         
          <button fxFlex=10 mat-icon-button><mat-icon>done</mat-icon></button>
-    </div>
+    </div> 
     <mat-nav-list>
         <div  *ngFor = 'let labels of labelCollection'>
-            <a (mouseover)="changeText=true"  (mouseout)="changeText=false" mat-list-item >
-                <mat-icon (click)='deleteLabel(labels.id)' *ngIf="changeText" >delete</mat-icon>
-                <mat-icon *ngIf="!changeText">label_outline</mat-icon>
+            <a (mouseover)="changeText=labels.id"  (mouseout)="changeText=false" mat-list-item >
+                <mat-icon (click)='deleteLabel(labels.id)' *ngIf="changeText == labels.id" >delete</mat-icon>
+                <mat-icon *ngIf="changeText != labels.id">label_outline</mat-icon>
                 <span *ngIf="editShow" class="child-links">{{labels.label}}</span>
                 <div fxFlex=80  class="child-links" *ngIf="!editShow">
                         <div  style="margin-top:10px;white-space: nowrap;

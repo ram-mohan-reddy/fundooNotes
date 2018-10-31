@@ -48,24 +48,24 @@ export class NotesComponent implements OnInit {
         this.totalNotes = this.list.reverse(); 
         console.log(this.totalNotes);
         
-        this.firstArray = [];
-        this.secondArray = [];
-        this.thirdArray = [];
+        // this.firstArray = [];
+        // this.secondArray = [];
+        // this.thirdArray = [];
      
-        for (let index = 0; index < this.totalNotes.length; index++) {
-         console.log(index);
+        // for (let index = 0; index < this.totalNotes.length; index++) {
+        //  console.log(index);
          
-         if (index % 3 == 0) {
-          this.firstArray.push(this.totalNotes[index]);
-         }  
-         else if (index % 3 == 1) {
-          this.secondArray.push(this.totalNotes[index]);
-         }
-         else 
-         {
-          this.thirdArray.push(this.totalNotes[index]);
-         }  
+        //  if (index % 3 == 0) {
+        //   this.firstArray.push(this.totalNotes[index]);
+        //  }  
+        //  else if (index % 3 == 1) {
+        //   this.secondArray.push(this.totalNotes[index]);
+        //  }
+        //  else 
+        //  {
+        //   this.thirdArray.push(this.totalNotes[index]);
+        //  }  
          
-        }   
+        // }   
   }
 }

@@ -19,6 +19,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatChipsModule} from '@angular/material/chips';
+import { ChecklistModule } from 'angular-checklist';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -47,7 +49,8 @@ import { AuthService } from './services/auth/auth.service';
 import { AuthGuard  } from './guards/auth.guard';
 import { GetNotesService } from './services/notes/get-notes.service';
 import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
-import { ChecklistModule } from 'angular-checklist';
+import { LabelComponent } from './components/label/label.component';
+
 
 
 
@@ -76,6 +79,7 @@ import { ChecklistModule } from 'angular-checklist';
     NotesCollectionComponent,
     NotesCreationComponent,
     LabelDialogComponent,
+    LabelComponent,
   ],
   entryComponents : [DialogComponent,LabelDialogComponent],
   imports: [
@@ -100,7 +104,8 @@ import { ChecklistModule } from 'angular-checklist';
     MatMenuModule,
     MatTooltipModule,
     MatDialogModule,
-    ChecklistModule
+    ChecklistModule,
+    MatChipsModule
    
   ],
   providers: [HttpService,AuthService,AuthGuard,GetNotesService],

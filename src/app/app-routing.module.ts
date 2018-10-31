@@ -11,6 +11,7 @@ import { RemindersComponent } from './components/reminders/reminders.component';
 import { ArchiveComponent } from './components/archive/archive.component';
 import { TrashComponent } from './components/trash/trash.component';
 import { AuthGuard as AuthGuardService } from './guards/auth.guard';
+import { LabelComponent } from './components/label/label.component';
 
 const routes: Routes = [
  
@@ -27,7 +28,8 @@ const routes: Routes = [
     {path:'notes',component: NotesComponent},
     {path:'reminders',component: RemindersComponent},
     {path:'archive',component: ArchiveComponent},
-    {path:'trash',component: TrashComponent}
+    {path:'trash',component: TrashComponent},
+    {path:'labels',component: LabelComponent}
   ]},
   {path:'**',redirectTo: '/login'},
 

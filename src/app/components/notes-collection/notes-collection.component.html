@@ -1,12 +1,10 @@
 
       <div fxLayout='row'>
-      
         <div fxFlex=15>
-      
         </div>
-        <div fxFlex=80 fxLayout='row' fxLayoutGap=20px style="margin-top: 40px" fxLayout.xs='column'>
-          <div fxFlex=30 fxLayout='column'>
-            <div *ngFor='let index of firstArray '>
+        <div fxFlex=80 fxLayout='row wrap row wrap' fxLayoutGap=20px style="margin-top: 40px" fxLayout.xs='column'>
+          <div fxLayout='row wrap'>
+            <div *ngFor='let index of notesListArray '>
               <mat-card [ngStyle]="{'background-color': index.color }" class="mat-card ">
                 <mat-card-content (click)='openDialog(index)'>
       
@@ -21,50 +19,15 @@
                   <p style="word-wrap: break-word; margin-left: 10px">
                     {{index.description}}
                   </p>
-                </mat-card-content>
-                <mat-card-actions>
-                  <div fxLayout='row' class="icons-hide" fxLayoutGap.xs=10px>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-remind-icon></app-remind-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-collaborator-icon></app-collaborator-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-image-icon></app-image-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-archive-icon></app-archive-icon>
-                    </div> 
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-more-icon (eventClicked)="childEventClicked($event)" [notesDetails]="index"></app-more-icon>
-                    </div>
-                  </div>
-                </mat-card-actions>
-              </mat-card>
-            </div>
       
-          </div>
+                  <div style="padding-top:20px">
+                    <mat-chip-list>
+                      <mat-chip *ngFor='let label of index.noteLabels'>{{label.label}}<span style="padding-top:5px"><mat-icon matChipRemove
+                            (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
       
-          <div fxFlex=30 fxLayout='column'>
-            <div *ngFor='let index of secondArray '>
-              <mat-card [ngStyle]="{'background-color': index.color }" class="mat-card ">
-                <mat-card-content (click)='openDialog(index)'>
-      
-                  <div fxLayout='row' fxLayout.xs='row'>
-                    <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
-                      {{index.title}}
-                    </div>
-                    <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
+                    </mat-chip-list>
                   </div>
       
-      
-                  <p style="word-wrap: break-word; margin-left: 10px">
-                    {{index.description}}
-                  </p>
                 </mat-card-content>
                 <mat-card-actions>
                   <div fxLayout='row' class="icons-hide" fxLayoutGap.xs=10px>
@@ -92,55 +55,11 @@
             </div>
       
           </div>
-          <div fxFlex=30 fxLayout='column'>
-            <div *ngFor='let index of thirdArray '>
-              <mat-card [ngStyle]="{'background-color': index.color }" class="mat-card ">
-                <mat-card-content (click)='openDialog(index)'>
-      
-                  <div fxLayout='row' fxLayout.xs='row'>
-                    <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
-                      {{index.title}}
-                    </div>
-                    <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
-                  </div>
-      
-      
-                  <p style="word-wrap: break-word; margin-left: 10px">
-                    {{index.description}}
-                  </p>
-                </mat-card-content>
-                <mat-card-actions>
-                  <div fxLayout='row' class="icons-hide" fxLayoutGap.xs=10px>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-remind-icon></app-remind-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-collaborator-icon></app-collaborator-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-image-icon></app-image-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-archive-icon></app-archive-icon>
-                    </div>
-                    <div fxFlex fxFlex.xs=10 class="icons">
-                      <app-more-icon (eventClicked)="childEventClicked($event)" [notesDetails]="index"></app-more-icon>
-                    </div>
-                  </div>
-                </mat-card-actions>
-              </mat-card>
-            </div>
-      
-          </div>
-      
         </div>
         <div fxFlex>
       
         </div>
-        </div>
+      </div>
 
 
 
