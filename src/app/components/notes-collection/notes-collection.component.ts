@@ -2,6 +2,7 @@ import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
 import { MatDialog} from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component'
 import { GetNotesService } from '../../services/notes/get-notes.service';
+import { DataSharingService } from '../../services/data-sharing.service';
 @Component({
   selector: 'app-notes-collection',
   templateUrl: './notes-collection.component.html',
@@ -9,12 +10,17 @@ import { GetNotesService } from '../../services/notes/get-notes.service';
 })
 export class NotesCollectionComponent implements OnInit {
   
-  constructor(public dialog: MatDialog,private notesService : GetNotesService) { }
+  constructor(public dialog: MatDialog,private notesService : GetNotesService,
+    public dataService: DataSharingService) { 
+      this.dataService.eventEmitted.subscribe(message => {
+        console.log(message);  
+        if (message) {
+          this.notesEditRequest.emit(true);
+        } 
+      })
+    }
   @Input() notesListArray: any;
-  @Input() firstArray;
-  @Input() secondArray;
-  @Input() thirdArray;
-
+  @Input() searchText: any;
   @Output() notesEditRequest = new EventEmitter<boolean>();
   ngOnInit(){
     // this.notesList();  
@@ -29,19 +35,17 @@ export class NotesCollectionComponent implements OnInit {
     }
    
     }
-    
-  deleteNoteLabel(labelId,noteId) {
-  console.log('delete label');
-  console.log(labelId);
-  console.log(noteId);
-  this.notesService.notesPostService('api/notes/' + noteId + "/addLabelToNotes/" + labelId + '/remove', {})
-  .subscribe(data => {
-    console.log(data);
-    this.notesEditRequest.emit(true); 
-  });
-error => console.log('Error ', error);
-  
-  
+
+  deleteNoteLabel(labelId, noteId) {
+    console.log('delete label');
+    console.log(labelId);
+    console.log(noteId);
+    this.notesService.notesPostService('api/notes/' + noteId + "/addLabelToNotes/" + labelId + '/remove', {})
+      .subscribe(data => {
+        console.log(data);
+        this.notesEditRequest.emit(true);
+      });
+    error => console.log('Error ', error);
   }
     openDialog(notes): void {
       const dialogRef = this.dialog.open(DialogComponent, {
@@ -60,7 +64,7 @@ error => console.log('Error ', error);
               console.log(data);
               this.notesEditRequest.emit(true);
             });
-          error => console.log('Error ', error);
+          error => console.log('Error ', error); 
         }       
         console.log('The dialog was closed');
       });

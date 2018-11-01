@@ -5,7 +5,9 @@ import { map } from 'rxjs/operators';
 import { HttpService } from '../../services/http.service';
 import { MatDialog} from '@angular/material';
 import { LabelDialogComponent } from '../label-dialog/label-dialog.component'
-
+import { DataSharingService } from '../../services/data-sharing.service';
+import { Router } from '@angular/router'
+ 
 @Component({
   selector: 'app-home-navigation',
   templateUrl: './home-navigation.component.html',
@@ -20,8 +22,17 @@ export class HomeNavigationComponent implements OnInit{
       map(result => result.matches)
     );
     
-  constructor(private breakpointObserver: BreakpointObserver,private userService: HttpService,public dialog: MatDialog) {}
-
+  constructor(private breakpointObserver: BreakpointObserver,private router: Router,private userService: HttpService,
+    public dialog: MatDialog,public dataService: DataSharingService) {
+      this.dataService.eventEmitted.subscribe(message => {
+        console.log(message);  
+        if (message) {
+          this.getLabel();
+        } 
+        // this.getLabel();
+      })
+    }
+  searchText;
   userName: string = ''; 
   email: string='';
   token: string=''; 
@@ -34,7 +45,6 @@ export class HomeNavigationComponent implements OnInit{
   }
 
   ngOnInit() {
-
    console.log(localStorage.getItem('userName'));
    console.log(localStorage.getItem('email'));
    this.email = localStorage.getItem('email');
@@ -56,6 +66,17 @@ export class HomeNavigationComponent implements OnInit{
       });
       error => console.log('Error ', error);         
   }
+ 
+  naviagteSearch() {
+this.router.navigate(['home/search']);
+  }
+
+  dataTransfer(){
+    console.log(this.searchText);
+    
+    this.dataService.changeMessage(this.searchText)
+  }
+
   getLabel(): void {
     this.userService.getNotesList('api/noteLabels/getNoteLabelList',this.token)
     .subscribe(data => {
@@ -86,7 +107,7 @@ export class HomeNavigationComponent implements OnInit{
     const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
       alert('label will be deleted permanently');
       if (data) {
-        this.getLabel();
+        this.getLabel(); 
       }  
     });
 

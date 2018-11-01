@@ -4,7 +4,7 @@
         </div>
         <div fxFlex=80 fxLayout='row wrap row wrap' fxLayoutGap=20px style="margin-top: 40px" fxLayout.xs='column'>
           <div fxLayout='row wrap'>
-            <div *ngFor='let index of notesListArray '>
+            <div *ngFor='let index of notesListArray | search:searchText'>
               <mat-card [ngStyle]="{'background-color': index.color }" class="mat-card ">
                 <mat-card-content (click)='openDialog(index)'>
       
@@ -20,10 +20,14 @@
                     {{index.description}}
                   </p>
       
-                  <div style="padding-top:20px">
+                  <div>
                     <mat-chip-list>
-                      <mat-chip *ngFor='let label of index.noteLabels'>{{label.label}}<span style="padding-top:5px"><mat-icon matChipRemove
-                            (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
+                      <div *ngFor='let label of index.noteLabels'>
+                          <mat-chip *ngIf='label.isDeleted == false'>
+                          {{label.label}}<span style="margin-top:5px"><mat-icon matChipRemove
+                          (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
+                      </div>
+                     
       
                     </mat-chip-list>
                   </div>

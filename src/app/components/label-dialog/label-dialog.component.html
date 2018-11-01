@@ -23,16 +23,16 @@
             <a (mouseover)="changeText=labels.id"  (mouseout)="changeText=false" mat-list-item >
                 <mat-icon (click)='deleteLabel(labels.id)' *ngIf="changeText == labels.id" >delete</mat-icon>
                 <mat-icon *ngIf="changeText != labels.id">label_outline</mat-icon>
-                <span *ngIf="editShow" class="child-links">{{labels.label}}</span>
-                <div fxFlex=80  class="child-links" *ngIf="!editShow">
+                <span *ngIf="editShow != labels.id" class="child-links">{{labels.label}}</span>
+                <div fxFlex=80  class="child-links" *ngIf="editShow == labels.id">
                         <div  style="margin-top:10px;white-space: nowrap;
                         /* text-overflow: ellipsis; */
                         overflow: hidden !important;" contenteditable="true" 
                         cdkFocusInitial  onkeypress="return (this.innerText.length <= 75)" (input)="newLabelName=$event.target.innerText">{{labels.label}}</div> 
                         <hr>
                 </div>
-               <span *ngIf="editShow" style="margin-left: auto" (click)='editLabel()'><mat-icon>mode_edit</mat-icon></span> 
-               <button fxFlex=10 style="margin-left: auto" *ngIf="!editShow" (click)='editLabelName(labels.id)' mat-icon-button><mat-icon>done</mat-icon></button>
+               <span *ngIf="editShow != labels.id" style="margin-left: auto" (click)='editLabel(labels.id)'><mat-icon>mode_edit</mat-icon></span> 
+               <button fxFlex=10 style="margin-left: auto" *ngIf="editShow == labels.id" (click)='editLabelName(labels.id)' mat-icon-button><mat-icon>done</mat-icon></button>
             </a>
         </div>
       </mat-nav-list>

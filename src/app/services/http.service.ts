@@ -32,7 +32,19 @@ export class HttpService {
       })
 
     };
-    return this.http.post(url, data, httpAuthenticate);
+    return this.http.post(url,data, httpAuthenticate);
+  }
+
+  postServiceAuth(url, data, token) {
+    url = this.server_url + url;
+    var httpAuthenticate = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': token
+      })
+
+    };
+    return this.http.post(url,this.getFormUrlEncoded(data), httpAuthenticate);
   }
 
   //get service with authentication

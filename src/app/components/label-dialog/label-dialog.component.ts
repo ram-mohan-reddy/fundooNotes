@@ -1,6 +1,7 @@
 import { Component, OnInit,Inject,EventEmitter } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { HttpService } from '../../services/http.service';
+import { DataSharingService } from '../../services/data-sharing.service';
 @Component({
   selector: 'app-label-dialog',
   templateUrl: './label-dialog.component.html',
@@ -9,7 +10,8 @@ import { HttpService } from '../../services/http.service';
 export class LabelDialogComponent implements OnInit {
   changeText: boolean = false;
   constructor( public dialogRef: MatDialogRef<LabelDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private userService: HttpService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,private userService: HttpService,
+    private dataService: DataSharingService) { }
 
     labelCollection:any;
     newLabelList: any
@@ -42,12 +44,13 @@ export class LabelDialogComponent implements OnInit {
       console.log(this.newLabelList);
       this.labelCollection = this.newLabelList;
       this.onAdd.emit(true);
+      this.dataService.eventTrigger(true)
       });
       error => console.log('Error ', error);
   }
 
-  editLabel(){
-this.editShow = !this.editShow;
+  editLabel(id){
+this.editShow = id;
   }
 
   editLabelName(id){

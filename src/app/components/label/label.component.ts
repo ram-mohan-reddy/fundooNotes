@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GetNotesService } from '../../services/notes/get-notes.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-label',
@@ -6,10 +8,57 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./label.component.css']
 })
 export class LabelComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  list;
+  totalNotes: any = [];
+  label : string;
+  constructor(private notesService : GetNotesService, private route: ActivatedRoute) { 
+    this.route.params.subscribe(params => {
+      console.log(params);
+      if (params) { 
+        this.label = params.id;
+        this.notesService.getNotes()
+        .subscribe(data => {
+          console.log(data);
+          this.notesCollection(data) 
+        });
+        error => console.log('Error ', error);
+      }
+    });
   }
 
+  ngOnInit() {
+    this.notesService.getNotes()
+    .subscribe(data => {
+      console.log(data);
+      this.notesCollection(data) 
+    });
+    error => console.log('Error ', error);
+  } 
+
+  notesAddRequest(event) {
+    if (event) {
+      console.log(event);
+      this.notesService.getNotes().subscribe(data => {
+        console.log(data);
+         this.notesCollection(data)
+      });
+      error => console.log('Error ', error);
+    }
+  }
+
+  notesCollection(data) {
+    this.list = [];
+    for (let index = 0; index < data['data'].data.length; index++) {
+      if (data['data'].data[index].isDeleted == false) {
+        for (let labelIndex = 0; labelIndex < data['data'].data[index].noteLabels.length; labelIndex++) {
+          if (data['data'].data[index].noteLabels[labelIndex].label == this.label) {
+            this.list.push(data['data'].data[index])
+          }
+      }
+    }
+  
+  }
+  this.totalNotes = this.list.reverse();
+  console.log(this.totalNotes);
+}
 }

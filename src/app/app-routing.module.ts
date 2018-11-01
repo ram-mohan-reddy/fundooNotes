@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
@@ -12,6 +11,7 @@ import { ArchiveComponent } from './components/archive/archive.component';
 import { TrashComponent } from './components/trash/trash.component';
 import { AuthGuard as AuthGuardService } from './guards/auth.guard';
 import { LabelComponent } from './components/label/label.component';
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
  
@@ -29,7 +29,8 @@ const routes: Routes = [
     {path:'reminders',component: RemindersComponent},
     {path:'archive',component: ArchiveComponent},
     {path:'trash',component: TrashComponent},
-    {path:'labels',component: LabelComponent}
+    {path:'search',component: SearchComponent},
+    {path:'labels/:id',component: LabelComponent}
   ]},
   {path:'**',redirectTo: '/login'},
 

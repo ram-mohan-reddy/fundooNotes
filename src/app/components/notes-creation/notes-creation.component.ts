@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-
 import { GetNotesService } from '../../services/notes/get-notes.service';
+import { DataSharingService } from '../../services/data-sharing.service';
 
 @Component({
   selector: 'app-notes-creation',
@@ -8,15 +8,15 @@ import { GetNotesService } from '../../services/notes/get-notes.service';
   styleUrls: ['./notes-creation.component.css']
 })
 export class NotesCreationComponent implements OnInit {
-  constructor(private notesService:GetNotesService) { }
+  constructor(private notesService:GetNotesService,private data: DataSharingService) { }
   public show: boolean = true;
   public checkList: boolean = false;
-  message: string;
   token: string;
-  colorCode;
+  colorCode='';
   addMessage: boolean = false;
   myArray = [];
   selectLabelArray = [];
+  labelArray = [];
   labelMenu: boolean = true;
   newLabelName: string;
   userId = localStorage.getItem('userId');
@@ -25,18 +25,18 @@ export class NotesCreationComponent implements OnInit {
   };
   labelData = {
     "label": "string",
-    "isDeleted": false,
+    "isDeleted": false, 
     "userId": "string"
   }
 
   notesContent = {
     "file": File,
-    "title": String,
-    "description": String,
-    "labelIdList": String,
-    "checkList": String,
+    "title": "",
+    "description": "",
+    "labelIdList": "",
+    "checkList": "",
     "isPinned": Boolean,
-    "color" : String
+    "color" : ""
   }
   @Output() notesAdded = new EventEmitter<boolean>();
 
@@ -50,7 +50,9 @@ this.getLabel();
       console.log(this.notesContent);  
       this.saveNote()
       this.show = !this.show;
-      this.checkList = !this.checkList;
+      this.checkList = !this.checkList; 
+      this.labelArray=[];
+      this.selectLabelArray=[];
     }
   } 
 
@@ -60,27 +62,31 @@ this.getLabel();
      console.log(this.colorCode);
     }
   } 
-  
 
   saveNote() {
     this.notesContent.color = this.colorCode;
-    // this.notesContent.labelIdList = JSON.stringify(this.selectLabelArray);
-    // this.notesContent.labelIdList = JSON.stringify(this.selectLabelArray);
-
+    if (this.selectLabelArray.length != 0) {
+      // this.notesContent.labelIdList = JSON.stringify(this.labelArray);     
+      this.notesContent.labelIdList =  JSON.stringify(this.labelArray);  
+    }
+    this.labelArray=[];
+    this.selectLabelArray=[];
     this.colorCode = '#ffffff';
     console.log(this.notesContent);
-    
-    this.notesService.notesPostService('api/notes/addNotes',this.notesContent)
+    this.notesService.notesPostCreate('api/notes/addNotes',this.notesContent)
     .subscribe(data => {
       this.addMessage = true;
       this.notesAdded.emit(this.addMessage);
      this.notesContent.title= null;
      this.notesContent.description= null;
+     this.notesContent.labelIdList = null;
      this.selectLabelArray=[];
+     this.labelArray = [];
       console.log(data);  
     });
     error => console.log('Error ', error);
     this.selectLabelArray=[];
+    this.labelArray=[];
   }
 
   update() {
@@ -100,11 +106,13 @@ this.getLabel();
     console.log(value);
     if (!this.selectLabelArray.some((data) => data == value.label)) {
       this.selectLabelArray.push(value.label);
+      this.labelArray.push(value.id)
     }
     else {
       const index: number = this.selectLabelArray.indexOf(value.label);
       if (index !== -1) {
           this.selectLabelArray.splice(index, 1);
+          this.labelArray.splice(index, 1);
       }  
     }
   } 
@@ -114,15 +122,21 @@ this.getLabel();
     if (this.labelMenu) { 
       this.labelMenu = !this.labelMenu
     }
-
     else {
       this.labelMenu = !this.labelMenu
     }
    
+  } 
+
+  cancelNoteLabel(labelId) {
+    const index: number = this.selectLabelArray.indexOf(labelId);
+    if (index !== -1) {
+        this.selectLabelArray.splice(index, 1);
+        this.labelArray.splice(index, 1);
+    }  
   }
 
   addLabelName(): void {
-
     console.log(this.newLabelName);
     if (this.newLabelName != undefined) {
       this.labelData.label = this.newLabelName;
@@ -131,6 +145,7 @@ this.getLabel();
         .subscribe(data => {
           console.log(data);
           this.getLabel();
+          this.data.eventTrigger(true)
         });
       error => console.log('Error ', error);
 

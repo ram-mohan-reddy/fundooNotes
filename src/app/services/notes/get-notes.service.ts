@@ -16,6 +16,10 @@ export class GetNotesService {
   notesPostService(url, noteDetails) {
     return this.userService.postServiceAuthentication(url,noteDetails, this.token)
   }
+
+  notesPostCreate(url, noteDetails) {
+    return this.userService.postServiceAuth(url,noteDetails, this.token)
+  }
   notesUpdateService(url,updateData){
     return this.userService.resetPassword(url,updateData,this.token)
   }

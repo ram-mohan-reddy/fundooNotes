@@ -5,6 +5,17 @@
       <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
     </div>
     <div cdkFocusInitial  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
+    <div style="margin-top:10px">
+        <mat-chip-list>
+          <div *ngFor='let label of data.notesData.noteLabels'>
+              <mat-chip *ngIf='label.isDeleted == false'>
+              {{label.label}}<span  style="margin-top:5px"><mat-icon matChipRemove
+              >cancel</mat-icon></span></mat-chip>
+          </div>
+         
+
+        </mat-chip-list>
+      </div>
   </mat-card-content>
   <mat-card-actions>
     <div fxLayout='row' fxLayout.xs='row'>

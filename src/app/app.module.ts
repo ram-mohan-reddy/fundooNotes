@@ -50,11 +50,11 @@ import { AuthGuard  } from './guards/auth.guard';
 import { GetNotesService } from './services/notes/get-notes.service';
 import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
 import { LabelComponent } from './components/label/label.component';
+import { SearchPipe } from './pipes/search.pipe';
+import { DataSharingService } from './services/data-sharing.service';
+import { SearchComponent } from './components/search/search.component';
 
-
-
-
-
+ 
 
 @NgModule({
   declarations: [ 
@@ -80,6 +80,8 @@ import { LabelComponent } from './components/label/label.component';
     NotesCreationComponent,
     LabelDialogComponent,
     LabelComponent,
+    SearchPipe,
+    SearchComponent,
   ],
   entryComponents : [DialogComponent,LabelDialogComponent],
   imports: [
@@ -108,7 +110,7 @@ import { LabelComponent } from './components/label/label.component';
     MatChipsModule
    
   ],
-  providers: [HttpService,AuthService,AuthGuard,GetNotesService],
+  providers: [HttpService,AuthService,AuthGuard,GetNotesService,DataSharingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
