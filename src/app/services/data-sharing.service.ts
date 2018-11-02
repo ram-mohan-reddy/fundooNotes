@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject }    from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class DataSharingService {
   private messageSource = new Subject<string>();
@@ -12,7 +12,7 @@ export class DataSharingService {
   eventEmitted = this.eventEmit.asObservable();
   constructor() { }
   changeMessage(message: string) {
-    this.messageSource.next(message)
+    this.messageSource.next(message) 
   }
   eventTrigger(message: boolean) {
     this.eventEmit.next(message)

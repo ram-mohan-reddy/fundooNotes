@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit,Inject,EventEmitter } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
@@ -7,7 +7,9 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent implements OnInit {
-
+  onAdd = new EventEmitter<boolean>();
+  onDelete = new EventEmitter<any>();
+  labelListArray;
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
@@ -21,13 +23,44 @@ export class DialogComponent implements OnInit {
 
  
   ngOnInit() {
-    // console.log(this.data['notesData'].id)
+    this.labelListArray = this.data['notesData'].noteLabels;
   }
 
-  childEventClicked(event) {
+  colorEventClicked(event) {
     console.log(event);
 
     this.backGroundColor = event;
    
+  }
+ 
+  childEventClicked(event) { 
+    if (!this.labelListArray.some((data) => data.id == event.id)) {
+      this.labelListArray.push(event);
+      this.onAdd.emit(true);
+    }
+    else {
+      const index: number = this.labelListArray.indexOf(event);
+      if (index !== -1) {
+          this.labelListArray.splice(index, 1);   
+      }  
+    }
+  
+   
+  }
+ 
+  removeLabel(label){
+console.log(label);
+const index: number = this.labelListArray.indexOf(label);
+if (index !== -1) {
+    this.labelListArray.splice(index, 1);
+}  
+
+var labelDetails = {
+  'labelId': label.id,
+  'noteId' : this.data.notesData.id
+}
+
+this.onDelete.emit(labelDetails);
+
   }
 }

@@ -15,7 +15,7 @@ export class NotesCollectionComponent implements OnInit {
       this.dataService.eventEmitted.subscribe(message => {
         console.log(message);  
         if (message) {
-          this.notesEditRequest.emit(true);
+          this.notesEditRequest.emit(true); 
         } 
       })
     }
@@ -35,7 +35,7 @@ export class NotesCollectionComponent implements OnInit {
     }
    
     }
-
+ 
   deleteNoteLabel(labelId, noteId) {
     console.log('delete label');
     console.log(labelId);
@@ -53,6 +53,16 @@ export class NotesCollectionComponent implements OnInit {
         position: { top: '250px', left: '450px'},
         panelClass: 'myapp-no-padding-dialog',
         data: {notesData : notes}
+      });
+      const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
+    console.log(data);
+    this.notesEditRequest.emit(true);
+      });
+
+      const sub1 = dialogRef.componentInstance.onDelete.subscribe((data) => {
+        console.log(data);
+        this.deleteNoteLabel(data.labelId,data.noteId)
+        // this.notesEditRequest.emit(true);
       });
   
       dialogRef.afterClosed().subscribe(result => {

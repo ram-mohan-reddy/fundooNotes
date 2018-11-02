@@ -1,28 +1,29 @@
 <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
 <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
-    <ng-template  matMenuContent >
-     <div>
-        <button mat-button (click)='deleteCard()' style="width:100% ; padding: 5px">Delete Note</button>
-        <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' (click)='getLabel()' style="height: 50px;">Add label</button>
-                <div  *ngIf='labelMenu'>
-                  <div style="width:250px; padding:10px; font-size:14px">Label note</div>
-                  <div>
-                      <div (click)="$event.stopPropagation();" (click)='addLabelName()' fxFlex=10><mat-icon>add</mat-icon></div>
-                      <div  (click)="$event.stopPropagation();" style=" padding-top:5px;font-size:12px;white-space: nowrap;
-                      /* text-overflow: ellipsis; */
-                      overflow: hidden !important;" contenteditable="true" 
-                      cdkFocusInitial placeholder='Enter label name'  onkeypress="return (this.innerText.length <= 75)" (input)="newLabelName=$event.target.innerText"></div> 
-                  </div>
-                
-                   <label fxLayout = 'column' *ngFor="let option of myArray">
-                     <div style="font-size:14px;padding-top: 10px">
-                         <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox"
-                         [(checklist)]="list"
-                         [checklistValue]="option" />{{option.label}}
-                     </div>
-                     </label>
-                </div>     
-     </div>             
-    </ng-template> 
-  </mat-menu>
+    <div>
+        <button mat-button *ngIf='!labelMenu' (click)='deleteCard()' style="width:100% ; padding: 5px">Delete Note</button>
+        <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' (click)='getLabel()'
+            style="height: 50px;">Add label</button>
+        <div *ngIf='labelMenu'>
+            <div style="width:250px; padding:10px; font-size:14px">Label note</div>
+            <div>
+                <div (click)="$event.stopPropagation();" (click)='addLabelName()' style="cursor:pointer" fxFlex=10>
+                    <mat-icon>add</mat-icon>
+                </div>
+
+                <input autofocus style="outline:none; border:none" [(ngModel)]='newLabelName' (click)="$event.stopPropagation();" placeholder='Enter label name'
+                    type="text">
+            </div>
+
+            <label fxLayout='column' *ngFor="let option of myArray | search : newLabelName">
+                <div style="font-size:14px;padding-top: 10px">
+                    <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox" [(checklist)]="list" [checklistValue]="option"
+                    />{{option.label}}
+                </div>
+
+            </label>
+        </div>
+    </div>
+
+</mat-menu>

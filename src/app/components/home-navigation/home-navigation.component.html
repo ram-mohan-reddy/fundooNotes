@@ -2,7 +2,7 @@
     <button fxFlex=5  matTooltip="Main menu" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
       <mat-icon class="icons" aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <span fxFlex=10 fxShow="true" fxHide.xs="true" >fundooNotes</span>
+    <span fxFlex=10 fxShow="true" fxHide.xs="true" >{{identify}}</span>
 
     <form fxFlex=50 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="15px" class="search-box" >
       <button fxFlex=5 mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
@@ -45,19 +45,19 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
 
     <mat-nav-list>
-      <a mat-list-item routerLink="/home/notes"><img src="../../../assets/images/notes.svg"><span class="child-links">Notes</span></a>
+      <a mat-list-item (click)='changeIdentity("fundooNotes")' routerLink="/home/notes"><img src="../../../assets/images/notes.svg"><span class="child-links">Notes</span></a>
 
-      <a mat-list-item routerLink="/home/reminders"><img src="../../../assets/images/reminders.svg"><span class="child-links">Reminders</span></a>
+      <a mat-list-item (click)='changeIdentity("Reminders")' routerLink="/home/reminders"><img src="../../../assets/images/reminders.svg"><span class="child-links">Reminders</span></a>
       <hr>
       <p class="label">LABELS</p>
       <div *ngFor = 'let labels of labelList'>
           <!-- <div *ngFor = 'let label of labelList'> -->
-          <a mat-list-item routerLink="/home/labels/{{labels.label}}"><mat-icon>label_outline</mat-icon><span class="child-links">{{labels.label}}</span></a>
+          <a mat-list-item (click)='changeIdentity(labels.label)' routerLink="/home/labels/{{labels.label}}"><mat-icon>label_outline</mat-icon><span class="child-links">{{labels.label}}</span></a>
       </div>
       <a mat-list-item (click)='createLabel()'><mat-icon>edit</mat-icon><span class="child-links">Edit labels</span></a>
       <hr>
-      <a mat-list-item routerLink="/home/archive"><img src="../../../assets/images/archives.svg"><span class="child-links">Archive</span></a>
-      <a mat-list-item routerLink="/home/trash"><mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
+      <a (click)='changeIdentity("Archive")' mat-list-item routerLink="/home/archive"><img src="../../../assets/images/archives.svg"><span class="child-links">Archive</span></a>
+      <a (click)='changeIdentity("Trash")' mat-list-item routerLink="/home/trash"><mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
     </mat-nav-list>
   </mat-sidenav>
 

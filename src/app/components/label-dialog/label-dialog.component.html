@@ -7,17 +7,18 @@
   <mat-card-content class="content-scroll">
      
     <div  fxLayout='row' fxLayoutGap = '5px'>
-        <button fxFlex=10  mat-icon-button><mat-icon>clear</mat-icon></button>
+        <button fxFlex=10 (click)='clearText()' mat-icon-button><mat-icon>clear</mat-icon></button>
 <div fxFlex=80>
     <div  style="margin-top:10px;white-space: nowrap;
     /* text-overflow: ellipsis; */
     overflow: hidden !important;" contenteditable="true" 
-    cdkFocusInitial placeholder="Create new label"  onkeypress="return (this.innerText.length <= 75)" (input)="labelName=$event.target.innerText"></div> 
+    cdkFocusInitial placeholder="Create new label" [textContent]="labelName"  onkeypress="return (this.innerText.length <= 75)" (input)="labelName=$event.target.innerText"></div> 
     <hr>
 </div>
-        
-         <button fxFlex=10 mat-icon-button><mat-icon>done</mat-icon></button>
+         
+         <button (click)='createNewLabel()' (click)='clearText()' fxFlex=10 mat-icon-button><mat-icon>done</mat-icon></button>
     </div> 
+    <div style="color:red" fxLayoutAlign='center' >{{message}}</div>
     <mat-nav-list>
         <div  *ngFor = 'let labels of labelCollection'>
             <a (mouseover)="changeText=labels.id"  (mouseout)="changeText=false" mat-list-item >

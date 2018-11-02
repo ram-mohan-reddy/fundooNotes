@@ -29,10 +29,10 @@ export class HomeNavigationComponent implements OnInit{
         if (message) {
           this.getLabel();
         } 
-        // this.getLabel();
       })
     }
   searchText;
+  identify: string;
   userName: string = ''; 
   email: string='';
   token: string=''; 
@@ -51,6 +51,7 @@ export class HomeNavigationComponent implements OnInit{
     this.userName = localStorage.getItem('userName');
     this.token = localStorage.getItem('token');
     this.userId = localStorage.getItem('userId');
+    this.identify = 'fundooNotes'
     this.getLabel();
   }
 
@@ -94,6 +95,17 @@ this.router.navigate(['home/search']);
     this.userService.postServiceAuthentication("api/noteLabels/"+ data.id +'/updateNoteLabel',data,this.token)
     .subscribe(data => {
       console.log(data);
+      this.getLabel(); 
+      this.dataService.eventTrigger(true)
+      });
+      error => console.log('Error ', error);
+  }
+
+  createNewLabel(labelData): void {
+    this.userService.postServiceAuthentication('api/noteLabels',labelData,this.token)
+    .subscribe(data => {
+      console.log(data);
+      this.getLabel();
       });
       error => console.log('Error ', error);
   }
@@ -105,7 +117,6 @@ this.router.navigate(['home/search']);
       data: {label:this.labelList}
     });
     const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
-      alert('label will be deleted permanently');
       if (data) {
         this.getLabel(); 
       }  
@@ -115,19 +126,29 @@ this.router.navigate(['home/search']);
      console.log(data);
      this.updateLabel(data)
     });
+
+    const sub2 = dialogRef.componentInstance.toCreate.subscribe((data) => {
+      console.log(data);
+      this.labelData.label = data;
+      this.labelData.userId = this.userId;
+      this.createNewLabel(this.labelData)
+     
+     });
+
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != undefined) {
         this.labelData.label = result;
         this.labelData.userId = this.userId;
-        this.userService.postServiceAuthentication('api/noteLabels',this.labelData,this.token)
-        .subscribe(data => {
-          console.log(data);
-          this.getLabel();
-          });
-          error => console.log('Error ', error);
+        this.createNewLabel(this.labelData)
       }
      
     });
+} 
+
+changeIdentity(data) {
+
+  this.identify = data;
+
 }
 }

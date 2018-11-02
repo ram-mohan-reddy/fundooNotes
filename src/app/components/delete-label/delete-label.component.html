@@ -1,0 +1,12 @@
+
+<div style="padding:10px">
+  <p>
+    We’ll delete this label and remove it from all of your fundooNotes.
+    Your notes won’t be deleted.
+  </p>
+  
+</div>
+<div>
+  <button style="float:left;margin:10px" mat-button (click)="onNoClick()">No Thanks</button>
+  <button style="float:right;margin:10px" [mat-dialog-close]="true" mat-button  cdkFocusInitial>Ok</button>
+</div>

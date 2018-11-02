@@ -48,10 +48,11 @@ export class LabelComponent implements OnInit {
 
   notesCollection(data) {
     this.list = [];
+    this.totalNotes = [];
     for (let index = 0; index < data['data'].data.length; index++) {
       if (data['data'].data[index].isDeleted == false) {
         for (let labelIndex = 0; labelIndex < data['data'].data[index].noteLabels.length; labelIndex++) {
-          if (data['data'].data[index].noteLabels[labelIndex].label == this.label) {
+          if (data['data'].data[index].noteLabels[labelIndex].label == this.label && data['data'].data[index].noteLabels[labelIndex].isDeleted == false) {
             this.list.push(data['data'].data[index])
           }
       }

@@ -1,5 +1,6 @@
 import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
 import { GetNotesService } from '../../services/notes/get-notes.service';
+import { DataSharingService } from '../../services/data-sharing.service';
 @Component({
   selector: 'app-more-icon',
   templateUrl: './more-icon.component.html',
@@ -8,8 +9,9 @@ import { GetNotesService } from '../../services/notes/get-notes.service';
 export class MoreIconComponent implements OnInit {
   event: boolean = true
   @Output() eventClicked = new EventEmitter<boolean>();
+  @Output() labelAdd = new EventEmitter<boolean>();
   @Input() notesDetails: any;
-  constructor(private notesService : GetNotesService) { }
+  constructor(private notesService : GetNotesService,private data: DataSharingService) { }
   note : any;
   labelMenu: boolean = true;
   newLabelName: string;
@@ -41,30 +43,29 @@ export class MoreIconComponent implements OnInit {
 
   changeMenu(){
     console.log(this.labelMenu);
-    // this.getLabel();
     if (this.labelMenu) { 
       this.labelMenu = !this.labelMenu
     }
-
     else {
       this.labelMenu = !this.labelMenu
     }
-   
-  }
+  } 
 
   addLabelName(): void {
     console.log(this.newLabelName);
     if (this.newLabelName != undefined) {
+      if (!this.myArray.some((data) => data.label == this.newLabelName)) {
       this.labelData.label = this.newLabelName;
       this.labelData.userId = this.userId;
       this.notesService.notesPostService('api/noteLabels', this.labelData)
         .subscribe(data => {
           console.log(data);
           this.getLabel();
+          this.data.eventTrigger(true)
         });
       error => console.log('Error ', error);
-
-    }
+      }
+    } 
   }
 
   getLabel(): void {
@@ -78,13 +79,14 @@ export class MoreIconComponent implements OnInit {
           }
         }
       });
-}
+} 
 
 onClick(value): void {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/add', {})
       .subscribe(data => {
         console.log(data);
         this.eventClicked.emit(this.event);
+        this.labelAdd.emit(value)
       });
     error => console.log('Error ', error);
 

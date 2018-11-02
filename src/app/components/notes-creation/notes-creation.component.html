@@ -55,7 +55,7 @@
           <div fxFlex=7 class="icons">
               <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
-              <mat-menu  #appMenu="matMenu" [overlapTrigger]="false">
+              <mat-menu  #appMenu="matMenu" [overlapTrigger]="false"> 
                  
               <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' style="height: 50px;">Add label</button>
                 <div  *ngIf='labelMenu'>

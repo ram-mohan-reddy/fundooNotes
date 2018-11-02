@@ -136,19 +136,20 @@ this.getLabel();
     }  
   }
 
-  addLabelName(): void {
+  addLabelName(): void { 
     console.log(this.newLabelName);
     if (this.newLabelName != undefined) {
-      this.labelData.label = this.newLabelName;
+      if (!this.myArray.some((data) => data.label == this.newLabelName)) {
+        this.labelData.label = this.newLabelName;
       this.labelData.userId = this.userId;
       this.notesService.notesPostService('api/noteLabels', this.labelData)
         .subscribe(data => {
           console.log(data);
-          this.getLabel();
+          this.getLabel(); 
           this.data.eventTrigger(true)
         });
       error => console.log('Error ', error);
-
+      }
     }
   }
   getLabel(): void {

@@ -53,6 +53,7 @@ import { LabelComponent } from './components/label/label.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { DataSharingService } from './services/data-sharing.service';
 import { SearchComponent } from './components/search/search.component';
+import { DeleteLabelComponent } from './components/delete-label/delete-label.component';
 
  
 
@@ -82,8 +83,9 @@ import { SearchComponent } from './components/search/search.component';
     LabelComponent,
     SearchPipe,
     SearchComponent,
+    DeleteLabelComponent,
   ],
-  entryComponents : [DialogComponent,LabelDialogComponent],
+  entryComponents : [DialogComponent,LabelDialogComponent,DeleteLabelComponent],
   imports: [
     BrowserModule,
     FlexLayoutModule,
