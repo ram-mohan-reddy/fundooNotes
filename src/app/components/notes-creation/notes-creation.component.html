@@ -26,8 +26,13 @@
         <!-- (blur)="update()"  -->
         <div *ngIf="!checkList" style="margin-top:20px" contenteditable="true" 
          (input)="notesContent.description=$event.target.innerText" placeholder="Take a note..."></div>
-         <div *ngIf="checkList" style="margin-top:20px" contenteditable="true" 
-         (input)="notesContent.description=$event.target.innerText" placeholder="List item"></div>
+        <div *ngIf="checkList"  style="margin-top:20px">
+          <hr>
+            <div style="font-size:12px" contenteditable="true" 
+            (input)="notesContent.description=$event.target.innerText" placeholder="List item"></div>
+        <hr>
+          </div>
+        
         <div style="padding-top:20px">
             <mat-chip-list>
                 <mat-chip *ngFor = 'let index of selectLabelArray'>{{index}}<mat-icon matChipRemove
@@ -59,7 +64,9 @@
                  
               <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' style="height: 50px;">Add label</button>
                 <div  *ngIf='labelMenu'>
+                 
                   <div style="width:250px; padding:10px; font-size:14px">Label note</div>
+               
                   <div>
                       <div (click)="$event.stopPropagation();" (click)='addLabelName()' style="cursor:pointer" fxFlex=10><mat-icon>add</mat-icon></div>
                       <div  (click)="$event.stopPropagation();" style=" padding-top:5px;font-size:12px;white-space: nowrap;
