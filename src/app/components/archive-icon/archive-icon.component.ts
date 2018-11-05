@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-archive-icon',
@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./archive-icon.component.css']
 })
 export class ArchiveIconComponent implements OnInit {
-
+  @Output() archiveEvent = new EventEmitter<boolean>();
   constructor() { }
 
   ngOnInit() {
+  }
+
+  archiveRequest() {
+    this.archiveEvent.emit(true);
   }
 
 }

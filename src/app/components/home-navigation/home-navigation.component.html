@@ -13,19 +13,20 @@
     <div fxFlex=50 fxLayoutGap="10px" fxFlex.xs=100>
         <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button routerLink="/home"><mat-icon>refresh</mat-icon></button>
   
-        <button class="icons" matTooltip="List view" fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
+        <button class="icons" *ngIf='notesView' (click) = 'changeView()' matTooltip="List view" fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
+        <button class="icons" *ngIf='!notesView' (click) = 'changeView()' matTooltip="Grid view" fxFlex mat-icon-button><mat-icon>grid_on</mat-icon></button>
         <button class="icons" matTooltip="Notification" fxFlex mat-icon-button><mat-icon>notifications_none</mat-icon></button>
         <button matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
         <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template  matMenuContent >
             <div style='padding: 10px' fxLayoutGap=10px fxLayout='row' >
               <div fxFlex>
-                <button mat-mini-fab class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
-               
+                <button (click)="$event.stopPropagation();" (click)="selectImage.click()" mat-mini-fab class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
+                <input style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>
               </div> 
-              <div fxFlex>
+              <div fxFlex> 
                 <div>{{userName}}</div>
-                <div>{{email}}</div>  
+                <div>{{email}}</div>    
               </div>
             </div>          
             <hr>

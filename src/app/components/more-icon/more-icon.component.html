@@ -2,9 +2,10 @@
 
 <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
     <div>
-        <button mat-button *ngIf='!labelMenu' (click)='deleteCard()' style="width:100% ; padding: 5px">Delete Note</button>
-        <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' (click)='getLabel()'
-            style="height: 50px;">Add label</button>
+        <button mat-menu-item *ngIf='!labelMenu  && componentName != "trash"' (click)='deleteCard()' style="width:100% ; padding: 5px">Delete Note</button>
+        <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' (click)='deleteLabelConfirmation()' style="width:100% ; padding: 5px">Delete Forever</button>
+        <button mat-menu-item *ngIf='!labelMenu && componentName != "trash"' (click)="$event.stopPropagation();" (click)='changeMenu()' (click)='getLabel()'
+            style="width:100% ; padding: 5px">Add label</button>
         <div *ngIf='labelMenu'>
             <div style="width:250px; padding:10px; font-size:14px">Label note</div>
             <div>

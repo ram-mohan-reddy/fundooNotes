@@ -1,6 +1,8 @@
 import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
 import { GetNotesService } from '../../services/notes/get-notes.service';
 import { DataSharingService } from '../../services/data-sharing.service';
+import {DeleteLabelComponent} from '../delete-label/delete-label.component';
+import { MatDialog} from '@angular/material';
 @Component({
   selector: 'app-more-icon',
   templateUrl: './more-icon.component.html',
@@ -11,7 +13,8 @@ export class MoreIconComponent implements OnInit {
   @Output() eventClicked = new EventEmitter<boolean>();
   @Output() labelAdd = new EventEmitter<boolean>();
   @Input() notesDetails: any;
-  constructor(private notesService : GetNotesService,private data: DataSharingService) { }
+  @Input() componentName: any;
+  constructor(private notesService : GetNotesService,private data: DataSharingService,public dialog: MatDialog) { }
   note : any;
   labelMenu: boolean = true;
   newLabelName: string;
@@ -24,7 +27,7 @@ export class MoreIconComponent implements OnInit {
     "userId": "string"
   }
   ngOnInit() {  
-    // this.getLabel();
+   
   }
  
   deleteCard() {
@@ -40,6 +43,35 @@ export class MoreIconComponent implements OnInit {
     });
     error => console.log('Error ', error);
   } 
+
+
+  deleteLabelConfirmation(): void {
+    const dialogRef = this.dialog.open(DeleteLabelComponent, {
+      width: '500px',
+      position: { top: '300px', left: '450px'},
+      panelClass: 'myapp-no-padding-dialog',
+      data: {componentName:"trash"}
+    });
+   
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+
+        console.log(this.notesDetails);  
+        this.note = {
+          "isDeleted": true,
+          "noteIdList":[this.notesDetails.id]
+        }
+        this.notesService.notesPostService('api/notes/deleteForeverNotes',this.note)
+        .subscribe(data => {
+          this.eventClicked.emit(this.event); 
+          console.log(data);  
+        });
+        error => console.log('Error ', error);
+        
+      }
+    });
+} 
 
   changeMenu(){
     console.log(this.labelMenu);

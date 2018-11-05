@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter,ElementRef, ViewChild } from '@angular/core';
 import { GetNotesService } from '../../services/notes/get-notes.service';
 import { DataSharingService } from '../../services/data-sharing.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-notes-creation',
@@ -8,7 +9,9 @@ import { DataSharingService } from '../../services/data-sharing.service';
   styleUrls: ['./notes-creation.component.css']
 })
 export class NotesCreationComponent implements OnInit {
-  constructor(private notesService:GetNotesService,private data: DataSharingService) { }
+  constructor(private notesService:GetNotesService,private data: DataSharingService,
+  public snackBar: MatSnackBar) { }
+  checkBoxArray=[];
   public show: boolean = true;
   public checkList: boolean = false;
   token: string;
@@ -35,6 +38,7 @@ export class NotesCreationComponent implements OnInit {
     "description": "",
     "labelIdList": "",
     "checkList": "",
+    "isArchived": Boolean,
     "isPinned": Boolean,
     "color" : ""
   }
@@ -152,6 +156,31 @@ this.getLabel();
       }
     }
   }
+  archiveEventClicked(event){
+
+    console.log(event);
+
+    if (event) {
+      this.notesContent.isArchived = event;
+      this.openSnackBar('Note archived','Undo');
+      
+    }
+  }
+
+  openSnackBar(message: string, action: string) {
+    let snackBarRef = this.snackBar.open(message, action, {
+      duration: 5000,
+    });
+
+    // snackBarRef.onAction().subscribe(()=> this.doUnArchive());
+  }
+
+  // doUnArchive() {
+
+  //   this.notesContent.isArchived = false ;
+  // }
+
+
   getLabel(): void {
     this.notesService.getLabelData('api/noteLabels/getNoteLabelList')
       .subscribe(data => {
@@ -165,4 +194,16 @@ this.getLabel();
       });
       error => console.log('Error ', error);
   }
+  // @ViewChild('myTextField') myInput: ElementRef; 
+  labelName : string;
+  onKey(event: any) { 
+    console.log('key pressed'); 
+    console.log(event.key);
+    this.checkBoxArray.push(event.key);
+    console.log(this.labelName);
+    
+    this.labelName= null
+    // this.myInput.nativeElement.focus();
+  }
+
 }

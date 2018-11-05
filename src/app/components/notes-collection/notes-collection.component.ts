@@ -10,17 +10,21 @@ import { DataSharingService } from '../../services/data-sharing.service';
 })
 export class NotesCollectionComponent implements OnInit {
   
+  notesView:boolean=true;
+
   constructor(public dialog: MatDialog,private notesService : GetNotesService,
     public dataService: DataSharingService) { 
       this.dataService.eventEmitted.subscribe(message => {
         console.log(message);  
         if (message) {
-          this.notesEditRequest.emit(true); 
+          this.notesView = !this.notesView;
+          this.notesEditRequest.emit(true);  
         } 
       })
     }
   @Input() notesListArray: any;
   @Input() searchText: any;
+  @Input() componentName:any;
   @Output() notesEditRequest = new EventEmitter<boolean>();
   ngOnInit(){
     // this.notesList();  

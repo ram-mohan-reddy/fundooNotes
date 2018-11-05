@@ -36,7 +36,7 @@ export class NotesComponent implements OnInit {
     this.list = [];
 
     for (let index = 0; index < data['data'].data.length; index++) {
-      if (data['data'].data[index].isDeleted == false) {
+      if (data['data'].data[index].isDeleted == false && data['data'].data[index].isArchived == false) {
         this.list.push(data['data'].data[index])
       }
     }

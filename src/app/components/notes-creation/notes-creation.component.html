@@ -1,5 +1,5 @@
 <div  fxLayout='column' fxLayoutAlign="center center" style="margin-top:30px ">
-    <mat-card   *ngIf="show" class="example-card" style="  width:640px; padding: 0; border-radius: 10px">
+    <mat-card   *ngIf="show" class="example-card" style="  width:500px; padding: 0; border-radius: 10px">
       <mat-card-content fxLayout='row' fxLayout.xs='row' style="margin-left:15px">
         <div (click)="open()" fxFlex style="margin-top:12px">
           Take a note...
@@ -15,7 +15,7 @@
   
     </mat-card>
   
-    <mat-card  [ngStyle] = "{'background-color': colorCode }" fxFlex *ngIf="!show" class="example-card" style=" width:50%; ;position: relative;padding: 5;border-radius: 10px">
+    <mat-card  [ngStyle] = "{'background-color': colorCode }" fxFlex *ngIf="!show" class="example-card" style="width:500px; position: relative;padding: 5;border-radius: 10px">
   
       <mat-card-content>
         <div fxLayout='row' fxLayout.xs='row'>
@@ -27,11 +27,22 @@
         <div *ngIf="!checkList" style="margin-top:20px" contenteditable="true" 
          (input)="notesContent.description=$event.target.innerText" placeholder="Take a note..."></div>
         <div *ngIf="checkList"  style="margin-top:20px">
-          <hr>
-            <div style="font-size:12px" contenteditable="true" 
-            (input)="notesContent.description=$event.target.innerText" placeholder="List item"></div>
-        <hr>
+          <div id="myTextField"  *ngFor = 'let index of checkBoxArray'  contenteditable="true">
+            <input   (click)="$event.stopPropagation();"  type="checkbox"
+            [(checklist)]="list"
+            [checklistValue]="option" >{{index}}
           </div>
+          
+          <hr>
+          <div>
+            <div fxFlex=5><mat-icon>add</mat-icon></div> 
+            <div style="font-size:14px; margin-top: 5px" contenteditable="true" 
+            (keyup)="onKey($event)" [textContent]="labelName" placeholder="List item"
+            (input)="labelName=$event.target.innerText"></div>
+          </div>
+         
+        <hr>
+          </div> 
         
         <div style="padding-top:20px">
             <mat-chip-list>
@@ -55,9 +66,9 @@
             <app-image-icon></app-image-icon>
           </div>
           <div fxFlex=7 class="icons"> 
-            <app-archive-icon></app-archive-icon>
+            <app-archive-icon (archiveEvent)="archiveEventClicked($event)"></app-archive-icon>
           </div>
-          <div fxFlex=7 class="icons">
+          <div fxFlex=7 class="icons"> 
               <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
               <mat-menu  #appMenu="matMenu" [overlapTrigger]="false"> 
@@ -79,7 +90,7 @@
                      <div style="font-size:14px;padding-top: 10px">
                          <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox"
                          [(checklist)]="list"
-                         [checklistValue]="option" />{{option.label}}
+                         [checklistValue]="option" >{{option.label}}
                      </div>
                        
                      </label> 

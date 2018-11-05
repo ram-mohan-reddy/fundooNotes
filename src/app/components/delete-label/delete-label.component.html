@@ -1,8 +1,12 @@
 
 <div style="padding:10px">
-  <p>
+  <p *ngIf = 'data.componentName == "label"'>
     We’ll delete this label and remove it from all of your fundooNotes.
     Your notes won’t be deleted.
+  </p>
+
+  <p *ngIf = 'data.componentName == "trash"'> 
+      Delete note forever? 
   </p>
   
 </div>

@@ -1,20 +1,20 @@
 <div fxLayout='row'>
-  <div fxFlex=15>
+  <div fxFlex=15> 
   </div>
   <div fxFlex=80 fxLayout='row wrap row wrap' fxLayoutGap=20px style="margin-top: 40px" fxLayout.xs='column'>
-    <div fxLayout='row wrap'>
-      <div *ngFor='let index of notesListArray | search:searchText'>
-        <mat-card [ngStyle]="{'background-color': index.color }" class="mat-card ">
+    <div  fxLayout='row wrap'>
+      <div  *ngFor='let index of notesListArray | search:searchText' >
+        <mat-card  [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
           <mat-card-content (click)='openDialog(index)'>
 
-            <div fxLayout='row' fxLayout.xs='row'>
+            <div fxLayout='row' fxLayout.xs='row'> 
               <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
                 {{index.title}}
               </div>
               <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
             </div>
             <p style="word-wrap: break-word; margin-left: 10px">
-              {{index.description}}
+              {{index.description}} 
             </p>
             <div>
               <mat-chip-list>
@@ -26,24 +26,24 @@
             </div>
           </mat-card-content>
           <mat-card-actions>
-            <div fxLayout='row' class="icons-hide" fxLayoutGap.xs=10px>
-              <div fxFlex fxFlex.xs=10 class="icons">
+            <div fxLayout='row' fxLayoutAlign='space-between' class="icons-hide">
+              <div *ngIf='componentName != "trash"'  class="icons">
                 <app-remind-icon></app-remind-icon>
               </div>
-              <div fxFlex fxFlex.xs=10 class="icons">
+              <div *ngIf='componentName != "trash"'  class="icons">
                 <app-collaborator-icon></app-collaborator-icon>
               </div>
-              <div fxFlex fxFlex.xs=10 class="icons">
+              <div *ngIf='componentName != "trash"'  class="icons">
                 <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
               </div>
-              <div fxFlex fxFlex.xs=10 class="icons">
+              <div *ngIf='componentName != "trash"'  class="icons">
                 <app-image-icon></app-image-icon>
               </div>
-              <div fxFlex fxFlex.xs=10 class="icons">
+              <div *ngIf='componentName != "trash"' class="icons">
                 <app-archive-icon></app-archive-icon>
               </div>
-              <div fxFlex fxFlex.xs=10 class="icons">
-                <app-more-icon (eventClicked)="childEventClicked($event)" [notesDetails]="index"></app-more-icon>
+              <div  class="icons">
+                <app-more-icon (eventClicked)="childEventClicked($event)" [componentName]="componentName" [notesDetails]="index"></app-more-icon>
               </div>
             </div>
           </mat-card-actions>

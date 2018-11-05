@@ -34,24 +34,9 @@ export class LabelDialogComponent implements OnInit {
   deleteLabel(id){ 
     console.log('delete activated');
     this.deleteLabelConfirmation(id);
-    // this.newLabelList = [];
-    // this.userService.deleteLabel("api/noteLabels/"+ id +'/deleteNoteLabel' )
-    // .subscribe(data => {
-    //   console.log(data);
-    //   for (let index = 0; index < this.labelCollection.length; index++) {
-    //     if (this.labelCollection[index].id != id ) {
-    //       this.newLabelList.push(this.labelCollection[index])
-    //     }
-    //   }
-    //   console.log(this.newLabelList);
-    //   this.labelCollection = this.newLabelList;
-    //   this.onAdd.emit(true); 
-    //   this.dataService.eventTrigger(true)
-    //   });
-    //   error => console.log('Error ', error);
   }
 
-  editLabel(id){
+  editLabel(id){ 
 this.editShow = id;
   }
 
@@ -103,7 +88,8 @@ this.editShow = id;
       width: '500px',
       position: { top: '300px', left: '450px'},
       panelClass: 'myapp-no-padding-dialog',
-    });
+      data: {componentName:"label"}
+    }); 
    
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);

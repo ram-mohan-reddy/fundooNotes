@@ -1,2 +1,2 @@
 
-<app-notes-collection [notesListArray]="totalNotes"></app-notes-collection>
+<app-notes-collection (notesEditRequest)="notesDeleteRequest($event)" [componentName]="componentName" [notesListArray]="totalNotes"></app-notes-collection> 

@@ -38,6 +38,7 @@ export class HomeNavigationComponent implements OnInit{
   token: string=''; 
   userId: string;
   labelList;
+  notesView: boolean = true;
   labelData = {
     "label": "string",
     "isDeleted": false,
@@ -74,7 +75,6 @@ this.router.navigate(['home/search']);
 
   dataTransfer(){
     console.log(this.searchText);
-    
     this.dataService.changeMessage(this.searchText)
   }
 
@@ -147,8 +147,23 @@ this.router.navigate(['home/search']);
 } 
 
 changeIdentity(data) {
-
   this.identify = data;
+}
 
+selecetdFile : File; 
+selectedFileName : string;
+url: string;
+onImageUpload(event){
+const file = event.target.files;
+console.log(file);
+
+// this.selectedFileName = this.selecetdFile.name;
+// console.log(this.selecetdFile.value);
+
+}
+
+changeView() {
+  this.notesView = !this.notesView;
+  this.dataService.eventTrigger(true);
 }
 }
