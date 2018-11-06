@@ -20,7 +20,7 @@ export class NotesCreationComponent implements OnInit {
   myArray = [];
   selectLabelArray = [];
   labelArray = [];
-  labelMenu: boolean = true;
+  labelMenu: boolean = true; 
   newLabelName: string;
   userId = localStorage.getItem('userId');
   user = {
@@ -38,9 +38,13 @@ export class NotesCreationComponent implements OnInit {
     "description": "",
     "labelIdList": "",
     "checkList": "",
-    "isArchived": Boolean,
-    "isPinned": Boolean,
+    "isArchived": false,
+    "isPinned": false,
     "color" : ""
+  }
+
+  noteArchive = {
+    "isArchived": false
   }
   @Output() notesAdded = new EventEmitter<boolean>();
 

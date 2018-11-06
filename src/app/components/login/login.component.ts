@@ -74,7 +74,8 @@ export class LoginComponent implements OnInit {
         console.log(data.id);
               
         localStorage.setItem('token',data['id']);  
-        localStorage.setItem('userId',data['userId']);     
+        localStorage.setItem('userId',data['userId']); 
+        localStorage.setItem('imageUrl',data['imageUrl']);    
         this.uesrData();
         error => console.log('Error ', error);       
       });

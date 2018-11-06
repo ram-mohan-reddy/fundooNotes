@@ -80,6 +80,25 @@ deleteLabel(url){
   return this.http.delete(url);
 }
 
+imageUpload(url,file,token) {
+  url = this.server_url + url;
+    var httpAuthenticate = {
+      headers: new HttpHeaders({
+        'Authorization': token
+      })
+    };
+    return this.http.post(url,file, httpAuthenticate);
+}
+
+// httpAddImage(nexturl,body,token){
+//   console.log(token);
+//   var httpOptions={
+//     headers:new HttpHeaders({
+//      'Authorization':token
+//     })
+//   };
+//   return this.http.post(this.url+"/"+nexturl,body,httpOptions)
+// }
   //post service for reset password
   resetPassword(url, data, token) {
     url = this.server_url + url;

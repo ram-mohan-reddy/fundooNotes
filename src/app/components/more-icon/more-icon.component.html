@@ -1,9 +1,10 @@
 <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
-<mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+<mat-menu #appMenu="matMenu" [overlapTrigger]="false">  
     <div>
-        <button mat-menu-item *ngIf='!labelMenu  && componentName != "trash"' (click)='deleteCard()' style="width:100% ; padding: 5px">Delete Note</button>
+        <button mat-menu-item *ngIf='!labelMenu  && componentName != "trash"' (click)='deleteCard(true)' style="width:100% ; padding: 5px">Delete Note</button>
         <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' (click)='deleteLabelConfirmation()' style="width:100% ; padding: 5px">Delete Forever</button>
+        <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' (click)='deleteCard(false)' style="width:100% ; padding: 5px">Restore</button>
         <button mat-menu-item *ngIf='!labelMenu && componentName != "trash"' (click)="$event.stopPropagation();" (click)='changeMenu()' (click)='getLabel()'
             style="width:100% ; padding: 5px">Add label</button>
         <div *ngIf='labelMenu'>

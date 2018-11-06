@@ -4,7 +4,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css']
+  styleUrls: ['./dialog.component.css'] 
 })
 export class DialogComponent implements OnInit {
   onAdd = new EventEmitter<boolean>();
@@ -28,9 +28,7 @@ export class DialogComponent implements OnInit {
 
   colorEventClicked(event) {
     console.log(event);
-
-    this.backGroundColor = event;
-   
+    this.backGroundColor = event; 
   }
  
   childEventClicked(event) { 
@@ -43,24 +41,23 @@ export class DialogComponent implements OnInit {
       if (index !== -1) {
           this.labelListArray.splice(index, 1);   
       }  
-    }
-  
-   
+    } 
   }
- 
+  eventClicked(event) { 
+      this.onAdd.emit(event);
+      this.dialogRef.close();
+  }
   removeLabel(label){
 console.log(label);
 const index: number = this.labelListArray.indexOf(label);
 if (index !== -1) {
     this.labelListArray.splice(index, 1);
 }  
-
 var labelDetails = {
   'labelId': label.id,
   'noteId' : this.data.notesData.id
 }
 
 this.onDelete.emit(labelDetails);
-
   }
 }

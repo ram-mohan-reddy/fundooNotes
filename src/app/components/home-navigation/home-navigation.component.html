@@ -9,6 +9,7 @@
       <input style="min-width:auto" fxFlex=90 [(ngModel)]="searchText" name="search"   (click)='naviagteSearch()' (keydown)="dataTransfer()" class="search-text" type='text'>
 
     </form>
+    
 <div fxFlex=30 fxFlex.xs=35 fxLayoutGap.xs="0px" fxLayoutAlign='end'>
     <div fxFlex=50 fxLayoutGap="10px" fxFlex.xs=100>
         <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button routerLink="/home"><mat-icon>refresh</mat-icon></button>
@@ -16,14 +17,16 @@
         <button class="icons" *ngIf='notesView' (click) = 'changeView()' matTooltip="List view" fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
         <button class="icons" *ngIf='!notesView' (click) = 'changeView()' matTooltip="Grid view" fxFlex mat-icon-button><mat-icon>grid_on</mat-icon></button>
         <button class="icons" matTooltip="Notification" fxFlex mat-icon-button><mat-icon>notifications_none</mat-icon></button>
-        <button matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
+        <button *ngIf='savedUrl == ""' matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
+        <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}" matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
         <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template  matMenuContent >
             <div style='padding: 10px' fxLayoutGap=10px fxLayout='row' >
               <div fxFlex>
-                <button (click)="$event.stopPropagation();" (click)="selectImage.click()" mat-mini-fab class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
-                <input style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>
-              </div> 
+                <button (click)="$event.stopPropagation();" *ngIf='savedUrl == ""' (click)="selectImage.click()" mat-mini-fab class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
+                <div (click)="$event.stopPropagation();" style="cursor:pointer" (click)="selectImage.click()" mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}" ></div>
+                <input (click)="$event.stopPropagation();" style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>
+               </div> 
               <div fxFlex> 
                 <div>{{userName}}</div>
                 <div>{{email}}</div>    

@@ -60,13 +60,13 @@
             <app-collaborator-icon></app-collaborator-icon>
           </div>
           <div fxFlex=7 class="icons">
-            <app-color-icon [notesDetails]="color" (colorCodeEvent)="receiveColor($event)" ></app-color-icon>
+            <app-color-icon  (colorCodeEvent)="receiveColor($event)" ></app-color-icon>
           </div>
           <div fxFlex=7 class="icons"> 
             <app-image-icon></app-image-icon>
           </div>
-          <div fxFlex=7 class="icons"> 
-            <app-archive-icon (archiveEvent)="archiveEventClicked($event)"></app-archive-icon>
+          <div fxFlex=7 class="icons">  
+            <app-archive-icon [notesDetails]='noteArchive' (archiveEvent)="archiveEventClicked($event)"></app-archive-icon>
           </div>
           <div fxFlex=7 class="icons"> 
               <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 

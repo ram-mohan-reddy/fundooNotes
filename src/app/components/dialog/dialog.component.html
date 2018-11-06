@@ -6,16 +6,13 @@
     </div>
     <div cdkFocusInitial  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
     <div style="margin-top:10px">
-        <mat-chip-list>
-          <div *ngFor='let label of labelListArray'>
-              <mat-chip *ngIf='label.isDeleted == false'>
-              {{label.label}}<span  style="margin-top:5px"><mat-icon (click)='removeLabel(label)' matChipRemove
-              >cancel</mat-icon></span></mat-chip> 
-          </div>
-         
-
-        </mat-chip-list>
-      </div>
+      <mat-chip-list>
+        <div *ngFor='let label of labelListArray'>
+          <mat-chip *ngIf='label.isDeleted == false'>
+            {{label.label}}<span style="margin-top:5px"><mat-icon (click)='removeLabel(label)' matChipRemove>cancel</mat-icon></span></mat-chip>
+        </div>
+      </mat-chip-list>
+    </div>
   </mat-card-content>
   <mat-card-actions>
     <div fxLayout='row' fxLayout.xs='row'>
@@ -29,13 +26,13 @@
         <app-color-icon (colorCodeEvent)="colorEventClicked($event)" [notesDetails]="data.notesData"></app-color-icon>
       </div>
       <div fxFlex=7 class="icons">
-        <app-image-icon></app-image-icon>
+        <app-image-icon></app-image-icon> 
       </div>
       <div fxFlex=7 class="icons">
-        <app-archive-icon></app-archive-icon>
+        <app-archive-icon (archiveEvent)="eventClicked($event)" [notesDetails]="data.notesData"></app-archive-icon>
       </div>
       <div fxFlex=7 class="icons">
-        <app-more-icon (labelAdd)="childEventClicked($event)" [notesDetails]="data.notesData"></app-more-icon>
+        <app-more-icon (eventClicked)="eventClicked($event)" (labelAdd)="childEventClicked($event)" [notesDetails]="data.notesData"></app-more-icon>
       </div>
       <div fxFlex fxLayoutAlign="end" class="icons">
         <button mat-button [mat-dialog-close]="notesEditContent">Close</button>

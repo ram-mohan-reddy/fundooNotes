@@ -149,17 +149,24 @@ this.router.navigate(['home/search']);
 changeIdentity(data) {
   this.identify = data;
 }
-
-selecetdFile : File; 
+selectedFile : File; 
 selectedFileName : string;
-url: string;
+savedUrl = localStorage.getItem('imageUrl');
+url= "http://34.213.106.173/"+this.savedUrl;
 onImageUpload(event){
-const file = event.target.files;
-console.log(file);
+this.selectedFile = event.path[0].files[0];
+this.imageUpload();
+}
 
-// this.selectedFileName = this.selecetdFile.name;
-// console.log(this.selecetdFile.value);
-
+imageUpload(): void {
+  const uploadData = new FormData();
+  uploadData.append('file', this.selectedFile, this.selectedFile.name);
+  this.userService.imageUpload('api/user/uploadProfileImage',uploadData,this.token)
+  .subscribe(data => {
+    this.savedUrl = data['status'].imageUrl;
+    this.url= "http://34.213.106.173/"+this.savedUrl;
+    });
+    error => console.log('Error ', error);
 }
 
 changeView() {

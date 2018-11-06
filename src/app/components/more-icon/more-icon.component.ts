@@ -27,13 +27,13 @@ export class MoreIconComponent implements OnInit {
     "userId": "string"
   }
   ngOnInit() {  
-   
+    
   }
  
-  deleteCard() {
+  deleteCard(value) {
     console.log(this.notesDetails); 
     this.note = {
-      "isDeleted": true,
+      "isDeleted": value,
       "noteIdList":[this.notesDetails.id]
     }
     this.notesService.notesPostService('api/notes/trashNotes',this.note)
@@ -52,11 +52,9 @@ export class MoreIconComponent implements OnInit {
       panelClass: 'myapp-no-padding-dialog',
       data: {componentName:"trash"}
     });
-   
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result) {
-
         console.log(this.notesDetails);  
         this.note = {
           "isDeleted": true,

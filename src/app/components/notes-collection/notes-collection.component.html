@@ -6,7 +6,6 @@
       <div  *ngFor='let index of notesListArray | search:searchText' >
         <mat-card  [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
           <mat-card-content (click)='openDialog(index)'>
-
             <div fxLayout='row' fxLayout.xs='row'> 
               <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
                 {{index.title}}
@@ -23,7 +22,7 @@
                     {{label.label}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
                 </div>
               </mat-chip-list>
-            </div>
+            </div>  
           </mat-card-content>
           <mat-card-actions>
             <div fxLayout='row' fxLayoutAlign='space-between' class="icons-hide">
@@ -31,7 +30,7 @@
                 <app-remind-icon></app-remind-icon>
               </div>
               <div *ngIf='componentName != "trash"'  class="icons">
-                <app-collaborator-icon></app-collaborator-icon>
+                <app-collaborator-icon></app-collaborator-icon> 
               </div>
               <div *ngIf='componentName != "trash"'  class="icons">
                 <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
@@ -40,7 +39,7 @@
                 <app-image-icon></app-image-icon>
               </div>
               <div *ngIf='componentName != "trash"' class="icons">
-                <app-archive-icon></app-archive-icon>
+                <app-archive-icon (archiveEvent)="archiveEventClicked($event)" (unArchiveEvent)="unArchiveEventClicked($event)" [notesDetails]="index"></app-archive-icon>
               </div>
               <div  class="icons">
                 <app-more-icon (eventClicked)="childEventClicked($event)" [componentName]="componentName" [notesDetails]="index"></app-more-icon>
@@ -49,7 +48,6 @@
           </mat-card-actions>
         </mat-card>
       </div>
-
     </div>
   </div>
   <div fxFlex>
