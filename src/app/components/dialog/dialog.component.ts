@@ -26,7 +26,7 @@ export class DialogComponent implements OnInit {
     this.labelListArray = this.data['notesData'].noteLabels;
   }
 
-  colorEventClicked(event) {
+  colorEventClicked(event) { 
     console.log(event);
     this.backGroundColor = event; 
   }
@@ -47,6 +47,8 @@ export class DialogComponent implements OnInit {
       this.onAdd.emit(event);
       this.dialogRef.close();
   }
+  
+
   removeLabel(label){
 console.log(label);
 const index: number = this.labelListArray.indexOf(label);

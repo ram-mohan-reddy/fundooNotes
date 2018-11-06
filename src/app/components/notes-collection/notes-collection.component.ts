@@ -85,7 +85,7 @@ export class NotesCollectionComponent implements OnInit {
       });
       const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
     console.log(data);
-    this.notesEditRequest.emit(true);
+    this.notesEditRequest.emit(true); 
       });
 
       const sub1 = dialogRef.componentInstance.onDelete.subscribe((data) => {

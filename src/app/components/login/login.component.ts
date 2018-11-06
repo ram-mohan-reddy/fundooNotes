@@ -21,12 +21,9 @@ export class LoginComponent implements OnInit {
 
   constructor(private userService: HttpService,public message: MatSnackBar) { }
   userLogin = {
-
     "email": '',
     "password" : ''
-
   }
- 
   reg = "[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
   display = true;
   value = true;
@@ -35,9 +32,7 @@ export class LoginComponent implements OnInit {
   emptyPassword = '';
   confirmPassword='';
   userName = '';
-  ngOnInit() {
-    
-    
+  ngOnInit() { 
   }
   toggle() {
     this.display = !this.display;
@@ -47,39 +42,28 @@ export class LoginComponent implements OnInit {
     }
     else if (this.userLogin.email == '') {
       this.emptyEmail = 'Enter an email'
-    }
-    
+    }  
   }
-
   toggle1() {
-
     if (this.userLogin.password == '') {
-      console.log(this.userLogin.password);
-      
+      console.log(this.userLogin.password);  
       this.emptyPassword = "Enter password"    
     }
-
     else {
       this.login();
     }
-
   }
-
   login() {
-
     this.userService.postService('api/user/login',this.userLogin)
       .subscribe(data => {
         console.log(data);
-
-        console.log(data.id);
-              
+        console.log(data.id);     
         localStorage.setItem('token',data['id']);  
         localStorage.setItem('userId',data['userId']); 
         localStorage.setItem('imageUrl',data['imageUrl']);    
         this.uesrData();
         error => console.log('Error ', error);       
       });
-
   }
 
   uesrData() {
@@ -87,19 +71,14 @@ export class LoginComponent implements OnInit {
     .subscribe(data => {
       console.log(data);
       data.forEach(element => {
-
         if (element.email == this.userLogin.email) {
-
         this.userName = element.firstName;
           console.log(element.firstName);
           localStorage.setItem('userName',this.userName);
           localStorage.setItem('email',this.userLogin.email);
           window.location.replace('home')
-        }
-        
+        } 
       });
-     
-     
       error => console.log('Error ', error);       
     });
   }
@@ -109,41 +88,31 @@ export class LoginComponent implements OnInit {
   userForgotPassword() {       
     this.forgotPassword = false  
   }
-
   return(){
     this.forgotPassword = true
   }
-
   forgotPasswordLink() {
     console.log(this.reset.email);
     console.log(this.userLogin.email);
-    
-    
     if (this.reset.email == this.userLogin.email) {
       console.log(this.reset);
       this.userService.postService('api/user/reset',this.reset)
       .subscribe(data => {
-
         console.log(data);
        this.reset.email = ''
         this.message.open('Password resetLink sent to your mail', 'Reset', {
           duration: 5000,
         });
-       
         error => console.log('Error ', error);       
       });
     }
-
     else if (this.reset.email == '') {
       this.confirmPassword = 'Enter your email '
     }
     else {
-
       this.confirmPassword = 'Enter registered email '
       console.log('Enter registered email');
       
     }
   }
- 
-
 }
