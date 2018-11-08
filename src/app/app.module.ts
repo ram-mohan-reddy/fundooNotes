@@ -16,7 +16,8 @@ import {MatCardModule,
         MatTooltipModule,
         MatDialogModule,
         MatChipsModule,
-      } from '@angular/material';
+        MatDatepickerModule,
+        MatNativeDateModule} from '@angular/material';
 import { ChecklistModule } from 'angular-checklist';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule} from '@angular/common/http';
@@ -117,8 +118,9 @@ import { LabelDialogComponent } from './components/label-dialog/label-dialog.com
     MatTooltipModule,
     MatDialogModule,
     ChecklistModule,
-    MatChipsModule
-   
+    MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   providers: [HttpService,
               AuthService,

@@ -20,6 +20,7 @@ export class MoreIconComponent implements OnInit {
   newLabelName: string;
   myArray = [];
   selectLabelArray = [];
+  checkedArray= [];
   userId = localStorage.getItem('userId');
   labelData = {
     "label": "string",
@@ -106,9 +107,46 @@ export class MoreIconComponent implements OnInit {
         for (let index = 0; index < data['data'].details.length; index++) {
           if (data['data'].details[index].isDeleted == false) {
             this.myArray.push(data['data'].details[index])
+
+      //        if (!this.notesDetails.noteLabels.some((da) => da.label == data['data'].details[index].label)) {
+      //   console.log(false);
+
+      //   var checkStatus = {
+      //     "checked" : false,
+      //     "labelDetails" : data['data'].details[index]
+      //   }
+
+      //   this.checkedArray.push(checkStatus)
+        
+      // }
+      // else {
+      //   var checkStatus = {
+      //     "checked" : true,
+      //     "labelDetails" : data['data'].details[index]
+      //   }
+
+      //   this.checkedArray.push(checkStatus)
+      // }
           }
         }
+
+       
+        
       });
+
+    console.log(this.checkedArray);
+    
+      // if (!this.myArray.some((data) => data == value.label)) {
+      //   this.selectLabelArray.push(value.label);
+      //   this.labelArray.push(value.id)
+      // }
+      // else {
+      //   const index: number = this.selectLabelArray.indexOf(value.label);
+      //   if (index !== -1) {
+      //       this.selectLabelArray.splice(index, 1);
+      //       this.labelArray.splice(index, 1);
+      //   }  
+      // }
 } 
 
 onClick(value): void {

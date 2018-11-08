@@ -1,0 +1,13 @@
+.mat-menu-style-p{
+    width: 250px; 
+    margin-left:10px
+}
+
+.mat-menu-item {
+    font-size: 12px;
+}
+
+.mat-menu-item span {
+    float: right;
+}
+

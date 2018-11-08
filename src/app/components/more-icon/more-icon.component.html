@@ -20,10 +20,10 @@
 
             <label fxLayout='column' *ngFor="let option of myArray | search : newLabelName">
                 <div style="font-size:14px;padding-top: 10px">
-                    <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox" [(checklist)]="list" [checklistValue]="option"
+                    <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox" 
+                    [checked]="option.checked" [(checklist)]="list" [checklistValue]="option"
                     />{{option.label}}
                 </div>
-
             </label>
         </div>
     </div>
