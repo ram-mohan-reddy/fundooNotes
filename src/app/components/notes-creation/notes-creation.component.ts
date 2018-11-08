@@ -108,6 +108,7 @@ this.getLabel();
   }
   open(): void {
     this.show = !this.show;
+    this.checkList = false;
   }
 
   onClick(value): void {

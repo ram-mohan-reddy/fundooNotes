@@ -1,11 +1,16 @@
-<div  fxLayout='column' fxLayoutAlign="center center" style="margin-top:30px ">
-    <mat-card   *ngIf="show" class="example-card" style="  width:500px; padding: 0; border-radius: 10px">
-      <mat-card-content fxLayout='row' fxLayout.xs='row' style="margin-left:15px">
-        <div (click)="open()" fxFlex style="margin-top:12px">
+<div  fxLayout='row' style="margin-top:30px ">
+  <div fxFlex=10 fxFlex.xs=0>
+
+  </div>
+
+  <div fxFlex fxLayoutAlign='center' fxFlex.xs=100>
+    <mat-card   *ngIf="show" class="example-card" style="width:600px; padding: 0; border-radius: 10px">
+      <mat-card-content fxLayout='row' fxLayout.xs='row'  style="margin-left:15px">
+        <div fxFlex (click)="open()" fxFlex style="margin-top:12px">
           Take a note...
         </div> 
   
-        <div fxFlex=40 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" fxLayoutAlign="end" fxLayoutAlign.xs="center">
+        <div fxFlex fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" fxLayoutAlign="end" fxLayoutAlign.xs="center">
           <button fxFlex=20 mat-icon-button class="icons" (click)='checkList = true' (click)='show = !show' matTooltip="New list"><mat-icon>list</mat-icon></button>
           <button fxFlex=20 mat-icon-button class="icons" matTooltip="New note with image"><mat-icon>image</mat-icon></button>
           <button fxFlex=20 mat-icon-button class="icons" matTooltip="Drawing"><mat-icon>brush</mat-icon></button>
@@ -15,7 +20,7 @@
   
     </mat-card>
   
-    <mat-card  [ngStyle] = "{'background-color': colorCode }" fxFlex *ngIf="!show" class="example-card" style="width:500px; position: relative;padding: 5;border-radius: 10px">
+    <mat-card  [ngStyle] = "{'background-color': colorCode }"  *ngIf="!show" class="example-card" style="width:600px;padding:5;border-radius: 10px">
   
       <mat-card-content>
         <div fxLayout='row' fxLayout.xs='row'>
@@ -52,23 +57,23 @@
         </div>
         </mat-card-content> 
       <mat-card-actions>
-        <div fxLayout='row' fxLayout.xs='row'>
-          <div fxFlex=7 class="icons"> 
+        <div fxLayout='row' fxLayoutGap='space-between'  fxLayout.xs='row'>
+          <div  class="icons"> 
             <app-remind-icon></app-remind-icon>
           </div>
-          <div fxFlex=7 class="icons">
+          <div  class="icons">
             <app-collaborator-icon></app-collaborator-icon>
           </div>
-          <div fxFlex=7 class="icons">
+          <div  class="icons">
             <app-color-icon  (colorCodeEvent)="receiveColor($event)" ></app-color-icon>
           </div>
-          <div fxFlex=7 class="icons"> 
+          <div  class="icons"> 
             <app-image-icon></app-image-icon>
           </div>
-          <div fxFlex=7 class="icons">  
+          <div  class="icons">  
             <app-archive-icon [notesDetails]='noteArchive' (archiveEvent)="archiveEventClicked($event)"></app-archive-icon>
           </div>
-          <div fxFlex=7 class="icons"> 
+          <div class="icons"> 
               <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
               <mat-menu  #appMenu="matMenu" [overlapTrigger]="false"> 
@@ -104,5 +109,11 @@
         </div>
       </mat-card-actions>
     </mat-card>
+  </div>
+  <div fxFlex=10 fxFlex.xs=0>
+   
+
+  </div>
+   
   
   </div> 

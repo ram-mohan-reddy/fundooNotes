@@ -1,10 +1,10 @@
 <div fxLayout='row'>
-  <div fxFlex=15> 
+  <div fxFlex=5 fxFlex.xs='0'> 
   </div>
-  <div fxFlex=80 fxLayout='row wrap row wrap' fxLayoutGap=20px style="margin-top: 40px" fxLayout.xs='column'>
-    <div  fxLayout='row wrap'>
-      <div  *ngFor='let index of notesListArray | search:searchText' >
-        <mat-card  [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
+  <div  fxLayout='row' style=" margin-top: 40px" >
+    <div style="width:1000px" fxLayout='row wrap' fxLayout.xs='column'>
+      <div *ngFor='let index of notesListArray | search:searchText' >
+        <mat-card [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
           <mat-card-content (click)='openDialog(index)'>
             <div fxLayout='row' fxLayout.xs='row'> 
               <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
@@ -49,7 +49,8 @@
         </mat-card>
       </div>
     </div>
+   
   </div>
-  <div fxFlex>
+  <div fxFlex=5 fxFlex.xs=0>
   </div>
 </div>
