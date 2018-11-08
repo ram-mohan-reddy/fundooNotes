@@ -1,5 +1,5 @@
 import { Component, OnInit,Output, EventEmitter, Input } from '@angular/core';
-import { GetNotesService } from '../../services/notes/get-notes.service';
+import { GetNotesService } from '../../core/services/notes/get-notes.service';
 @Component({
   selector: 'app-archive-icon',
   templateUrl: './archive-icon.component.html',

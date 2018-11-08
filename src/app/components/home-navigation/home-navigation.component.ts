@@ -2,10 +2,10 @@ import { Component,OnInit} from '@angular/core';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HttpService } from '../../services/http.service';
+import { HttpService } from '../../core/services/httpService/http.service';
 import { MatDialog} from '@angular/material';
 import { LabelDialogComponent } from '../label-dialog/label-dialog.component'
-import { DataSharingService } from '../../services/data-sharing.service';
+import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { Router } from '@angular/router'
  
 @Component({

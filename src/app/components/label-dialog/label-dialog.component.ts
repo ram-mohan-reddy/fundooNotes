@@ -1,7 +1,7 @@
 import { Component, OnInit,Inject,EventEmitter } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { HttpService } from '../../services/http.service';
-import { DataSharingService } from '../../services/data-sharing.service';
+import { HttpService } from '../../core/services/httpService/http.service';
+import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {DeleteLabelComponent} from '../delete-label/delete-label.component';
 import { MatDialog} from '@angular/material';
 @Component({

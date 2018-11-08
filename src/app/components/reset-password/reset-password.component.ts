@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-import { HttpService } from '../../services/http.service';
+import { HttpService } from '../../core/services/httpService/http.service';
 import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({

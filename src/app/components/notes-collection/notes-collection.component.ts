@@ -1,8 +1,8 @@
 import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatSnackBar} from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component'
-import { GetNotesService } from '../../services/notes/get-notes.service';
-import { DataSharingService } from '../../services/data-sharing.service';
+import { GetNotesService } from '../../core/services/notes/get-notes.service';
+import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {LoggerService} from '../../core/services/loggerService/logger.service';
 
 @Component({

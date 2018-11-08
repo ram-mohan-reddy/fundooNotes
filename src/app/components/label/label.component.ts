@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GetNotesService } from '../../services/notes/get-notes.service';
+import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

@@ -9,7 +9,7 @@ import { NotesComponent } from './components/notes/notes.component';
 import { RemindersComponent } from './components/reminders/reminders.component';
 import { ArchiveComponent } from './components/archive/archive.component';
 import { TrashComponent } from './components/trash/trash.component';
-import { AuthGuard as AuthGuardService } from './guards/auth.guard';
+import { AuthGuard as AuthGuardService } from './core/guards/auth.guard';
 import { LabelComponent } from './components/label/label.component';
 import { SearchComponent } from './components/search/search.component';
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HttpService } from '../../services/http.service';
+import { HttpService } from '../../core/services/httpService/http.service';
 import {MatSnackBar} from '@angular/material';
 
 @Component({

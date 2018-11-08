@@ -24,15 +24,15 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
-import {HttpService} from './services/http.service'
+import {HttpService} from './core/services/httpService/http.service'
 import {LoggerService} from './core/services/loggerService/logger.service';
-import {DataSharingService} from './services/data-sharing.service';
-import {GetNotesService} from './services/notes/get-notes.service';
-import {AuthService} from './services/auth/auth.service';
+import {DataSharingService} from './core/services/dataService/data-sharing.service';
+import {GetNotesService} from './core/services/notes/get-notes.service';
+import {AuthService} from './core/services/auth/auth.service';
 
 // Guards and Pipes
-import {AuthGuard} from './guards/auth.guard';
-import { SearchPipe } from './pipes/search.pipe';
+import {AuthGuard} from './core/guards/auth.guard';
+import { SearchPipe } from './core/pipes/search.pipe';
 
 // Components
 import { AppComponent } from './app.component';

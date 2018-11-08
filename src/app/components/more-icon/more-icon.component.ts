@@ -1,6 +1,6 @@
 import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
-import { GetNotesService } from '../../services/notes/get-notes.service';
-import { DataSharingService } from '../../services/data-sharing.service';
+import { GetNotesService } from '../../core/services/notes/get-notes.service';
+import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {DeleteLabelComponent} from '../delete-label/delete-label.component';
 import { MatDialog} from '@angular/material';
 @Component({
