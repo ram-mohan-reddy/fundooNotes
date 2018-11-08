@@ -164,6 +164,8 @@ imageUpload(): void {
   this.userService.imageUpload('api/user/uploadProfileImage',uploadData,this.token)
   .subscribe(data => {
     this.savedUrl = data['status'].imageUrl;
+    // localStorage.setItem("id_area", sessionId);
+    localStorage.setItem('imageUrl',data['status'].imageUrl); 
     this.url= "http://34.213.106.173/"+this.savedUrl;
     });
     error => console.log('Error ', error);

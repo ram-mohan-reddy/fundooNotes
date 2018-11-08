@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import{environment} from '../../environments/environment'
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  server_url = 'http://34.213.106.173/';
+  server_url = environment.baseUrl;
   constructor(private http: HttpClient) { }
 
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GetNotesService } from '../../services/notes/get-notes.service';
+import {LoggerService} from '../../core/services/loggerService/logger.service';
+
 
 @Component({
   selector: 'app-notes',
@@ -41,6 +43,7 @@ export class NotesComponent implements OnInit {
       }
     }
     this.totalNotes = this.list.reverse();
-    console.log(this.totalNotes);
+    // console.log(this.totalNotes);
+    LoggerService.log('Notes : ',this.totalNotes );
   }
 }

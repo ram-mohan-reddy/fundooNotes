@@ -1,1 +1,8 @@
-<button mat-icon-button matTooltip="Remind me"><img src="../../../assets/images/reminders.svg"></button>
+<button mat-icon-button matTooltip="Remind me" [matMenuTriggerFor]="appMenu"><img src="../../../assets/images/reminders.svg"></button>
+<mat-menu #appMenu="matMenu" [overlapTrigger]="false">  
+    <p style="width: 250px; margin-left:10px">Reminder:</p>
+    <button mat-menu-item>Later today</button>
+  <button mat-menu-item>Tomorrow</button>
+  <button mat-menu-item>Next week</button>
+
+</mat-menu>
