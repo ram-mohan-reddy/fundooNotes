@@ -1,43 +1,42 @@
 <div  fxLayout='row' style="margin-top:30px ">
   <div fxFlex=10 fxFlex.xs=0>
-
   </div>
-
   <div fxFlex fxLayoutAlign='center' fxFlex.xs=100>
-    <mat-card   *ngIf="show" class="example-card" style="width:600px; padding: 0; border-radius: 10px">
+    <mat-card *ngIf="show" class="note-card">
       <mat-card-content fxLayout='row' fxLayout.xs='row'  style="margin-left:15px">
         <div fxFlex (click)="open()" fxFlex style="margin-top:12px">
           Take a note...
         </div> 
-  
-        <div fxFlex fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" fxLayoutAlign="end" fxLayoutAlign.xs="center">
-          <button fxFlex=20 mat-icon-button class="icons" (click)='checkList = true' (click)='show = !show' matTooltip="New list"><mat-icon>list</mat-icon></button>
-          <button fxFlex=20 mat-icon-button class="icons" matTooltip="New note with image"><mat-icon>image</mat-icon></button>
-          <button fxFlex=20 mat-icon-button class="icons" matTooltip="Drawing"><mat-icon>brush</mat-icon></button>
+        <div fxFlex fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" 
+          fxLayoutAlign="end" fxLayoutAlign.xs="center">
+          <button fxFlex=20 mat-icon-button class="icons" (click)='checkList = true' 
+            (click)='show = !show' matTooltip="New list"><mat-icon>list</mat-icon></button>
+          <button fxFlex=20 mat-icon-button class="icons" matTooltip="New note with image">
+            <mat-icon>image</mat-icon></button>
+          <button fxFlex=20 mat-icon-button class="icons" matTooltip="Drawing">
+            <mat-icon>brush</mat-icon></button>
         </div>
-  
       </mat-card-content> 
-  
     </mat-card>
-  
-    <mat-card  [ngStyle] = "{'background-color': colorCode }"  *ngIf="!show" class="example-card" style="width:600px;padding:5;border-radius: 10px">
-  
+    <mat-card [ngStyle]="{'background-color': colorCode }" *ngIf="!show" 
+      class="note-card-edit">
       <mat-card-content>
         <div fxLayout='row' fxLayout.xs='row'>
           <div fxFlex=98 contenteditable="true"
            (input)="notesContent.title=$event.target.innerText" placeholder="Title"> </div>
-          <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
+          <div fxFlex class="icons" matTooltip="Pin note">
+            <img src="../../../assets/images/pin.svg"></div>
         </div>
-        <!-- (blur)="update()"  -->
         <div *ngIf="!checkList" style="margin-top:20px" contenteditable="true" 
-         (input)="notesContent.description=$event.target.innerText" placeholder="Take a note..."></div>
+         (input)="notesContent.description=$event.target.innerText" 
+          placeholder="Take a note..."></div>
         <div *ngIf="checkList"  style="margin-top:20px">
-          <div id="myTextField"  *ngFor = 'let index of checkBoxArray'  contenteditable="true">
+          <div id="myTextField"  *ngFor = 'let index of checkBoxArray'  
+            contenteditable="true">
             <input   (click)="$event.stopPropagation();"  type="checkbox"
             [(checklist)]="list"
             [checklistValue]="option" >{{index}}
           </div>
-          
           <hr>
           <div>
             <div fxFlex=5><mat-icon>add</mat-icon></div> 
@@ -51,13 +50,14 @@
         
         <div style="padding-top:20px">
             <mat-chip-list>
-                <mat-chip *ngFor = 'let index of selectLabelArray'>{{index}}<mat-icon matChipRemove
+                <mat-chip *ngFor = 'let index of selectLabelArray'>{{index}}
+                  <mat-icon matChipRemove
                   (click)='cancelNoteLabel(index)'>cancel</mat-icon></mat-chip>
               </mat-chip-list>
         </div>
         </mat-card-content> 
       <mat-card-actions>
-        <div fxLayout='row' fxLayoutGap='space-between'  fxLayout.xs='row'>
+        <div fxLayout='row' fxLayoutGap='space-between' fxLayout.xs='row'>
           <div  class="icons"> 
             <app-remind-icon></app-remind-icon>
           </div>
@@ -74,34 +74,29 @@
             <app-archive-icon [notesDetails]='noteArchive' (archiveEvent)="archiveEventClicked($event)"></app-archive-icon>
           </div>
           <div class="icons"> 
-              <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
+              <button  mat-icon-button (click)='changeMenu()' matTooltip="more" 
+                [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
               <mat-menu  #appMenu="matMenu" [overlapTrigger]="false"> 
-                 
-              <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' style="height: 50px;">Add label</button>
+              <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' 
+                style="height: 50px;">Add label</button>
                 <div  *ngIf='labelMenu'>
-                 
-                  <div style="width:250px; padding:10px; font-size:14px">Label note</div>
-               
+                  <div class="label-note">Label note</div>
                   <div>
-                      <div (click)="$event.stopPropagation();" (click)='addLabelName()' style="cursor:pointer" fxFlex=10><mat-icon>add</mat-icon></div>
-                      <div  (click)="$event.stopPropagation();" style=" padding-top:5px;font-size:12px;white-space: nowrap;
-                      /* text-overflow: ellipsis; */
-                      overflow: hidden !important;" contenteditable="true" 
+                      <div (click)="$event.stopPropagation();" (click)='addLabelName()' 
+                        style="cursor:pointer" fxFlex=10><mat-icon>add</mat-icon></div>
+                      <div (click)="$event.stopPropagation();" class="label-create" contenteditable="true" 
                       cdkFocusInitial placeholder='Enter label name'  onkeypress="return (this.innerText.length <= 75)" (input)="newLabelName=$event.target.innerText"></div> 
                   </div>
-                
                    <label fxLayout = 'column' *ngFor="let option of myArray | search : newLabelName">
-                     <div style="font-size:14px;padding-top: 10px">
+                     <div class="label-menu">
                          <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox"
                          [(checklist)]="list"
                          [checklistValue]="option" >{{option.label}}
-                     </div>
-                       
+                     </div>   
                      </label> 
                 </div>             
                 </mat-menu>
- 
           </div>
           <div fxFlex class="icons">
             <app-icons (messageEvent)="receiveMessage($event)"></app-icons>
@@ -111,9 +106,5 @@
     </mat-card>
   </div>
   <div fxFlex=10 fxFlex.xs=0>
-   
-
-  </div>
-   
-  
   </div> 
+</div> 

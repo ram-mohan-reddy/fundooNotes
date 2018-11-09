@@ -12,9 +12,20 @@ export class ColorIconComponent implements OnInit {
   @Output() colorCodeEvent = new EventEmitter<string>();
   @Input() notesDetails;
   colorDetails ;
-  colorArray = [['#ffffff','#f28b82','#fbbc04','#fff475'],
-  ['#ccff90','#a7ffeb','#cbf0f8','#aecbfa'],
-  ['#d7aefb','#fdcfe8','#e6c9a8','#e8eaed']]
+  colorArray = [[{ 'color': '#ffffff', 'name': 'White' },
+  { 'color': '#f28b82', 'name': 'Red' },
+  { 'color': '#fbbc04', 'name': 'Orange' },
+  { 'color': '#fff475', 'name': 'Yellow' }],
+
+  [{ 'color': '#ccff90', 'name': 'Green' },
+  { 'color': '#a7ffeb', 'name': 'Teal' },
+  { 'color': '#cbf0f8', 'name': 'Blue' },
+  { 'color': '#aecbfa', 'name': 'Dark blue' }],
+
+  [{ 'color': '#d7aefb', 'name': 'Purple' },
+  { 'color': '#fdcfe8', 'name': 'Pink' },
+  { 'color': '#e6c9a8', 'name': 'Brown' },
+  { 'color': '#e8eaed', 'name': 'Gray' }]]
   constructor(private notesService : GetNotesService) { }
   ngOnInit() {
   }

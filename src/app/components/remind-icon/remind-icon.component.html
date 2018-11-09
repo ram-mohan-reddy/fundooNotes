@@ -1,11 +1,10 @@
 <button mat-icon-button matTooltip="Remind me" [matMenuTriggerFor]="appMenu"><img src="../../../assets/images/reminders.svg"></button>
 <mat-menu #appMenu="matMenu" [overlapTrigger]="false">  
     <p class="mat-menu-style-p">Reminder:</p>
-    <button mat-menu-item>Later today <span class="mat-menu-item-span">8:00 PM</span></button>
-  <button mat-menu-item>Tomorrow <span class="mat-menu-item-span">8:00 AM</span></button>
-  <button mat-menu-item>Next week <span class="mat-menu-item-span">Mon, 8:00 AM</span></button>
+    <button (click)="$event.stopPropagation();" (click)='displayDate("today")' mat-menu-item>Later today <span class="mat-menu-item-span">8:00 PM</span></button>
+  <button (click)="$event.stopPropagation();" (click)='displayDate("nextDay")' mat-menu-item>Tomorrow <span class="mat-menu-item-span">8:00 AM</span></button>
+  <button (click)="$event.stopPropagation();" (click)='displayDate("week")' mat-menu-item>Next week <span class="mat-menu-item-span">Mon, 8:00 AM</span></button>
   <button mat-menu-item [matMenuTriggerFor]="pickTime"><mat-icon>access_time</mat-icon>Pick date & time</button>
-  <button mat-menu-item><mat-icon>location_on</mat-icon>Pick place </button>
 </mat-menu>
 
 <mat-menu #pickTime="matMenu" [overlapTrigger]="false">

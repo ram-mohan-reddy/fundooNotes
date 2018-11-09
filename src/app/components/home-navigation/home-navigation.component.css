@@ -1,13 +1,14 @@
 .sidenav-container {
   height: 90%;
-  width: 100%
-
+  width: 100%;
+  background-color:#f2f2f2
 }
 
 .sidenav {
-  width: 200px;
+  width: 280px;
  margin-top: 65px;
  box-shadow: none;
+ background-color:#f2f2f2
 }
 
 .mat-toolbar.mat-primary {
@@ -16,7 +17,8 @@
 }
 
 .tool-bar {
-  background-color: #fb0
+  background-color: #fb0;
+  /* padding-right:0px */
 }
 
 .search-box {
@@ -24,6 +26,7 @@
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
+  padding:0px;
 }
 
 .search-box input {
@@ -35,9 +38,19 @@
 
 .child-links {
   margin-left:20px;
-  font-size: 12px
-
+  font-size: 14px;
 }
+
+.mat-list-item:hover {
+  background-color: #fff7e6;
+  border-radius: 0 25px 25px 0;
+}
+
+.mat-list-item {
+  background-color: #f2f2f2;
+  border-radius: 0 25px 25px 0;
+}
+
 
 .drop-down {
   background-color:#f2f2f2;
@@ -62,6 +75,11 @@
   padding: 10px;
   margin-left: 10px;
   font-size: 10px
+}
+
+.identity {
+  font-size: 2vw;
+  opacity: 0.8;
 }
 
 

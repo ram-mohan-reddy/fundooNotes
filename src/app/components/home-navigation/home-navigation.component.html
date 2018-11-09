@@ -1,69 +1,91 @@
-<mat-toolbar class="tool-bar" fxLayout='row' fxLayout.xs="row" fxLayoutGap="30px" fxLayoutGap.xs="20px" style="padding-right:0px">
-    <button fxFlex=5  matTooltip="Main menu" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+<mat-toolbar class="tool-bar" fxLayout='row' fxLayout.xs="row" fxLayoutGap='20' fxLayoutGap.xs="20" fxLayout.sm="row"
+fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
+  <div fxFlex=5>
+      <button matTooltip="Main menu" type="button" aria-label="Toggle sidenav" 
+      mat-icon-button (click)="drawer.toggle()">
       <mat-icon class="icons" aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <span fxFlex=10 fxShow="true" fxHide.xs="true" >{{identify}}</span>
-
-    <form fxFlex=50 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="15px" class="search-box" >
+  </div>
+  <span class='identity' fxShow fxHide.xs = "true"  fxFlex=15>{{identify}}</span>
+  <mat-card fxShow fxHide.xs = "true" fxFlex=55 fxLayout='row' fxLayout.xs='row' class="search-box">
+    <div style="margin-left:10px" fxFlex=7>
+        <button  mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
+    </div>
+    <input placeholder="Search" style="min-width:auto" fxFlex [(ngModel)]="searchText" 
+        name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" 
+          class="search-text" type='text'>
+    <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button>
+  </mat-card>
+    <!-- <form fxFlex=50 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="15px" class="search-box" >
       <button fxFlex=5 mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
       <input style="min-width:auto" fxFlex=90 [(ngModel)]="searchText" name="search"   (click)='naviagteSearch()' (keydown)="dataTransfer()" class="search-text" type='text'>
 
-    </form>
-    
-<div fxFlex=30 fxFlex.xs=35 fxLayoutGap.xs="0px" fxLayoutAlign='end'>
-    <div fxFlex=50 fxLayoutGap="10px" fxFlex.xs=100>
-        <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button routerLink="/home"><mat-icon>refresh</mat-icon></button>
-  
-        <button class="icons" *ngIf='notesView' (click) = 'changeView()' matTooltip="List view" fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
-        <button class="icons" *ngIf='!notesView' (click) = 'changeView()' matTooltip="Grid view" fxFlex mat-icon-button><mat-icon>grid_on</mat-icon></button>
-        <button class="icons" matTooltip="Notification" fxFlex mat-icon-button><mat-icon>notifications_none</mat-icon></button>
-        <button *ngIf='savedUrl == ""' matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
-        <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}" matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
+    </form> -->
+  <div fxFlex>
+    <div  fxFlex>
+    </div>
+    <div fxFlex fxLayoutAlign='end'>
+        <div fxHide fxShow.xs = "true">
+            <button  mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
+        </div>
+        <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button 
+          routerLink="/home"><mat-icon>refresh</mat-icon></button>
+        <button class="icons" *ngIf='notesView' (click)='changeView()' matTooltip="List view" 
+          fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
+        <button class="icons" *ngIf='!notesView' (click)='changeView()' matTooltip="Grid view" 
+          fxFlex mat-icon-button><mat-icon>grid_on</mat-icon></button>
+        <button class="icons" matTooltip="Notification" fxFlex mat-icon-button>
+          <mat-icon>notifications_none</mat-icon></button>
+        <button *ngIf='savedUrl == ""' matTooltip="Fundoo account : {{userName}}" fxFlex 
+          mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
+        <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
+          matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
         <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
-          <ng-template  matMenuContent >
-            <div style='padding: 10px' fxLayoutGap=10px fxLayout='row' >
+          <ng-template matMenuContent>
+            <div style='padding: 10px' fxLayoutGap=10px fxLayout='row'>
               <div fxFlex>
-                <button (click)="$event.stopPropagation();" *ngIf='savedUrl == ""' (click)="selectImage.click()" mat-mini-fab class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
-                <div (click)="$event.stopPropagation();" style="cursor:pointer" (click)="selectImage.click()" mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}" ></div>
+                <button (click)="$event.stopPropagation();" *ngIf='savedUrl == ""' (click)="selectImage.click()" mat-mini-fab 
+                class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
+                <div (click)="$event.stopPropagation();" style="cursor:pointer" (click)="selectImage.click()" mat-card-avatar 
+                *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"></div>
                 <input (click)="$event.stopPropagation();" style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>
-               </div> 
-              <div fxFlex> 
-                <div>{{userName}}</div>
-                <div>{{email}}</div>    
               </div>
-            </div>          
+              <div fxFlex>
+                <div>{{userName}}</div>
+                <div>{{email}}</div>
+              </div>
+            </div>
             <hr>
-            <div  fxLayout='row' fxLayoutGap="30px" style="padding:10px">
-                <button fxFlex class="drop-down-button" routerLink="/register">Add account</button>
-                <button fxFlex class="drop-down-button" (click)=logout() >Signout </button>
-            </div>           
-          </ng-template> 
+            <div fxLayout='row' fxLayoutGap="30px" style="padding:10px">
+              <button fxFlex class="drop-down-button" routerLink="/register">Add account</button>
+              <button fxFlex class="drop-down-button" (click)=logout()>Signout </button>
+            </div>
+          </ng-template>
         </mat-menu>
-  
-      </div>
-</div>
-    
-
+    </div>
+  </div>
 </mat-toolbar>
-<mat-sidenav-container class="sidenav-container" style="background-color:#cccccc">
-    <mat-sidenav #drawer class="sidenav" style="background-color:#cccccc" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-
-    <mat-nav-list>
-      <a mat-list-item (click)='changeIdentity("fundooNotes")' routerLink="/home/notes"><img src="../../../assets/images/notes.svg"><span class="child-links">Notes</span></a>
-
-      <a mat-list-item (click)='changeIdentity("Reminders")' routerLink="/home/reminders"><img src="../../../assets/images/reminders.svg"><span class="child-links">Reminders</span></a>
+     <mat-nav-list>
+      <a mat-list-item (click)='changeIdentity("fundooNotes")' class="links" routerLink="/home/notes">
+        <img src="../../../assets/images/notes.svg"><span class="child-links">Notes</span></a>
+      <a mat-list-item (click)='changeIdentity("Reminders")' routerLink="/home/reminders">
+        <img src="../../../assets/images/reminders.svg"><span class="child-links">Reminders</span></a>
       <hr>
       <p class="label">LABELS</p>
       <div *ngFor = 'let labels of labelList'>
-          <!-- <div *ngFor = 'let label of labelList'> -->
-          <a mat-list-item (click)='changeIdentity(labels.label)' routerLink="/home/labels/{{labels.label}}"><mat-icon>label_outline</mat-icon><span class="child-links">{{labels.label}}</span></a>
+        <a mat-list-item (click)='changeIdentity(labels.label)' routerLink="/home/labels/{{labels.label}}">
+          <mat-icon>label_outline</mat-icon><span class="child-links">{{labels.label}}</span></a>
       </div>
       <a mat-list-item (click)='createLabel()'><mat-icon>edit</mat-icon><span class="child-links">Edit labels</span></a>
       <hr>
-      <a (click)='changeIdentity("Archive")' mat-list-item routerLink="/home/archive"><img src="../../../assets/images/archives.svg"><span class="child-links">Archive</span></a>
-      <a (click)='changeIdentity("Trash")' mat-list-item routerLink="/home/trash"><mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
-    </mat-nav-list>
+      <a (click)='changeIdentity("Archive")' mat-list-item routerLink="/home/archive"><img src="../../../assets/images/archives.svg">
+        <span class="child-links">Archive</span></a>
+      <a (click)='changeIdentity("Trash")' mat-list-item routerLink="/home/trash">
+        <mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
+   </mat-nav-list> 
   </mat-sidenav>
 
   <mat-sidenav-content>

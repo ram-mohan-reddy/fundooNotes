@@ -1,6 +1,6 @@
 <button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
 
-<mat-menu #appMenu="matMenu" [overlapTrigger]="false">  
+<mat-menu #appMenu="matMenu" [overlapTrigger]="false">   
     <div>
         <button mat-menu-item *ngIf='!labelMenu  && componentName != "trash"' (click)='deleteCard(true)' style="width:100% ; padding: 5px">Delete Note</button>
         <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' (click)='deleteLabelConfirmation()' style="width:100% ; padding: 5px">Delete Forever</button>
@@ -18,12 +18,13 @@
                     type="text">
             </div>
 
-            <label fxLayout='column' *ngFor="let option of myArray | search : newLabelName">
-                <div style="font-size:14px;padding-top: 10px">
+            <label (click)="$event.stopPropagation();" fxLayout='column' *ngFor="let option of myArray | search : newLabelName">
+                <div (click)="$event.stopPropagation();" style="font-size:14px;padding-top: 10px">
                     <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox" 
-                    [checked]="option.checked" [(checklist)]="list" [checklistValue]="option"
+                    [checked]='isSelected(option)'  
                     />{{option.label}}
                 </div>
+                
             </label>
         </div>
     </div>

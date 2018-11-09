@@ -1,7 +1,7 @@
 <div fxLayout='row'>
   <div fxFlex=5 fxFlex.xs='0'>  
   </div>
-  <div  fxLayout='row' style=" margin-top: 40px" >
+  <div  fxFlex fxLayout='row' fxFlex.xs=100 fxLayoutAlign='center' style=" margin-top: 40px" >
     <div style="width:1000px" fxLayout='row wrap' fxLayout.xs='column'>
       <div *ngFor='let index of notesListArray | search:searchText' >
         <mat-card [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
@@ -23,7 +23,7 @@
                 </div>
               </mat-chip-list>
             </div>  
-          </mat-card-content>
+          </mat-card-content> 
           <mat-card-actions>
             <div fxLayout='row' fxLayoutAlign='space-between' >
               <div *ngIf='componentName != "trash"'  class="icons">

@@ -14,6 +14,7 @@ export class MoreIconComponent implements OnInit {
   @Output() labelAdd = new EventEmitter<boolean>();
   @Input() notesDetails: any;
   @Input() componentName: any;
+  list = ['frontier']
   constructor(private notesService : GetNotesService,private data: DataSharingService,public dialog: MatDialog) { }
   note : any;
   labelMenu: boolean = true;
@@ -27,10 +28,20 @@ export class MoreIconComponent implements OnInit {
     "isDeleted": false,
     "userId": "string"
   }
-  ngOnInit() {  
+  ngOnInit() {   
     
   }
- 
+
+  isSelected(value): boolean {
+    if (!this.notesDetails.noteLabels.some((data) => data.label == value.label)) {
+      return false
+    }
+    else {
+      return true
+    }
+  }
+
+
   deleteCard(value) {
     console.log(this.notesDetails); 
     this.note = {
@@ -106,58 +117,33 @@ export class MoreIconComponent implements OnInit {
         this.myArray = [];
         for (let index = 0; index < data['data'].details.length; index++) {
           if (data['data'].details[index].isDeleted == false) {
-            this.myArray.push(data['data'].details[index])
-
-      //        if (!this.notesDetails.noteLabels.some((da) => da.label == data['data'].details[index].label)) {
-      //   console.log(false);
-
-      //   var checkStatus = {
-      //     "checked" : false,
-      //     "labelDetails" : data['data'].details[index]
-      //   }
-
-      //   this.checkedArray.push(checkStatus)
-        
-      // }
-      // else {
-      //   var checkStatus = {
-      //     "checked" : true,
-      //     "labelDetails" : data['data'].details[index]
-      //   }
-
-      //   this.checkedArray.push(checkStatus)
-      // }
+            this.myArray.push(data['data'].details[index]);
           }
-        }
-
-       
-        
+        }      
       });
-
     console.log(this.checkedArray);
-    
-      // if (!this.myArray.some((data) => data == value.label)) {
-      //   this.selectLabelArray.push(value.label);
-      //   this.labelArray.push(value.id)
-      // }
-      // else {
-      //   const index: number = this.selectLabelArray.indexOf(value.label);
-      //   if (index !== -1) {
-      //       this.selectLabelArray.splice(index, 1);
-      //       this.labelArray.splice(index, 1);
-      //   }  
-      // }
 } 
 
 onClick(value): void {
-    this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/add', {})
-      .subscribe(data => {
-        console.log(data);
-        this.eventClicked.emit(this.event);
-        this.labelAdd.emit(value)
-      });
-    error => console.log('Error ', error);
 
+  if (!this.notesDetails.noteLabels.some((data) => data.label == value.label)) {
+    this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/add', {})
+    .subscribe(data => {
+      console.log(data);
+      this.eventClicked.emit(this.event);
+      this.labelAdd.emit(value)
+    });
+  error => console.log('Error ', error);
+  }
+  else {
+    this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/remove', {})
+    .subscribe(data => {
+      console.log(data);
+      this.eventClicked.emit(this.event);
+      this.labelAdd.emit(value)
+    });
+  error => console.log('Error ', error);
+  }
   } 
 
 }
