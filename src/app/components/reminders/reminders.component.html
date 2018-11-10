@@ -1,3 +1,4 @@
-<p>
-  reminders works!
-</p>
+<app-notes-creation (notesAdded)="notesAddRequest($event)"></app-notes-creation> 
+
+<app-notes-collection (notesEditRequest)="notesAddRequest($event)" [notesListArray]="totalNotes" ></app-notes-collection>
+ 

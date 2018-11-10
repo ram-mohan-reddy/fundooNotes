@@ -10,11 +10,21 @@ export class DataSharingService {
 
   private eventEmit = new Subject<boolean>();
   eventEmitted = this.eventEmit.asObservable();
+
+  private listEventEmit = new Subject<boolean>();
+  listEventEmitted = this.listEventEmit.asObservable();
+
   constructor() { }
   changeMessage(message: string) {
     this.messageSource.next(message) 
   }
   eventTrigger(message: boolean) {
     this.eventEmit.next(message)
+  }
+
+  listEventTrigger(message: boolean) {
+    console.log('list event');
+    
+    this.listEventEmit.next(message)
   }
 }

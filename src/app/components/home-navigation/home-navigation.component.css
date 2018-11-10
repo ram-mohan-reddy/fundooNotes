@@ -82,5 +82,12 @@
   opacity: 0.8;
 }
 
+.display-image {
+  widows: 200px;
+  height: 100px;
+  cursor:pointer
+}
+
+
 
 

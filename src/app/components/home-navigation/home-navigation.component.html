@@ -14,16 +14,15 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
     <input placeholder="Search" style="min-width:auto" fxFlex [(ngModel)]="searchText" 
         name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" 
           class="search-text" type='text'>
-    <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button>
+    <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button> 
   </mat-card>
     <!-- <form fxFlex=50 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="15px" class="search-box" >
       <button fxFlex=5 mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
       <input style="min-width:auto" fxFlex=90 [(ngModel)]="searchText" name="search"   (click)='naviagteSearch()' (keydown)="dataTransfer()" class="search-text" type='text'>
-
     </form> -->
   <div fxFlex>
     <div  fxFlex>
-    </div>
+    </div> 
     <div fxFlex fxLayoutAlign='end'>
         <div fxHide fxShow.xs = "true">
             <button  mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
@@ -42,23 +41,23 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
           matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
         <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template matMenuContent>
-            <div style='padding: 10px' fxLayoutGap=10px fxLayout='row'>
-              <div fxFlex>
+            <div style='padding: 10px;' fxLayoutGap=10px fxLayout='row'>
+              <div fxFlex=40>
                 <button (click)="$event.stopPropagation();" *ngIf='savedUrl == ""' (click)="selectImage.click()" mat-mini-fab 
                 class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
-                <div (click)="$event.stopPropagation();" style="cursor:pointer" (click)="selectImage.click()" mat-card-avatar 
-                *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"></div>
+                <div fxFlex (click)="$event.stopPropagation();" class="display-image" (click)="imageUpload()" mat-card-avatar 
+                *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"><button style="font-size:12px;top:30px;color: white" mat-button>Change</button></div>
                 <input (click)="$event.stopPropagation();" style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>
+              
               </div>
-              <div fxFlex>
-                <div>{{userName}}</div>
-                <div>{{email}}</div>
+              <div fxFlex> 
+                <div style="font-size:12px">{{userName}}</div>
+                <div style="font-size:12px">{{email}}</div>
               </div>
             </div>
-            <hr>
+            <hr> 
             <div fxLayout='row' fxLayoutGap="30px" style="padding:10px">
-              <button fxFlex class="drop-down-button" routerLink="/register">Add account</button>
-              <button fxFlex class="drop-down-button" (click)=logout()>Signout </button>
+              <button fxFlex class="drop-down-button" mat-button (click)=logout()>Signout </button>
             </div>
           </ng-template>
         </mat-menu>
@@ -87,7 +86,6 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
         <mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
    </mat-nav-list> 
   </mat-sidenav>
-
   <mat-sidenav-content>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

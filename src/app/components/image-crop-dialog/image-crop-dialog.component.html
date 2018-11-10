@@ -1,0 +1,22 @@
+
+<p>Select profile photo</p>
+<hr>
+<input type="file" style="display:none" (change)="fileChangeEvent($event)" #selectImage/>
+
+<button mat-button (click)="selectImage.click()"> Select a photo from your computer</button>
+<div style="height:290px">
+    <image-cropper 
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    [resizeToWidth]="128"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+></image-cropper>
+<img [src]="showCroppedImage" />
+</div>
+
+<div>
+    <button style="float:right;margin:10px" mat-button (click)="onNoClick()">No Thanks</button>
+    <button style="float:right;margin:10px" [mat-dialog-close]="croppedImage" mat-button cdkFocusInitial>Ok</button>
+</div>

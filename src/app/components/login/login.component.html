@@ -1,5 +1,5 @@
 <!-- Email input -->
-<div fxLayout='column' *ngIf=value fxLayoutAlign="center center" 
+<!-- <div fxLayout='column' *ngIf=value fxLayoutAlign="center center" 
         fxLayoutAlign.xs="center" fxLayout.xs="column" class="container">
         <mat-card fxLayout='column' fxLayoutGap="20px" fxLayoutGap.xs="0px" 
                 fxLayout.xs="column" fxFlex.xs="100" fxFlex="60">
@@ -41,9 +41,9 @@
                         <button mat-raised-button color="primary" (click)='toggle()'>Next</button>
                 </div>
         </mat-card>
-</div>
+</div> -->
 <!-- Password input -->
-<div fxLayout='column' @flyInOut *ngIf=!value fxLayoutAlign="center center" 
+<div fxLayout='column' fxLayoutAlign="center center" 
         fxLayoutAlign.xs="center"  fxLayout.xs="column" class="container">
         <mat-card fxLayout='column' fxLayoutGap="20px" fxLayout.xs="column" 
                 fxFlex="60" fxFlex.xs="100" class="login-form">
@@ -60,8 +60,33 @@
                         <span class="top1_4">e</span>
                         <span class="top1_5">s</span>
                 </div>
-                
-                <div *ngIf=forgotPassword fxLayout='column' fxLayoutGap="30px" fxFlex="50">
+                <div fxLayout='column' *ngIf=value fxLayoutGap="30px" fxFlex="50">
+                                <div class="top2" fxLayoutAlign="center">Sign in </div>
+                                <div fxLayoutAlign="center" class="if_empty">
+                                        {{emptyEmail}}
+                                </div>
+                                <mat-form-field fxLayout='column' fxLayoutAlign="center" fxFlex="50" 
+                                        class="email-input">
+                                        <input matInput placeholder="Email" #email="ngModel" required 
+                                                pattern="[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                                                        [(ngModel)]="userLogin.email">
+                                        <mat-error *ngIf="email.invalid && (email.dirty || email.touched)" 
+                                        class="alert alert-danger">
+                                                <div *ngIf="email.errors.required">
+                                                        email is required.
+                                                </div>
+                                                <div *ngIf="email.errors.pattern">
+                                                        Invalid mail.
+                                                </div>
+                                        </mat-error>
+                                </mat-form-field>
+                                <div fxLayout.xs= 'column' fxLayout.md= 'column' fxLayoutGap="150px" 
+                                        fxLayoutGap.xs="0">
+                                        <a mat-button routerLink="/register">Create account</a>
+                                        <button mat-raised-button color="primary" (click)='toggle()'>Next</button>
+                                </div>
+                </div>
+                <div *ngIf='forgotPassword && !value'  @flyInOut  fxLayout='column' fxLayoutGap="30px" fxFlex="50">
                         <div class="top2" fxLayoutAlign="center">Sign in </div>
                         <div fxLayoutAlign="center" class="if_empty">
                                 {{emptyPassword}}

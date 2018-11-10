@@ -93,7 +93,7 @@ this.editShow = id;
    
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      if (result) {
+      if (result) { 
         this.newLabelList = [];
         this.userService.deleteLabel("api/noteLabels/" + id + '/deleteNoteLabel')
           .subscribe(data => {

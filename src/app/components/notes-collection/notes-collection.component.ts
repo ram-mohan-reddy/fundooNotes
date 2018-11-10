@@ -15,11 +15,17 @@ export class NotesCollectionComponent implements OnInit {
   notesView:boolean=true;
   constructor(public dialog: MatDialog,private notesService : GetNotesService,
     public dataService: DataSharingService,public snackBar: MatSnackBar) { 
-      this.dataService.eventEmitted.subscribe(message => { 
+      this.dataService.listEventEmitted.subscribe(message => { 
         if (message) {
+          console.log(message);
+          
           this.notesView = !this.notesView;
           this.notesEditRequest.emit(true);   
         } 
+      })
+      this.dataService.listEventEmitted.subscribe(message => {
+        console.log(message);
+        
       })
     }
   @Input() notesListArray: any;
@@ -90,5 +96,17 @@ export class NotesCollectionComponent implements OnInit {
         error => LoggerService.log('Error :' + error);
       }
     });
+  }
+
+  deleteRemainder(noteId) {
+    var note = {
+      "noteIdList": [noteId]
+    }
+    this.notesService.notesPostService('api/notes/removeReminderNotes', note)
+      .subscribe(data => {
+        console.log(data);
+        this.notesEditRequest.emit(true);
+      });
+    error => console.log(error);
   }
 }

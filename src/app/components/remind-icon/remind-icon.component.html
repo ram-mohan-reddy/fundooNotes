@@ -7,16 +7,16 @@
   <button mat-menu-item [matMenuTriggerFor]="pickTime"><mat-icon>access_time</mat-icon>Pick date & time</button>
 </mat-menu>
 
-<mat-menu #pickTime="matMenu" [overlapTrigger]="false">
+<mat-menu #pickTime="matMenu" [overlapTrigger]="false"> 
   <p class="mat-menu-style-p">Pick date & time</p>
   <hr style="opacity:0.2">
   <mat-form-field class="mat-menu-style-p">
-    <input matInput [matDatepicker]="picker">
+    <input placeholder="{{currentDate | date}}" matInput [matDatepicker]="picker">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-datepicker #picker></mat-datepicker> 
   </mat-form-field>
   <mat-form-field class="mat-menu-style-p">
     <input (click)="$event.stopPropagation();" matInput style="width:90%" placeholder="8:30 PM">
     <mat-icon style="float:right">arrow_drop_down</mat-icon>
   </mat-form-field>
-</mat-menu>
+</mat-menu> 

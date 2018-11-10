@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '../../core/services/httpService/http.service';
 import { MatDialog} from '@angular/material';
-import { LabelDialogComponent } from '../label-dialog/label-dialog.component'
+import { LabelDialogComponent } from '../label-dialog/label-dialog.component';
+import { ImageCropDialogComponent } from '../image-crop-dialog/image-crop-dialog.component';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { Router } from '@angular/router'
  
@@ -133,14 +134,21 @@ this.router.navigate(['home/search']);
       this.labelData.userId = this.userId;
       this.createNewLabel(this.labelData)
      
-     });
+     }); 
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != undefined) {
-        this.labelData.label = result;
-        this.labelData.userId = this.userId;
-        this.createNewLabel(this.labelData)
+        if (!this.labelList.some((data) => data.label == result)) {
+          console.log('create new label');
+          this.labelData.label = result;
+          this.labelData.userId = this.userId;
+          this.createNewLabel(this.labelData)
+        }
+        else {
+          console.log('label name already exits');
+          
+        }
       }
      
     });
@@ -155,23 +163,37 @@ savedUrl = localStorage.getItem('imageUrl');
 url= "http://34.213.106.173/"+this.savedUrl;
 onImageUpload(event){
 this.selectedFile = event.path[0].files[0];
-this.imageUpload();
+this.imageUpload(); 
 }
 
 imageUpload(): void {
-  const uploadData = new FormData();
-  uploadData.append('file', this.selectedFile, this.selectedFile.name);
-  this.userService.imageUpload('api/user/uploadProfileImage',uploadData,this.token)
-  .subscribe(data => {
-    this.savedUrl = data['status'].imageUrl;
-    localStorage.setItem('imageUrl',data['status'].imageUrl); 
-    this.url= "http://34.213.106.173/"+this.savedUrl;
-    });
-    error => console.log('Error ', error);
-}
+  const dialogRef = this.dialog.open(ImageCropDialogComponent, {
+    width: '700px',
+    height: '500px',
+    position: { top: '100px', left: '250px'},
+    
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log(result);
+   if (result != undefined) {
+    this.selectedFile = result;
+     const uploadData = new FormData();
+     uploadData.append('file', this.selectedFile);
+     this.userService.imageUpload('api/user/uploadProfileImage', uploadData, this.token)
+       .subscribe(data => {
+         this.savedUrl = data['status'].imageUrl;
+         localStorage.setItem('imageUrl', data['status'].imageUrl);
+         this.url = "http://34.213.106.173/" + this.savedUrl;
+       });
+     error => console.log('Error ', error);
+   }
+
+  });
+} 
 
 changeView() {
   this.notesView = !this.notesView;
-  this.dataService.eventTrigger(true);
+  this.dataService.listEventTrigger(true);
 }
 }

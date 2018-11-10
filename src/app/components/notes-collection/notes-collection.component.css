@@ -1,12 +1,12 @@
 .mat-card-grid {
-    margin: 10px;
-    width:260px;
+    /* margin: 10px; */
+    width:200px;
     border-radius: 10px
   }
 
   .mat-card-list {
     margin-bottom: 15px;
-    width:500px;
+    width:550px;
     border-radius: 10px
   }
 

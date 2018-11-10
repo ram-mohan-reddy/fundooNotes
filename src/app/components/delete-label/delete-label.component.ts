@@ -18,5 +18,4 @@ export class DeleteLabelComponent implements OnInit {
     this.dialogRef.close();
   }
 
-
 }

@@ -49,7 +49,7 @@ export class HttpService {
   }
 
   //get service with authentication
-  getNotesList(url, token){
+  getNotesList(url, token){ 
     url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({

@@ -1,56 +1,59 @@
-<div fxLayout='row'>
-  <div fxFlex=5 fxFlex.xs='0'>  
+<div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayout.md='row' style=" margin-top: 40px">
+  <div fxFlex=5 fxFlex.xs=0 fxFlex.sm=0>  
   </div>
-  <div  fxFlex fxLayout='row' fxFlex.xs=100 fxLayoutAlign='center' style=" margin-top: 40px" >
-    <div style="width:1000px" fxLayout='row wrap' fxLayout.xs='column'>
-      <div *ngFor='let index of notesListArray | search:searchText' >
-        <mat-card [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
-          <mat-card-content (click)='openDialog(index)'>
-            <div fxLayout='row' fxLayout.xs='row'> 
-              <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
-                {{index.title}}
-              </div>
-              <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
-            </div>
-            <p style="word-wrap: break-word; margin-left: 10px">
-              {{index.description}} 
-            </p>
-            <div>
-              <mat-chip-list>
-                <div *ngFor='let label of index.noteLabels'>
-                  <mat-chip *ngIf='label.isDeleted == false'>
-                    {{label.label}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
+  <div fxFlex fxLayout='row wrap' fxLayoutGap='10px'  fxLayoutAlign='center' fxFlex.xs=100 fxFlex.sm=100 style="height:79vh">
+    <div style="padding:10px" *ngFor='let index of notesListArray | search:searchText'>
+          <mat-card style="width:220px" [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
+              <mat-card-content (click)='openDialog(index)'>
+                <div fxLayout='row' fxLayout.xs='row'> 
+                  <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
+                    {{index.title}} 
+                  </div>
+                  <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
                 </div>
-              </mat-chip-list>
-            </div>  
-          </mat-card-content> 
-          <mat-card-actions>
-            <div fxLayout='row' fxLayoutAlign='space-between' >
-              <div *ngIf='componentName != "trash"'  class="icons">
-                <app-remind-icon></app-remind-icon>
-              </div>
-              <div *ngIf='componentName != "trash"'  class="icons"> 
-                <app-collaborator-icon></app-collaborator-icon> 
-              </div>
-              <div *ngIf='componentName != "trash"'  class="icons">
-                <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
-              </div>
-              <div *ngIf='componentName != "trash"'  class="icons">
-                <app-image-icon></app-image-icon>
-              </div>
-              <div *ngIf='componentName != "trash"' class="icons">
-                <app-archive-icon (archiveEvent)="archiveEventClicked($event)" (unArchiveEvent)="unArchiveEventClicked($event)" [notesDetails]="index"></app-archive-icon>
-              </div>
-              <div  class="icons">
-                <app-more-icon (eventClicked)="childEventClicked($event)" [componentName]="componentName" [notesDetails]="index"></app-more-icon>
-              </div>
-            </div>
-          </mat-card-actions>
-        </mat-card>
-      </div>
+                <p style="word-wrap: break-word; margin-left: 10px">
+                  {{index.description}} 
+                </p>
+                <div>
+                  <mat-chip-list>
+                    <div *ngFor='let label of index.noteLabels'>
+                      <mat-chip *ngIf='label.isDeleted == false'>
+                        {{label.label}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
+                    </div>
+                  </mat-chip-list>
+                  <mat-chip-list>
+                      <div *ngFor='let reminder of index.reminder'>
+                        <mat-chip>
+                          {{reminder | date:"medium"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                      </div>
+                    </mat-chip-list>
+                </div>  
+              </mat-card-content> 
+              <mat-card-actions>
+                <div fxLayout='row' fxLayoutAlign='space-between' >
+                  <div *ngIf='componentName != "trash"'  class="icons">
+                    <app-remind-icon (reminderEventClicked)="childEventClicked($event)" [notesDetails]="index"></app-remind-icon>
+                  </div>
+                  <div *ngIf='componentName != "trash"'  class="icons"> 
+                    <app-collaborator-icon></app-collaborator-icon> 
+                  </div>
+                  <div *ngIf='componentName != "trash"'  class="icons">
+                    <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
+                  </div>
+                  <div *ngIf='componentName != "trash"'  class="icons">
+                    <app-image-icon></app-image-icon>
+                  </div>
+                  <div *ngIf='componentName != "trash"' class="icons">
+                    <app-archive-icon (archiveEvent)="archiveEventClicked($event)" (unArchiveEvent)="unArchiveEventClicked($event)" [notesDetails]="index"></app-archive-icon>
+                  </div>
+                  <div  class="icons">
+                    <app-more-icon (eventClicked)="childEventClicked($event)" [componentName]="componentName" [notesDetails]="index"></app-more-icon>
+                  </div>
+                </div>
+              </mat-card-actions>
+            </mat-card>
     </div>
-   
   </div>
-  <div fxFlex=5 fxFlex.xs=0>
+  <div fxFlex.xs=0 fxFlex.sm=0 fxFlex=5 fxFlex.xs=0>
   </div>
 </div>

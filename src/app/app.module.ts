@@ -19,6 +19,7 @@ import {MatCardModule,
         MatDatepickerModule,
         MatNativeDateModule} from '@angular/material';
 import { ChecklistModule } from 'angular-checklist';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule} from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -63,6 +64,8 @@ import { DeleteLabelComponent } from './components/delete-label/delete-label.com
 // Dialog components
 import { DialogComponent } from './components/dialog/dialog.component';
 import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
+import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
+
 
 @NgModule({
   declarations: [ 
@@ -91,10 +94,11 @@ import { LabelDialogComponent } from './components/label-dialog/label-dialog.com
     SearchPipe,
     SearchComponent,
     DeleteLabelComponent,
+    ImageCropDialogComponent,
   ],
   entryComponents : [DialogComponent,
                     LabelDialogComponent,
-                    DeleteLabelComponent],
+                    DeleteLabelComponent,ImageCropDialogComponent],
   imports: [
     BrowserModule,
     FlexLayoutModule,
@@ -120,7 +124,8 @@ import { LabelDialogComponent } from './components/label-dialog/label-dialog.com
     ChecklistModule,
     MatChipsModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule,
+    ImageCropperModule
   ],
   providers: [HttpService,
               AuthService,
