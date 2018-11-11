@@ -19,10 +19,14 @@ export class NotesCreationComponent implements OnInit {
   addMessage: boolean = false;
   myArray = [];
   selectLabelArray = [];
+  selectRemainderArray=[];
   labelArray = [];
   labelMenu: boolean = true; 
   newLabelName: string;
   userId = localStorage.getItem('userId');
+  componentName={
+    'id': undefined
+  }
   user = {
     roles: []
   };
@@ -55,8 +59,9 @@ this.getLabel();
   receiveMessage(event) {
     if (event) {
       console.log(this.colorCode);
-      console.log(this.notesContent);  
-      this.saveNote()
+      console.log(this.notesContent);
+      console.log(this.checkBoxArray);
+      // this.saveNote();
       this.show = !this.show;
       this.checkList = !this.checkList; 
       this.labelArray=[];
@@ -74,7 +79,6 @@ this.getLabel();
   saveNote() {
     this.notesContent.color = this.colorCode;
     if (this.selectLabelArray.length != 0) {
-      // this.notesContent.labelIdList = JSON.stringify(this.labelArray);     
       this.notesContent.labelIdList =  JSON.stringify(this.labelArray);  
     }
     this.labelArray=[];
@@ -100,7 +104,6 @@ this.getLabel();
   update() {
     console.log(this.notesContent.title);
     console.log(this.notesContent.description)
-
     this.saveNote()
     this.show = !this.show;
     
@@ -134,7 +137,6 @@ this.getLabel();
     else {
       this.labelMenu = !this.labelMenu
     }
-   
   } 
 
   cancelNoteLabel(labelId) {
@@ -172,6 +174,16 @@ this.getLabel();
     }
   }
 
+  reminderEventClicked(event) {
+    console.log(event);
+    this.selectRemainderArray = event;
+
+  }
+
+  cancelRemainder() {
+    this.selectRemainderArray = [];
+  }
+
   openSnackBar(message: string, action: string) {
     let snackBarRef = this.snackBar.open(message, action, {
       duration: 5000,
@@ -203,11 +215,30 @@ this.getLabel();
   labelName : string;
   onKey(event: any) { 
     console.log('key pressed'); 
-    console.log(event.key);
-    this.checkBoxArray.push(event.key);
+    console.log(event.keyCode);
+    if (event.keyCode >=48 && event.keyCode <=57) {
+      this.checkBoxArray.push(event.key);
     console.log(this.labelName);
-    
     this.labelName= null
+    }
+
+    else if (event.keyCode >=65 && event.keyCode <=90) {
+      this.checkBoxArray.push(event.key);
+    console.log(this.labelName);
+    this.labelName= null
+    }
+
+    else if (event.keyCode >=96 && event.keyCode <=105) {
+      this.checkBoxArray.push(event.key);
+    console.log(this.labelName);
+    this.labelName= null
+    }
+    
+    else if (event.keyCode == 13) {
+      this.checkBoxArray.push(" ");
+    console.log(this.labelName);
+    this.labelName= null
+    }
     // this.myInput.nativeElement.focus();
   }
 

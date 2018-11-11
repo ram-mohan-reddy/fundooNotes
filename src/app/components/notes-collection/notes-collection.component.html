@@ -26,10 +26,10 @@
                         <mat-chip>
                           {{reminder | date:"medium"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
                       </div>
-                    </mat-chip-list>
+                    </mat-chip-list> 
                 </div>  
               </mat-card-content> 
-              <mat-card-actions>
+              <mat-card-actions> 
                 <div fxLayout='row' fxLayoutAlign='space-between' >
                   <div *ngIf='componentName != "trash"'  class="icons">
                     <app-remind-icon (reminderEventClicked)="childEventClicked($event)" [notesDetails]="index"></app-remind-icon>

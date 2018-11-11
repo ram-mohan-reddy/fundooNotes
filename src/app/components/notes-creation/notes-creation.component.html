@@ -31,12 +31,12 @@
          (input)="notesContent.description=$event.target.innerText" 
           placeholder="Take a note..."></div>
         <div *ngIf="checkList"  style="margin-top:20px">
-          <div id="myTextField"  *ngFor = 'let index of checkBoxArray'  
+          <div id="myTextField"  *ngFor = 'let index of checkBoxArray ; index as i'  
             contenteditable="true">
-            <input   (click)="$event.stopPropagation();"  type="checkbox"
+            <input [(ngModel)]="checkBoxArray[i]"  (click)="$event.stopPropagation();"  type="checkbox"
             [(checklist)]="list"
             [checklistValue]="option" >{{index}}
-          </div>
+          </div> 
           <hr>
           <div>
             <div fxFlex=5><mat-icon>add</mat-icon></div> 
@@ -55,11 +55,19 @@
                   (click)='cancelNoteLabel(index)'>cancel</mat-icon></mat-chip>
               </mat-chip-list>
         </div>
+
+        <div style="padding-top:20px">
+            <mat-chip-list>
+                <mat-chip *ngFor = 'let index of selectRemainderArray'>{{index | date:"medium"}}
+                  <mat-icon matChipRemove
+                  (click)='cancelRemainder()'>cancel</mat-icon></mat-chip>
+              </mat-chip-list>
+        </div>
         </mat-card-content> 
       <mat-card-actions>
         <div fxLayout='row' fxLayoutGap='space-between' fxLayout.xs='row'>
           <div  class="icons"> 
-            <app-remind-icon></app-remind-icon>
+            <app-remind-icon [notesDetails]='componentName' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon>
           </div>
           <div  class="icons">
             <app-collaborator-icon></app-collaborator-icon>
@@ -79,7 +87,7 @@
 
               <mat-menu  #appMenu="matMenu" [overlapTrigger]="false"> 
               <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' 
-                style="height: 50px;">Add label</button>
+                style="height: 50px;">Add label</button> 
                 <div  *ngIf='labelMenu'>
                   <div class="label-note">Label note</div>
                   <div>

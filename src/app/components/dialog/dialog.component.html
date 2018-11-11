@@ -12,12 +12,18 @@
             {{label.label}}<span style="margin-top:5px"><mat-icon (click)='removeLabel(label)' matChipRemove>cancel</mat-icon></span></mat-chip>
         </div>
       </mat-chip-list>
+      <mat-chip-list>
+          <div *ngFor='let reminder of reminderArray'>
+            <mat-chip>
+              {{reminder | date:"medium"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>cancel</mat-icon></span></mat-chip>
+          </div>
+        </mat-chip-list>
     </div>
-  </mat-card-content>
+  </mat-card-content> 
   <mat-card-actions>
     <div fxLayout='row' fxLayout.xs='row'>
       <div fxFlex=7 class="icons">
-        <app-remind-icon></app-remind-icon> 
+        <app-remind-icon (editReminderEventClicked)="reminderEventClicked($event)" [notesDetails]="data.notesData"></app-remind-icon> 
       </div>
       <div fxFlex=7 class="icons">
         <app-collaborator-icon></app-collaborator-icon>

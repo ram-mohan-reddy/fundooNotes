@@ -9,7 +9,12 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class DialogComponent implements OnInit {
   onAdd = new EventEmitter<boolean>();
   onDelete = new EventEmitter<any>();
+
+  onReminderRemove = new EventEmitter<any>();
+
+  
   labelListArray;
+  reminderArray;
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
@@ -24,6 +29,7 @@ export class DialogComponent implements OnInit {
  
   ngOnInit() {
     this.labelListArray = this.data['notesData'].noteLabels;
+    this.reminderArray = this.data['notesData'].reminder;
   }
 
   colorEventClicked(event) { 
@@ -47,7 +53,18 @@ export class DialogComponent implements OnInit {
       this.onAdd.emit(event);
       this.dialogRef.close();
   }
+
+  reminderEventClicked(event) {
+console.log(event);
+this.reminderArray =[];
+this.reminderArray.push(event)
+  }
   
+  deleteRemainder(id) {
+    console.log(id);
+    this.onReminderRemove.emit(id);
+    this.reminderArray =[];
+  }
 
   removeLabel(label){
 console.log(label);

@@ -87,6 +87,10 @@ export class NotesCollectionComponent implements OnInit {
       this.deleteNoteLabel(data.labelId, data.noteId)
     });
 
+    const sub2 = dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
+      this.deleteRemainder(data);
+    });
+
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
         this.notesService.notesUpdateService('api/notes/updateNotes', result)
