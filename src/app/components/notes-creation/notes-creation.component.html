@@ -31,21 +31,25 @@
          (input)="notesContent.description=$event.target.innerText" 
           placeholder="Take a note..."></div>
         <div *ngIf="checkList"  style="margin-top:20px">
-          <div id="myTextField"  *ngFor = 'let index of checkBoxArray ; index as i'  
-            contenteditable="true">
-            <input [(ngModel)]="checkBoxArray[i]"  (click)="$event.stopPropagation();"  type="checkbox"
-            [(checklist)]="list"
-            [checklistValue]="option" >{{index}}
-          </div> 
+          <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
+            <div *ngIf='name.isDeleted == false'>
+            <input (click)='strike(index)'  (click)="$event.stopPropagation();" type="checkbox">
+            <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" style="outline:none;border:none" [(ngModel)]='listArray[index].listName'>
+         </div>
+
+          </div>
           <hr>
           <div>
             <div fxFlex=5><mat-icon>add</mat-icon></div> 
-            <div style="font-size:14px; margin-top: 5px" contenteditable="true" 
-            (keyup)="onKey($event)" [textContent]="labelName" placeholder="List item"
-            (input)="labelName=$event.target.innerText"></div>
+            <input [ngStyle]="{'background-color': colorCode }" type="text" style=" outline:none; border:none;" (keyup)="onKey($event)" placeholder="List item" [(ngModel)]='listName'>
           </div>
-         
         <hr>
+        <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
+        <div *ngIf='name.isDeleted == true'>
+          <input [checked]='name.isChecked' (click)='strike(index)' (click)="$event.stopPropagation();" type="checkbox">
+          <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" class="strike" [(ngModel)]='listArray[index].listName'>
+        </div>
+      </div>
           </div> 
         
         <div style="padding-top:20px">

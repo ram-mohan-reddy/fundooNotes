@@ -11,11 +11,13 @@ import {MatSnackBar} from '@angular/material';
 export class NotesCreationComponent implements OnInit {
   constructor(private notesService:GetNotesService,private data: DataSharingService,
   public snackBar: MatSnackBar) { }
-  checkBoxArray=[];
+  listArray=[];
+  listName:string;
   public show: boolean = true;
   public checkList: boolean = false;
   token: string;
   colorCode='';
+  deleted:boolean=false;
   addMessage: boolean = false;
   myArray = [];
   selectLabelArray = [];
@@ -23,6 +25,7 @@ export class NotesCreationComponent implements OnInit {
   labelArray = [];
   labelMenu: boolean = true; 
   newLabelName: string;
+  status:string="open"
   userId = localStorage.getItem('userId');
   componentName={
     'id': undefined
@@ -36,12 +39,13 @@ export class NotesCreationComponent implements OnInit {
     "userId": "string"
   }
 
+  notesContentData:any;
   notesContent = {
     "file": File,
     "title": "",
     "description": "",
     "labelIdList": "",
-    "checkList": "",
+    "checklist": "",
     "isArchived": false,
     "isPinned": false,
     "color" : ""
@@ -60,8 +64,8 @@ this.getLabel();
     if (event) {
       console.log(this.colorCode);
       console.log(this.notesContent);
-      console.log(this.checkBoxArray);
-      // this.saveNote();
+      console.log(this.listArray);
+      this.saveNote();
       this.show = !this.show;
       this.checkList = !this.checkList; 
       this.labelArray=[];
@@ -69,15 +73,20 @@ this.getLabel();
     }
   } 
 
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+  
   receiveColor(event) {
     if (event) {
      this.colorCode = event;
      console.log(this.colorCode);
     }
   } 
-
+  checkListArray=[];
   saveNote() {
-    this.notesContent.color = this.colorCode;
+    if (this.checkList == false) {
+      this.notesContent.color = this.colorCode;
     if (this.selectLabelArray.length != 0) {
       this.notesContent.labelIdList =  JSON.stringify(this.labelArray);  
     }
@@ -85,7 +94,45 @@ this.getLabel();
     this.selectLabelArray=[];
     this.colorCode = '#ffffff';
     console.log(this.notesContent);
-    this.notesService.notesPostCreate('api/notes/addNotes',this.notesContent)
+    this.addNote(this.notesContent);
+    }
+
+    else {
+      for(var i=0;i<this.listArray.length;i++){
+        if(this.listArray[i].isChecked==true){
+         this.status="close"
+        }
+        var listObject={
+          'itemName' :this.listArray[i].listName,
+          'status' :this.status,
+          'isDeleted' :this.listArray[i].isDeleted
+        }
+        this.checkListArray.push(listObject);
+        this.status="open"
+      }
+      console.log("listArray",this.checkListArray);
+      this.notesContent.color = this.colorCode;
+      if (this.selectLabelArray.length != 0) {
+        this.notesContent.labelIdList = JSON.stringify(this.labelArray);
+      }
+      this.labelArray = [];
+      this.selectLabelArray = [];
+      this.colorCode = '#ffffff';
+      this.notesContentData = {
+        "title": this.notesContent.title,
+        "labelIdList": this.notesContent.labelIdList,
+        "checklist": JSON.stringify(this.checkListArray),
+        "isArchived": this.notesContent.isArchived,
+        "isPinned": this.notesContent.isPinned,
+        "color" : this.notesContent.color
+      }   
+          console.log(this.notesContentData);
+          this.addNote(this.notesContentData); 
+     }  
+  }
+
+addNote(notes) {
+this.notesService.notesPostCreate('api/notes/addNotes',notes)
     .subscribe(data => {
       this.addMessage = true;
       this.notesAdded.emit(this.addMessage);
@@ -105,9 +152,7 @@ this.getLabel();
     console.log(this.notesContent.title);
     console.log(this.notesContent.description)
     this.saveNote()
-    this.show = !this.show;
-    
-    
+    this.show = !this.show; 
   }
   open(): void {
     this.show = !this.show;
@@ -177,7 +222,6 @@ this.getLabel();
   reminderEventClicked(event) {
     console.log(event);
     this.selectRemainderArray = event;
-
   }
 
   cancelRemainder() {
@@ -188,15 +232,7 @@ this.getLabel();
     let snackBarRef = this.snackBar.open(message, action, {
       duration: 5000,
     });
-
-    // snackBarRef.onAction().subscribe(()=> this.doUnArchive());
   }
-
-  // doUnArchive() {
-
-  //   this.notesContent.isArchived = false ;
-  // }
-
 
   getLabel(): void {
     this.notesService.getLabelData('api/noteLabels/getNoteLabelList')
@@ -211,35 +247,51 @@ this.getLabel();
       });
       error => console.log('Error ', error);
   }
-  // @ViewChild('myTextField') myInput: ElementRef; 
-  labelName : string;
+
+  strike(index) {
+    this.listArray[index].isDeleted = !this.listArray[index].isDeleted;
+    this.listArray[index].isChecked = !this.listArray[index].isChecked;
+  }
+
   onKey(event: any) { 
+    console.log(this.listName);
+    
+    this.listName = '';
+    console.log(this.listName);
+    
     console.log('key pressed'); 
     console.log(event.keyCode);
     if (event.keyCode >=48 && event.keyCode <=57) {
-      this.checkBoxArray.push(event.key);
-    console.log(this.labelName);
-    this.labelName= null
+      this.listArray.push({
+        'listName' : event.key,
+        'isChecked' : false,
+        'isDeleted' : false
+      });
     }
 
     else if (event.keyCode >=65 && event.keyCode <=90) {
-      this.checkBoxArray.push(event.key);
-    console.log(this.labelName);
-    this.labelName= null
+      this.listArray.push({
+        'listName' : event.key,
+        'isChecked' : false,
+        'isDeleted' : false
+      });
     }
 
     else if (event.keyCode >=96 && event.keyCode <=105) {
-      this.checkBoxArray.push(event.key);
-    console.log(this.labelName);
-    this.labelName= null
+      this.listArray.push({
+        'listName' : event.key,
+        'isChecked' : false,
+        'isDeleted' : false
+      });
     }
     
     else if (event.keyCode == 13) {
-      this.checkBoxArray.push(" ");
-    console.log(this.labelName);
-    this.labelName= null
+      this.listArray.push({
+        'listName' : " ",
+        'isChecked' : false,
+        'isDeleted' : false
+      });
     }
-    // this.myInput.nativeElement.focus();
   }
 
 }

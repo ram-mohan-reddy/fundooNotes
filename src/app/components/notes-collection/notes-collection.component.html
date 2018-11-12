@@ -14,6 +14,18 @@
                 <p style="word-wrap: break-word; margin-left: 10px">
                   {{index.description}} 
                 </p>
+                <div *ngFor='let list of index.noteCheckLists'>
+                  <div *ngIf='list.status == "open"'>
+                      <input (click)="$event.stopPropagation();" type="checkbox">{{list.itemName}}
+                  </div>
+                </div>
+                <hr>
+                <div *ngFor='let list of index.noteCheckLists'>
+                   <div *ngIf='list.status == "close"'>
+                      <input (click)="$event.stopPropagation();" type="checkbox">
+                      <span style="text-decoration: line-through">{{list.itemName}}</span>
+                   </div>
+                  </div>
                 <div>
                   <mat-chip-list>
                     <div *ngFor='let label of index.noteLabels'>

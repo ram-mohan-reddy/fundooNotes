@@ -45,3 +45,12 @@
   padding:10px; 
   font-size:14px
 }
+
+.strike {   
+  outline:none;
+  border:none;
+  text-decoration: line-through 
+}
+
+
+
