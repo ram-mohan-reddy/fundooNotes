@@ -71,7 +71,7 @@ export class HttpService {
         'Authorization': token
       })
 
-    };
+    }; 
     return this.http.post(url, {}, httpAuthenticate);
   }
 

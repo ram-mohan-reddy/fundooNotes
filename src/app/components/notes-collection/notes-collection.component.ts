@@ -4,6 +4,7 @@ import { DialogComponent } from '../dialog/dialog.component'
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {LoggerService} from '../../core/services/loggerService/logger.service';
+import { HttpService } from '../../core/services/httpService/http.service';
 
 @Component({
   selector: 'app-notes-collection',
@@ -13,8 +14,10 @@ import {LoggerService} from '../../core/services/loggerService/logger.service';
 })
 export class NotesCollectionComponent implements OnInit { 
   notesView:boolean=true;
+  token: string = localStorage.getItem('token') 
+
   constructor(public dialog: MatDialog,private notesService : GetNotesService,
-    public dataService: DataSharingService,public snackBar: MatSnackBar) { 
+    public dataService: DataSharingService,public snackBar: MatSnackBar,private userService: HttpService) { 
       this.dataService.listEventEmitted.subscribe(message => { 
         if (message) {
           console.log(message);
@@ -95,7 +98,14 @@ export class NotesCollectionComponent implements OnInit {
     const sub2 = dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
       this.deleteRemainder(data);
     });
-
+    const sub3 = dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
+      this.userService.userLogout('api/notes/'+data.noteId+'/checklist/'+data.checklistId+'/remove',this.token)
+    .subscribe(data => {
+      console.log(data);
+      this.notesEditRequest.emit(true);
+    });
+  error => console.log(error);
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
         this.notesService.notesUpdateService('api/notes/updateNotes', result)

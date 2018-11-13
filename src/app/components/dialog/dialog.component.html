@@ -9,10 +9,10 @@
         <div *ngIf='list.status == "open"'>
             <input  (click)="$event.stopPropagation();" type="checkbox">
             <input [ngStyle]="{'background-color': backGroundColor }" class="un-strike" cdkFocusInitial type="text" [(ngModel)]='list.itemName'>
-            <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
+            <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
           </div>
       </div>
-      <div *ngIf='!show'> 
+      <div *ngIf='!show'>  
         <hr>
         <div>
           <div fxFlex=5><mat-icon>add</mat-icon></div> 
@@ -24,7 +24,7 @@
          <div *ngIf='list.status == "close"'>
             <input cdkFocusInitial (click)="$event.stopPropagation();" [checked]='true' type="checkbox">
             <input [ngStyle]="{'background-color': backGroundColor }" cdkFocusInitial type="text" class="strike" [(ngModel)]='list.itemName'>
-            <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
+            <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
             <!-- <span style="text-decoration: line-through">{{list.itemName}}</span> -->
          </div>
         </div>

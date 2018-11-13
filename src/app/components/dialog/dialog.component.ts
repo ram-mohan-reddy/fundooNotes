@@ -9,6 +9,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class DialogComponent implements OnInit {
   onAdd = new EventEmitter<boolean>();
   onDelete = new EventEmitter<any>();
+  onCheckListDelete = new EventEmitter<any>();
   show:boolean=true;
   listName:string;
  listArray=[]; 
@@ -86,8 +87,14 @@ this.onDelete.emit(labelDetails);
   }
 
   
-  removeList(index) {
-    this.listArray.splice(index, 1);
+  removeList(index,list) {
+    this.listArray.splice(index, 1); 
+    console.log(list);
+    this.onCheckListDelete.emit({
+      'checklistId': list.id,
+      'noteId' : this.data.notesData.id
+    });
+    
   }
   
   
