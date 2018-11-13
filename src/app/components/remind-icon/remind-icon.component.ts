@@ -212,14 +212,20 @@ export class RemindIconComponent implements OnInit {
       var toInt = Number(splittedTime[0]);
       splittedTime[0] = String(toInt+12);      
     }
+    if (splittedTime.length == 8) {
+      splittedTime[0] = splittedTime[0] + splittedTime[1];
+      splittedTime.splice(1, 1);
+    }
+    console.log(splittedTime);
+    
     var note = {
       "reminder": new Date(this.customDate.getFullYear(), this.customDate.getMonth(), this.customDate.getDate(), splittedTime[0], splittedTime[2] + splittedTime[3]),
       "noteIdList":[this.notesDetails.id]
     }
     if (this.notesDetails.id != undefined) {
     this.editReminderEventClicked.emit(new Date(this.customDate.getFullYear(), this.customDate.getMonth(), this.customDate.getDate(), splittedTime[0], splittedTime[2] + splittedTime[3]))
-    this.addReminder(note);
-  }
+    this.addReminder(note);  
+    }
   else {
     this.reminder=[];
     this.reminder.push(new Date(this.customDate.getFullYear(), this.customDate.getMonth(), this.customDate.getDate(), splittedTime[0], splittedTime[2] + splittedTime[3]));         

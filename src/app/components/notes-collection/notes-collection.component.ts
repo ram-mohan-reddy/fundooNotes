@@ -18,7 +18,6 @@ export class NotesCollectionComponent implements OnInit {
       this.dataService.listEventEmitted.subscribe(message => { 
         if (message) {
           console.log(message);
-          
           this.notesView = !this.notesView;
           this.notesEditRequest.emit(true);   
         } 
@@ -32,10 +31,16 @@ export class NotesCollectionComponent implements OnInit {
   @Input() searchText: any;
   @Input() componentName:any;
   @Output() notesEditRequest = new EventEmitter<boolean>();
+  todayDate: Date = new Date();
+  tomorrowDate = new Date();
+
   ngOnInit(){
     LoggerService.log('Using logger service: ');
+    console.log(this.todayDate);
+    this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
+    console.log(this.tomorrowDate); 
   }
-
+ 
   childEventClicked(event) {
     if (event) {
       this.notesEditRequest.emit(event);
@@ -112,5 +117,26 @@ export class NotesCollectionComponent implements OnInit {
         this.notesEditRequest.emit(true);
       });
     error => console.log(error);
+  }
+
+  updateChecklist(list,index) {
+    console.log('in update');
+    console.log(list.status);
+    if (list.status == "open") {
+      list.status = "close";
+    }
+    else {
+      list.status = "open";
+    }
+   this.updateList(list,index);
+  }
+  updateList(list,note) {
+    console.log(list);
+    this.notesService.notesPostService('api/notes/'+note.id+'/checklist/'+list.id+'/update', list)
+    .subscribe(data => {
+      console.log(data);
+      this.notesEditRequest.emit(true);
+    });
+  error => console.log(error);
   }
 }

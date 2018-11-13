@@ -34,20 +34,22 @@
           <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
             <div *ngIf='name.isDeleted == false'>
             <input (click)='strike(index)'  (click)="$event.stopPropagation();" type="checkbox">
-            <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" style="outline:none;border:none" [(ngModel)]='listArray[index].listName'>
-         </div>
-
+            <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" style="outline:none;border:none;width:540px" [(ngModel)]='listArray[index].listName'>
+            <button  mat-icon-button type="submit" (click)='removeList(index)' ><mat-icon>clear</mat-icon></button> 
+          </div>
           </div>
           <hr>
-          <div>
+          <div> 
             <div fxFlex=5><mat-icon>add</mat-icon></div> 
             <input [ngStyle]="{'background-color': colorCode }" type="text" style=" outline:none; border:none;" (keyup)="onKey($event)" placeholder="List item" [(ngModel)]='listName'>
+          
           </div>
         <hr>
         <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
         <div *ngIf='name.isDeleted == true'>
           <input [checked]='name.isChecked' (click)='strike(index)' (click)="$event.stopPropagation();" type="checkbox">
           <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" class="strike" [(ngModel)]='listArray[index].listName'>
+          <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
         </div>
       </div>
           </div> 

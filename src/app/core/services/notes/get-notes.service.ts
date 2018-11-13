@@ -8,7 +8,6 @@ import { HttpService } from '../httpService/http.service';
 })
 
 export class GetNotesService {
-
   token: string = localStorage.getItem('token') 
   constructor(private userService: HttpService) { }
   getNotes() {

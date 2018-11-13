@@ -4,7 +4,30 @@
       <div fxFlex=98 style=" font-weight: bold" placeholder="Title" contenteditable="true" (input)="notesEditContent.title=$event.target.innerText">{{data.notesData.title}}</div>
       <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
     </div>
-    <div cdkFocusInitial  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
+    <div cdkFocusInitial *ngIf='show'  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
+    <div *ngFor='let list of listArray; let index = index'>
+        <div *ngIf='list.status == "open"'>
+            <input  (click)="$event.stopPropagation();" type="checkbox">
+            <input [ngStyle]="{'background-color': backGroundColor }" class="un-strike" cdkFocusInitial type="text" [(ngModel)]='list.itemName'>
+            <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
+          </div>
+      </div>
+      <div *ngIf='!show'> 
+        <hr>
+        <div>
+          <div fxFlex=5><mat-icon>add</mat-icon></div> 
+          <input [ngStyle]="{'background-color': backGroundColor}" type="text" style=" outline:none; border:none;" (keyup)="onKey($event)" placeholder="List item" [(ngModel)]='listName'>
+        </div>
+          <hr>
+        </div>
+      <div *ngFor='let list of listArray;let index = index'>
+         <div *ngIf='list.status == "close"'>
+            <input cdkFocusInitial (click)="$event.stopPropagation();" [checked]='true' type="checkbox">
+            <input [ngStyle]="{'background-color': backGroundColor }" cdkFocusInitial type="text" class="strike" [(ngModel)]='list.itemName'>
+            <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
+            <!-- <span style="text-decoration: line-through">{{list.itemName}}</span> -->
+         </div>
+        </div>
     <div style="margin-top:10px">
       <mat-chip-list>
         <div *ngFor='let label of labelListArray'>

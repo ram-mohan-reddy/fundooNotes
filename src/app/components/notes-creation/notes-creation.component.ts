@@ -22,6 +22,7 @@ export class NotesCreationComponent implements OnInit {
   myArray = [];
   selectLabelArray = [];
   selectRemainderArray=[];
+  selectedReminder: string;
   labelArray = [];
   labelMenu: boolean = true; 
   newLabelName: string;
@@ -48,7 +49,8 @@ export class NotesCreationComponent implements OnInit {
     "checklist": "",
     "isArchived": false,
     "isPinned": false,
-    "color" : ""
+    "color" : "",
+    "reminder" : ""
   }
 
   noteArchive = {
@@ -90,10 +92,16 @@ this.getLabel();
     if (this.selectLabelArray.length != 0) {
       this.notesContent.labelIdList =  JSON.stringify(this.labelArray);  
     }
+
+    if (this.selectedReminder != undefined) {
+      this.notesContent.reminder = this.selectedReminder;
+    }
     this.labelArray=[];
     this.selectLabelArray=[];
     this.colorCode = '#ffffff';
     console.log(this.notesContent);
+    console.log(this.selectedReminder);
+    
     this.addNote(this.notesContent);
     }
 
@@ -115,6 +123,9 @@ this.getLabel();
       if (this.selectLabelArray.length != 0) {
         this.notesContent.labelIdList = JSON.stringify(this.labelArray);
       }
+      if (this.selectedReminder != undefined) {
+        this.notesContent.reminder = this.selectedReminder;
+      }
       this.labelArray = [];
       this.selectLabelArray = [];
       this.colorCode = '#ffffff';
@@ -124,7 +135,8 @@ this.getLabel();
         "checklist": JSON.stringify(this.checkListArray),
         "isArchived": this.notesContent.isArchived,
         "isPinned": this.notesContent.isPinned,
-        "color" : this.notesContent.color
+        "color" : this.notesContent.color,
+        "reminder" : this.notesContent.reminder
       }   
           console.log(this.notesContentData);
           this.addNote(this.notesContentData); 
@@ -220,12 +232,14 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
   }
 
   reminderEventClicked(event) {
-    console.log(event);
     this.selectRemainderArray = event;
+    this.selectedReminder = event[0];
+    console.log(this.selectedReminder); 
   }
 
   cancelRemainder() {
     this.selectRemainderArray = [];
+    this.selectedReminder = "";
   }
 
   openSnackBar(message: string, action: string) {
@@ -251,6 +265,10 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
   strike(index) {
     this.listArray[index].isDeleted = !this.listArray[index].isDeleted;
     this.listArray[index].isChecked = !this.listArray[index].isChecked;
+  }
+
+  removeList(index) {
+    this.listArray.splice(index, 1);
   }
 
   onKey(event: any) { 

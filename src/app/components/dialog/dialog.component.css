@@ -4,14 +4,23 @@
 
 [contenteditable=true]:empty:before{
     content: attr(placeholder);
-    display: block; /* For Firefox */
+    display: block; 
    
-  }
+  } 
   
   div[contenteditable=true] {
-   
-    /* width: 290px; */
-    /* padding: 5px; */
     outline: none;
   }
   
+  .strike {   
+    outline:none;
+    border:none;
+    width:480px;
+    text-decoration: line-through 
+  }
+
+  .un-strike {   
+    outline:none;
+    border:none;
+    width:480px;
+  }

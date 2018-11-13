@@ -49,6 +49,7 @@
 .strike {   
   outline:none;
   border:none;
+  width:540px;
   text-decoration: line-through 
 }
 

@@ -16,13 +16,13 @@
                 </p>
                 <div *ngFor='let list of index.noteCheckLists'>
                   <div *ngIf='list.status == "open"'>
-                      <input (click)="$event.stopPropagation();" type="checkbox">{{list.itemName}}
+                      <input (click)="$event.stopPropagation();" (click)='updateChecklist(list,index)' type="checkbox">{{list.itemName}}
                   </div>
                 </div>
-                <hr>
+              
                 <div *ngFor='let list of index.noteCheckLists'>
                    <div *ngIf='list.status == "close"'>
-                      <input (click)="$event.stopPropagation();" type="checkbox">
+                      <input (click)="$event.stopPropagation();" (click)='updateChecklist(list,index)' [checked]='true' type="checkbox">
                       <span style="text-decoration: line-through">{{list.itemName}}</span>
                    </div>
                   </div>
@@ -33,12 +33,30 @@
                         {{label.label}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
                     </div>
                   </mat-chip-list>
-                  <mat-chip-list>
+                  <div style="margin-top:10px">
+                    <mat-chip-list>
                       <div *ngFor='let reminder of index.reminder'>
-                        <mat-chip>
-                          {{reminder | date:"medium"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                        <div 
+                        *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
+                        <mat-chip >
+                            Today, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                        </div>
+
+                        <div 
+                        *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
+                        <mat-chip >
+                            Tomorrow, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                        </div>
+
+                        <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
+                            <mat-chip >
+                                {{reminder | date:"medium"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                        </div>
+                       
                       </div>
                     </mat-chip-list> 
+                  </div>
+                 
                 </div>  
               </mat-card-content> 
               <mat-card-actions> 
@@ -62,7 +80,7 @@
                     <app-more-icon (eventClicked)="childEventClicked($event)" [componentName]="componentName" [notesDetails]="index"></app-more-icon>
                   </div>
                 </div>
-              </mat-card-actions>
+              </mat-card-actions> 
             </mat-card>
     </div>
   </div>

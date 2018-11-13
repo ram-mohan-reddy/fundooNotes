@@ -130,8 +130,10 @@ onClick(value): void {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/add', {})
     .subscribe(data => {
       console.log(data);
-      this.eventClicked.emit(this.event);
-      this.labelAdd.emit(value)
+      setTimeout(()=>{ 
+        this.eventClicked.emit(this.event);
+       }, 1000)
+       this.labelAdd.emit(value)
     });
   error => console.log('Error ', error);
   }
@@ -139,8 +141,10 @@ onClick(value): void {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/remove', {})
     .subscribe(data => {
       console.log(data);
-      this.eventClicked.emit(this.event);
-      this.labelAdd.emit(value)
+      setTimeout(()=>{ 
+        this.eventClicked.emit(this.event);
+       }, 1000)
+       this.labelAdd.emit(value)
     });
   error => console.log('Error ', error);
   }

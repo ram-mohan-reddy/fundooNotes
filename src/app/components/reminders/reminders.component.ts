@@ -31,7 +31,7 @@ export class RemindersComponent implements OnInit {
       });
       error => console.log('Error ', error);
     }
-  }
+  } 
 
   notesCollection(data) {
     this.list = [];
@@ -43,6 +43,15 @@ export class RemindersComponent implements OnInit {
     }
     this.totalNotes = this.list.reverse();
     // console.log(this.totalNotes);
+    this.totalNotes.sort(this.compare);
     LoggerService.log('Notes : ',this.totalNotes );
+  }
+
+  compare(a,b) {
+    if (a.reminder < b.reminder)
+      return -1;
+    if (a.reminder > b.reminder)
+      return 1;
+    return 0;
   }
 }

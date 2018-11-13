@@ -9,10 +9,11 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class DialogComponent implements OnInit {
   onAdd = new EventEmitter<boolean>();
   onDelete = new EventEmitter<any>();
+  show:boolean=true;
+  listName:string;
+ listArray=[]; 
 
   onReminderRemove = new EventEmitter<any>();
-
-  
   labelListArray;
   reminderArray;
   constructor(
@@ -28,6 +29,10 @@ export class DialogComponent implements OnInit {
 
  
   ngOnInit() {
+    if (this.data['notesData'].noteCheckLists.length != 0) {
+      this.show = false;
+      this.listArray = this.data['notesData'].noteCheckLists;
+    }
     this.labelListArray = this.data['notesData'].noteLabels;
     this.reminderArray = this.data['notesData'].reminder;
   }
@@ -79,4 +84,48 @@ var labelDetails = {
 
 this.onDelete.emit(labelDetails);
   }
+
+  
+  removeList(index) {
+    this.listArray.splice(index, 1);
+  }
+  
+  
+  onKey(event: any) { 
+    console.log(this.listName);
+    
+    this.listName = '';
+    console.log(this.listName);
+    
+    console.log('key pressed'); 
+    console.log(event.keyCode);
+    if (event.keyCode >=48 && event.keyCode <=57) {
+      this.listArray.push({
+        'itemName' : event.key,
+        'status' : "open"
+      });
+    }
+
+    else if (event.keyCode >=65 && event.keyCode <=90) {
+      this.listArray.push({
+        'itemName' : event.key,
+        'status' : "open"
+      });
+    }
+
+    else if (event.keyCode >=96 && event.keyCode <=105) {
+      this.listArray.push({
+        'itemName' : event.key,
+        'status' : "open"
+      });
+    }
+    
+    else if (event.keyCode == 13) {
+      this.listArray.push({
+        'itemName' : " ",
+        'status' : "open"
+      });
+    }
+  }
+
 }

@@ -32,7 +32,7 @@ export class HomeNavigationComponent implements OnInit{
         } 
       })
     }
-  searchText;
+  searchText:string;
   identify: string;
   userName: string = ''; 
   email: string='';
@@ -54,7 +54,9 @@ export class HomeNavigationComponent implements OnInit{
     this.token = localStorage.getItem('token');
     this.userId = localStorage.getItem('userId');
     this.identify = 'fundooNotes'
+    
     this.getLabel();
+
   }
 
   logout() {
@@ -155,6 +157,7 @@ this.router.navigate(['home/search']);
 } 
 
 changeIdentity(data) {
+  this.searchText= '';
   this.identify = data;
 }
 selectedFile : File; 
