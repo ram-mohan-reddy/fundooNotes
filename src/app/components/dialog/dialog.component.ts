@@ -150,4 +150,13 @@ this.onDelete.emit(labelDetails);
     
   }
 
+  updateChecklist(list) {
+    if (list.status == "open") {
+      list.status = "close";
+    }
+    else {
+      list.status = "open";
+    }
+    this.onEnter(list);
+  }
 }

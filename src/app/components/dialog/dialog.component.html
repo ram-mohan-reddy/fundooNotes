@@ -7,7 +7,7 @@
     <div cdkFocusInitial *ngIf='show'  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
     <div *ngFor='let list of listArray; let index = index'>
         <div *ngIf='list.status == "open" && list.isDeleted == false'>
-            <input  (click)="$event.stopPropagation();" type="checkbox">
+            <mat-checkbox style="margin-right:10px" (click)="$event.stopPropagation();" (click)='updateChecklist(list)'> </mat-checkbox>
             <input [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="onEnter(list)" class="un-strike" cdkFocusInitial type="text" [(ngModel)]='list.itemName'>
             <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
           </div>
@@ -22,7 +22,7 @@
         </div>
       <div *ngFor='let list of listArray;let index = index'>
          <div *ngIf='list.status == "close" && list.isDeleted == false '>
-            <input cdkFocusInitial (click)="$event.stopPropagation();" [checked]='true' type="checkbox">
+            <mat-checkbox style="margin-right:10px" cdkFocusInitial (click)="$event.stopPropagation();" (click)='updateChecklist(list)' [checked]='true'> </mat-checkbox>
             <input [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="onEnter(list)" cdkFocusInitial type="text" class="strike" [(ngModel)]='list.itemName'>
             <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
             <!-- <span style="text-decoration: line-through">{{list.itemName}}</span> -->

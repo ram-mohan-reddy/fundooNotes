@@ -39,9 +39,7 @@ export class NotesCollectionComponent implements OnInit {
 
   ngOnInit(){
     LoggerService.log('Using logger service: ');
-    console.log(this.todayDate);
     this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
-    console.log(this.tomorrowDate); 
   }
  
   childEventClicked(event) {
@@ -112,10 +110,13 @@ export class NotesCollectionComponent implements OnInit {
     const sub4 = dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
      console.log(data);
      if (data.newList.id != undefined) {
-       console.log('old list');
-       
-     }
-
+      this.notesService.notesPostService('api/notes/'+data.noteId+'/checklist/'+data.newList.id+'/update',data.newList)
+    .subscribe(data => {
+      console.log(data);
+      this.notesEditRequest.emit(true);
+    });
+  error => console.log(error);
+  }
      else {
        console.log('new list');
     this.notesService.notesPostService('api/notes/'+data.noteId+'/checklist/add',data.newList)

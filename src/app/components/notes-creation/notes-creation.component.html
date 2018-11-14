@@ -33,8 +33,8 @@
         <div *ngIf="checkList"  style="margin-top:20px">
           <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
             <div *ngIf='name.isDeleted == false'>
-            <input (click)='strike(index)'  (click)="$event.stopPropagation();" type="checkbox">
-            <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" style="outline:none;border:none;width:540px" [(ngModel)]='listArray[index].listName'>
+            <mat-checkbox style="margin-right:10px" (click)='strike(index)'  (click)="$event.stopPropagation();"> </mat-checkbox>
+            <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" style="outline:none;border:none;width:520px" [(ngModel)]='listArray[index].listName'>
             <button  mat-icon-button type="submit" (click)='removeList(index)' ><mat-icon>clear</mat-icon></button> 
           </div>
           </div>
@@ -47,7 +47,7 @@
         <hr>
         <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
         <div *ngIf='name.isDeleted == true'>
-          <input [checked]='name.isChecked' (click)='strike(index)' (click)="$event.stopPropagation();" type="checkbox">
+          <mat-checkbox style="margin-right:10px" [checked]='name.isChecked' (click)='strike(index)' (click)="$event.stopPropagation();"></mat-checkbox>
           <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" class="strike" [(ngModel)]='listArray[index].listName'>
           <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
         </div>

@@ -17,6 +17,7 @@ import {MatCardModule,
         MatDialogModule,
         MatChipsModule,
         MatDatepickerModule,
+        MatCheckboxModule,
         MatNativeDateModule} from '@angular/material';
 import { ChecklistModule } from 'angular-checklist';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -125,7 +126,8 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
     MatChipsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ImageCropperModule
+    ImageCropperModule,
+    MatCheckboxModule
   ],
   providers: [HttpService,
               AuthService,
