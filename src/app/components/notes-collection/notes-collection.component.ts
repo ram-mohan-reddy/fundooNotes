@@ -99,20 +99,36 @@ export class NotesCollectionComponent implements OnInit {
       this.deleteRemainder(data);
     });
     const sub3 = dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
-      this.userService.userLogout('api/notes/'+data.noteId+'/checklist/'+data.checklistId+'/remove',this.token)
+      console.log(data);
+      var body = ''
+      this.notesService.notesPostService('api/notes/'+data.noteId+'/checklist/'+data.checklistId+'/remove',body)
     .subscribe(data => {
       console.log(data);
       this.notesEditRequest.emit(true);
     });
   error => console.log(error);
     });
+
+    const sub4 = dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
+     console.log(data);
+     this.notesService.notesPostService('api/notes/'+data.id+'/checklist/add',data)
+     .subscribe(data => {
+       console.log(data);
+       this.notesEditRequest.emit(true);
+     });
+   error => console.log(error);
+     
+    });
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if (result != undefined) {
-        this.notesService.notesUpdateService('api/notes/updateNotes', result)
+        if (result.description != '') {
+          this.notesService.notesUpdateService('api/notes/updateNotes', result)
           .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
         error => LoggerService.log('Error :' + error);
+        }
       }
     });
   }

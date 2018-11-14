@@ -6,7 +6,7 @@
     </div>
     <div cdkFocusInitial *ngIf='show'  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
     <div *ngFor='let list of listArray; let index = index'>
-        <div *ngIf='list.status == "open"'>
+        <div *ngIf='list.status == "open" && list.isDeleted == false'>
             <input  (click)="$event.stopPropagation();" type="checkbox">
             <input [ngStyle]="{'background-color': backGroundColor }" class="un-strike" cdkFocusInitial type="text" [(ngModel)]='list.itemName'>
             <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
@@ -21,12 +21,12 @@
           <hr>
         </div>
       <div *ngFor='let list of listArray;let index = index'>
-         <div *ngIf='list.status == "close"'>
+         <div *ngIf='list.status == "close" && list.isDeleted == false '>
             <input cdkFocusInitial (click)="$event.stopPropagation();" [checked]='true' type="checkbox">
             <input [ngStyle]="{'background-color': backGroundColor }" cdkFocusInitial type="text" class="strike" [(ngModel)]='list.itemName'>
             <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
             <!-- <span style="text-decoration: line-through">{{list.itemName}}</span> -->
-         </div>
+         </div> 
         </div>
     <div style="margin-top:10px">
       <mat-chip-list>
@@ -36,7 +36,7 @@
         </div>
       </mat-chip-list>
       <mat-chip-list>
-          <div *ngFor='let reminder of reminderArray'>
+          <div *ngFor='let reminder of reminderArray'> 
             <mat-chip>
               {{reminder | date:"medium"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>cancel</mat-icon></span></mat-chip>
           </div>
@@ -64,7 +64,7 @@
         <app-more-icon (eventClicked)="eventClicked($event)" (labelAdd)="childEventClicked($event)" [notesDetails]="data.notesData"></app-more-icon>
       </div>
       <div fxFlex fxLayoutAlign="end" class="icons">
-        <button mat-button [mat-dialog-close]="notesEditContent">Close</button>
+        <button mat-button (click)='updateList()' [mat-dialog-close]="notesEditContent">Close</button>
       </div> 
     </div>
   </mat-card-actions>

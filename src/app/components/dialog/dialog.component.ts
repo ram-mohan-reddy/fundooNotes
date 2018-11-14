@@ -10,9 +10,10 @@ export class DialogComponent implements OnInit {
   onAdd = new EventEmitter<boolean>();
   onDelete = new EventEmitter<any>();
   onCheckListDelete = new EventEmitter<any>();
+  onCheckListUpdate = new EventEmitter<any>();
   show:boolean=true;
   listName:string;
- listArray=[]; 
+ listArray=[];  
 
   onReminderRemove = new EventEmitter<any>();
   labelListArray;
@@ -25,7 +26,7 @@ export class DialogComponent implements OnInit {
     "title": this.data['notesData'].title, 
     "description": this.data['notesData'].description,
     "noteId": this.data['notesData'].id,
-    "color" : this.backGroundColor
+    "color" : this.backGroundColor,
   } 
 
  
@@ -109,30 +110,46 @@ this.onDelete.emit(labelDetails);
     if (event.keyCode >=48 && event.keyCode <=57) {
       this.listArray.push({
         'itemName' : event.key,
-        'status' : "open"
+        'status' : "open",
+        'isDeleted' : false
       });
     }
 
     else if (event.keyCode >=65 && event.keyCode <=90) {
       this.listArray.push({
         'itemName' : event.key,
-        'status' : "open"
+        'status' : "open",
+        'isDeleted' : false
       });
     }
 
     else if (event.keyCode >=96 && event.keyCode <=105) {
       this.listArray.push({
         'itemName' : event.key,
-        'status' : "open"
+        'status' : "open",
+        'isDeleted' : false
       });
     }
     
     else if (event.keyCode == 13) {
       this.listArray.push({
         'itemName' : " ",
-        'status' : "open"
+        'status' : "open",
+        'isDeleted' : false
       });
     }
+  }
+
+  updateList(){
+
+   var notesEditContent = {
+      "title": this.data['notesData'].title, 
+      "checkList": this.listArray,
+      "id": this.data['notesData'].id,
+      "color" : this.backGroundColor,
+    } 
+    this.onCheckListUpdate.emit(notesEditContent);
+   
   }
 
 }

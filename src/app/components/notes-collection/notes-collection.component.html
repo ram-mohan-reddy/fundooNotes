@@ -15,13 +15,13 @@
                   {{index.description}} 
                 </p>
                 <div *ngFor='let list of index.noteCheckLists'>
-                  <div *ngIf='list.status == "open"'>
+                  <div *ngIf='list.status == "open" && list.isDeleted == false'>
                       <input (click)="$event.stopPropagation();" (click)='updateChecklist(list,index)' type="checkbox">{{list.itemName}}
                   </div>
                 </div>
               
                 <div *ngFor='let list of index.noteCheckLists'>
-                   <div *ngIf='list.status == "close"'>
+                   <div *ngIf='list.status == "close" && list.isDeleted == false'>
                       <input (click)="$event.stopPropagation();" (click)='updateChecklist(list,index)' [checked]='true' type="checkbox">
                       <span style="text-decoration: line-through">{{list.itemName}}</span>
                    </div>
