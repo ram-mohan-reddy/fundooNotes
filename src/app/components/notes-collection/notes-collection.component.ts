@@ -111,12 +111,21 @@ export class NotesCollectionComponent implements OnInit {
 
     const sub4 = dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
      console.log(data);
-     this.notesService.notesPostService('api/notes/'+data.id+'/checklist/add',data)
+     if (data.newList.id != undefined) {
+       console.log('old list');
+       
+     }
+
+     else {
+       console.log('new list');
+    this.notesService.notesPostService('api/notes/'+data.noteId+'/checklist/add',data.newList)
      .subscribe(data => {
        console.log(data);
        this.notesEditRequest.emit(true);
      });
    error => console.log(error);
+     }
+ 
      
     });
     dialogRef.afterClosed().subscribe(result => {

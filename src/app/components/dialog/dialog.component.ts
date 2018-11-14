@@ -140,16 +140,14 @@ this.onDelete.emit(labelDetails);
     }
   }
 
-  updateList(){
-
-   var notesEditContent = {
-      "title": this.data['notesData'].title, 
-      "checkList": this.listArray,
-      "id": this.data['notesData'].id,
-      "color" : this.backGroundColor,
-    } 
-    this.onCheckListUpdate.emit(notesEditContent);
-   
+  
+  onEnter(list) {
+    console.log(list);
+    this.onCheckListUpdate.emit({
+      'noteId': this.data['notesData'].id,
+      'newList': list
+    });
+    
   }
 
 }
