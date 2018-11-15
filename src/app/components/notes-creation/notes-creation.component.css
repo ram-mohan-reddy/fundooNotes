@@ -53,5 +53,8 @@
   text-decoration: line-through 
 }
 
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color:#a6a6a6 !important; /* Red background for example */
+}
 
 

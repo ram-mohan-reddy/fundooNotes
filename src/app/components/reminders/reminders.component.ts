@@ -46,11 +46,12 @@ export class RemindersComponent implements OnInit {
     this.totalNotes.sort(this.compare);
     LoggerService.log('Notes : ',this.totalNotes );
   }
-
-  compare(a,b) {
-    if (a.reminder < b.reminder)
+  compare(first,second) {
+    first = new Date(first.reminder);
+    second = new Date(second.reminder);
+    if (first < second)
       return -1;
-    if (a.reminder > b.reminder)
+    if (first > second)
       return 1;
     return 0;
   }

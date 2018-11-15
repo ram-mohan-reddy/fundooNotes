@@ -29,8 +29,14 @@ export class NotesCreationComponent implements OnInit {
   status:string="open"
   userId = localStorage.getItem('userId');
   componentName={
-    'id': undefined
+    'id': undefined,
   }
+
+  reminderEdit = {
+    'id': undefined,
+    'show' : false
+  }
+
   user = {
     roles: []
   };
@@ -57,16 +63,15 @@ export class NotesCreationComponent implements OnInit {
     "isArchived": false
   }
   @Output() notesAdded = new EventEmitter<boolean>();
-
+  todayDate: Date = new Date();
+  tomorrowDate = new Date();
   ngOnInit() {
 this.getLabel();
+this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
   }
 
   receiveMessage(event) {
     if (event) {
-      console.log(this.colorCode);
-      console.log(this.notesContent);
-      console.log(this.listArray);
       this.saveNote();
       this.show = !this.show;
       this.checkList = !this.checkList; 
@@ -82,7 +87,6 @@ this.getLabel();
   receiveColor(event) {
     if (event) {
      this.colorCode = event;
-     console.log(this.colorCode);
     }
   } 
   checkListArray=[];
@@ -99,9 +103,6 @@ this.getLabel();
     this.labelArray=[];
     this.selectLabelArray=[];
     this.colorCode = '#ffffff';
-    console.log(this.notesContent);
-    console.log(this.selectedReminder);
-    
     this.addNote(this.notesContent);
     }
 
@@ -118,7 +119,6 @@ this.getLabel();
         this.checkListArray.push(listObject);
         this.status="open"
       }
-      console.log("listArray",this.checkListArray);
       this.notesContent.color = this.colorCode;
       if (this.selectLabelArray.length != 0) {
         this.notesContent.labelIdList = JSON.stringify(this.labelArray);
@@ -138,7 +138,6 @@ this.getLabel();
         "color" : this.notesContent.color,
         "reminder" : this.notesContent.reminder
       }   
-          console.log(this.notesContentData);
           this.addNote(this.notesContentData); 
      }  
   }
@@ -152,8 +151,7 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
      this.notesContent.description= null;
      this.notesContent.labelIdList = null;
      this.selectLabelArray=[];
-     this.labelArray = [];
-      console.log(data);  
+     this.labelArray = [];  
     });
     error => console.log('Error ', error);
     this.selectLabelArray=[];
@@ -161,8 +159,6 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
   }
 
   update() {
-    console.log(this.notesContent.title);
-    console.log(this.notesContent.description)
     this.saveNote()
     this.show = !this.show; 
   }
@@ -172,7 +168,6 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
   }
 
   onClick(value): void {
-    console.log(value);
     if (!this.selectLabelArray.some((data) => data == value.label)) {
       this.selectLabelArray.push(value.label);
       this.labelArray.push(value.id)
@@ -187,7 +182,6 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
   } 
 
   changeMenu(){
-    console.log(this.labelMenu);
     if (this.labelMenu) { 
       this.labelMenu = !this.labelMenu
     }
@@ -205,14 +199,12 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
   }
 
   addLabelName(): void { 
-    console.log(this.newLabelName);
     if (this.newLabelName != undefined) {
       if (!this.myArray.some((data) => data.label == this.newLabelName)) {
         this.labelData.label = this.newLabelName;
       this.labelData.userId = this.userId;
       this.notesService.notesPostService('api/noteLabels', this.labelData)
         .subscribe(data => {
-          console.log(data);
           this.getLabel(); 
           this.data.eventTrigger(true)
         });
@@ -221,9 +213,6 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
     }
   }
   archiveEventClicked(event){
-
-    console.log(event);
-
     if (event) {
       this.notesContent.isArchived = event;
       this.openSnackBar('Note archived','Undo');
@@ -233,8 +222,7 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
 
   reminderEventClicked(event) {
     this.selectRemainderArray = event;
-    this.selectedReminder = event[0];
-    console.log(this.selectedReminder); 
+    this.selectedReminder = event[0]; 
   }
 
   cancelRemainder() {
@@ -251,14 +239,13 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
   getLabel(): void {
     this.notesService.getLabelData('api/noteLabels/getNoteLabelList')
       .subscribe(data => {
-        console.log("get  :", data);
         this.myArray = [];
         for (let index = 0; index < data['data'].details.length; index++) {
           if (data['data'].details[index].isDeleted == false) {
             this.myArray.push(data['data'].details[index])
           }
         }
-      });
+      }); 
       error => console.log('Error ', error);
   }
 
@@ -267,49 +254,24 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
     this.listArray[index].isChecked = !this.listArray[index].isChecked;
   }
 
+
+  @ViewChild('myListInput') myListInput: ElementRef; 
+  
+  setFocus() { 
+    this.myListInput.nativeElement.focus(); 
+  } 
+
   removeList(index) {
     this.listArray.splice(index, 1);
   }
 
-  onKey(event: any) { 
-    console.log(this.listName);
-    
+  onKey() { 
+    this.listArray.push({
+      'listName' : this.listName,
+      'isChecked' : false,
+      'isDeleted' : false
+    });
     this.listName = '';
-    console.log(this.listName);
-    
-    console.log('key pressed'); 
-    console.log(event.keyCode);
-    if (event.keyCode >=48 && event.keyCode <=57) {
-      this.listArray.push({
-        'listName' : event.key,
-        'isChecked' : false,
-        'isDeleted' : false
-      });
-    }
-
-    else if (event.keyCode >=65 && event.keyCode <=90) {
-      this.listArray.push({
-        'listName' : event.key,
-        'isChecked' : false,
-        'isDeleted' : false
-      });
-    }
-
-    else if (event.keyCode >=96 && event.keyCode <=105) {
-      this.listArray.push({
-        'listName' : event.key,
-        'isChecked' : false,
-        'isDeleted' : false
-      });
-    }
-    
-    else if (event.keyCode == 13) {
-      this.listArray.push({
-        'listName' : " ",
-        'isChecked' : false,
-        'isDeleted' : false
-      });
-    }
   }
 
 }

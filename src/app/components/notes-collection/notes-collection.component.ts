@@ -105,7 +105,7 @@ export class NotesCollectionComponent implements OnInit {
       this.notesEditRequest.emit(true);
     });
   error => console.log(error);
-    });
+    }); 
 
     const sub4 = dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
      console.log(data);

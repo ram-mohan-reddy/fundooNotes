@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject,EventEmitter } from '@angular/core';
+import { Component, OnInit,Inject,EventEmitter,ElementRef, ViewChild } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
@@ -12,7 +12,7 @@ export class DialogComponent implements OnInit {
   onCheckListDelete = new EventEmitter<any>();
   onCheckListUpdate = new EventEmitter<any>();
   show:boolean=true;
-  listName:string;
+  listName:string; 
  listArray=[];  
 
   onReminderRemove = new EventEmitter<any>();
@@ -99,48 +99,21 @@ this.onDelete.emit(labelDetails);
   }
   
   
-  onKey(event: any) { 
+  onKey() { 
     console.log(this.listName);
-    
+    this.listArray.push({
+      'itemName' : this.listName,
+      'status' : "open",
+      'isDeleted' : false
+    });
+    this.onEnter({
+      'itemName' : this.listName,
+      'status' : "open",
+      'isDeleted' : false
+    })
+
     this.listName = '';
-    console.log(this.listName);
-    
-    console.log('key pressed'); 
-    console.log(event.keyCode);
-    if (event.keyCode >=48 && event.keyCode <=57) {
-      this.listArray.push({
-        'itemName' : event.key,
-        'status' : "open",
-        'isDeleted' : false
-      });
-    }
-
-    else if (event.keyCode >=65 && event.keyCode <=90) {
-      this.listArray.push({
-        'itemName' : event.key,
-        'status' : "open",
-        'isDeleted' : false
-      });
-    }
-
-    else if (event.keyCode >=96 && event.keyCode <=105) {
-      this.listArray.push({
-        'itemName' : event.key,
-        'status' : "open",
-        'isDeleted' : false
-      });
-    }
-    
-    else if (event.keyCode == 13) {
-      this.listArray.push({
-        'itemName' : " ",
-        'status' : "open",
-        'isDeleted' : false
-      });
-    }
-  }
-
-  
+  } 
   onEnter(list) {
     console.log(list);
     this.onCheckListUpdate.emit({
@@ -159,4 +132,10 @@ this.onDelete.emit(labelDetails);
     }
     this.onEnter(list);
   }
+
+  @ViewChild('myListInput') myListInput: ElementRef; 
+  
+  setFocus() { 
+    this.myListInput.nativeElement.focus(); 
+  } 
 }

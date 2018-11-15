@@ -12,18 +12,22 @@ export class ImageCropDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+
+    this.imageChangedEvent = this.data.urlEvent;
   }
   imageChangedEvent: any = '';
-  croppedImage: any = '';
+  croppedImage: any;
   showCroppedImage: any = '';
   fileChangeEvent(event: any): void {
+    console.log(event);
+    
       this.imageChangedEvent = event;
   }
   imageCropped(event: any) {
       this.showCroppedImage = event.base64;
     this.croppedImage = event.file;
   }
-  onNoClick(): void {
+  onNoClick(): void { 
     this.dialogRef.close();
   }
 }

@@ -1,6 +1,6 @@
 <div  fxLayout='row' style="margin-top:30px ">
   <div fxFlex=10 fxFlex.xs=0>
-  </div>
+  </div> 
   <div fxFlex fxLayoutAlign='center' fxFlex.xs=100>
     <mat-card *ngIf="show" class="note-card">
       <mat-card-content fxLayout='row'  fxLayout.xs='row'  style="margin-left:15px">
@@ -34,21 +34,21 @@
           <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
             <div *ngIf='name.isDeleted == false'>
             <mat-checkbox style="margin-right:10px" (click)='strike(index)'  (click)="$event.stopPropagation();"> </mat-checkbox>
-            <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" style="outline:none;border:none;width:520px" [(ngModel)]='listArray[index].listName'>
+            <input [ngStyle]="{'background-color': colorCode }" (keyup.enter)="setFocus()" autofocus type="text" style="outline:none;border:none;width:520px" [(ngModel)]='listArray[index].listName'>
             <button  mat-icon-button type="submit" (click)='removeList(index)' ><mat-icon>clear</mat-icon></button> 
           </div>
           </div>
           <hr>
           <div> 
             <div fxFlex=5><mat-icon>add</mat-icon></div> 
-            <input [ngStyle]="{'background-color': colorCode }" type="text" style=" outline:none; border:none;" (keyup)="onKey($event)" placeholder="List item" [(ngModel)]='listName'>
+            <input #myListInput [ngStyle]="{'background-color': colorCode }" type="text" style=" outline:none; border:none;" (keyup.enter)="onKey()" placeholder="List item" [(ngModel)]='listName'>
           
           </div>
         <hr>
         <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
         <div *ngIf='name.isDeleted == true'>
-          <mat-checkbox style="margin-right:10px" [checked]='name.isChecked' (click)='strike(index)' (click)="$event.stopPropagation();"></mat-checkbox>
-          <input [ngStyle]="{'background-color': colorCode }" autofocus type="text" class="strike" [(ngModel)]='listArray[index].listName'>
+          <mat-checkbox class="primary" style="margin-right:10px" [checked]='name.isChecked' (click)='strike(index)' (click)="$event.stopPropagation();"></mat-checkbox>
+          <input [ngStyle]="{'background-color': colorCode }" (keyup.enter)="setFocus()" autofocus type="text" class="strike" [(ngModel)]='listArray[index].listName'>
           <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
         </div>
       </div>
@@ -64,9 +64,39 @@
 
         <div style="padding-top:20px">
             <mat-chip-list>
-                <mat-chip *ngFor = 'let index of selectRemainderArray'>{{index | date:"medium"}}
-                  <mat-icon matChipRemove
-                  (click)='cancelRemainder()'>cancel</mat-icon></mat-chip>
+                  <div *ngFor = 'let reminder of selectRemainderArray'>
+                    <div 
+                    *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
+                    <mat-chip [matMenuTriggerFor]="edit.menu" >
+                        Today, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
+                        <app-remind-icon #edit="menuInOtherComponent" [notesDetails]='reminderEdit' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon></mat-chip>
+                      </div>
+
+                    <div 
+                    *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
+                    <mat-chip [matMenuTriggerFor]="edit.menu">
+                        Tomorrow, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
+                        <app-remind-icon #edit="menuInOtherComponent" [notesDetails]='reminderEdit' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon></mat-chip>
+
+                      </div>
+
+                    <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
+
+                      <div *ngIf="(todayDate | date:'dd/MM/yyyy') > (reminder | date:'dd/MM/yyyy') ; else higherDate">
+                        <mat-chip [matMenuTriggerFor]="edit.menu">
+                          <del>{{reminder | date:"medium"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
+                          <app-remind-icon #edit="menuInOtherComponent" [notesDetails]='reminderEdit' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon></mat-chip>
+
+                        </div>
+                        <ng-template #higherDate>
+                          <mat-chip [matMenuTriggerFor]="edit.menu">
+                            {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
+                            <app-remind-icon #edit="menuInOtherComponent" [notesDetails]='reminderEdit' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon></mat-chip>
+
+                          </ng-template>
+                    </div>
+                   
+                  </div>
               </mat-chip-list>
         </div>
         </mat-card-content> 

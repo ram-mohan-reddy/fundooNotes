@@ -1,15 +1,16 @@
 <div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayout.md='row' style=" margin-top: 40px">
-  <div fxFlex=5 fxFlex.xs=0 fxFlex.sm=0>  
+  <div fxFlex=5 fxFlex.xs=0 fxFlex.sm=0>   
   </div>
-  <div fxFlex fxLayout='row wrap' fxLayoutGap='10px'  fxLayoutAlign='center' fxFlex.xs=100 fxFlex.sm=100 style="height:79vh">
-    <div style="padding:10px" *ngFor='let index of notesListArray | search:searchText'>
-          <mat-card style="width:220px" [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
+  <div fxFlex style="width:500px"  fxFlex.xs=100 fxFlex.sm=100>
+  <div  fxLayout='row wrap' fxLayoutAlign='center' fxLayoutGap='10px'   fxFlex.xs=100 style="width:500px">
+    <div  style="padding:10px" *ngFor='let index of notesListArray | search:searchText'>
+          <mat-card [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
               <mat-card-content (click)='openDialog(index)'>
                 <div fxLayout='row' fxLayout.xs='row'> 
                   <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
                     {{index.title}} 
                   </div>
-                  <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
+                  <div fxFlex class="icons-collection" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
                 </div>
                 <p style="word-wrap: break-word; margin-left: 10px">
                   {{index.description}} 
@@ -50,8 +51,15 @@
                         </div>
 
                         <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
+
+                          <div *ngIf="(todayDate | date:'dd/MM/yyyy') > (reminder | date:'dd/MM/yyyy') ; else higherDate">
                             <mat-chip >
-                                {{reminder | date:"medium"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                              <del>{{reminder | date:"medium"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                          </div>
+                            <ng-template #higherDate>
+                              <mat-chip >
+                                {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                            </ng-template>
                         </div>
                        
                       </div>
@@ -60,24 +68,24 @@
                  
                 </div>  
               </mat-card-content> 
-              <mat-card-actions> 
-                <div fxLayout='row' fxLayoutAlign='space-between' >
-                  <div *ngIf='componentName != "trash"'  class="icons">
+              <mat-card-actions class="icons-collection"> 
+                <div fxLayout='row'  fxLayoutAlign='space-between' >
+                  <div *ngIf='componentName != "trash"' class="icons" >
                     <app-remind-icon (reminderEventClicked)="childEventClicked($event)" [notesDetails]="index"></app-remind-icon>
                   </div>
-                  <div *ngIf='componentName != "trash"'  class="icons"> 
+                  <div *ngIf='componentName != "trash"' class="icons"> 
                     <app-collaborator-icon></app-collaborator-icon> 
                   </div>
-                  <div *ngIf='componentName != "trash"'  class="icons">
+                  <div *ngIf='componentName != "trash"' class="icons">
                     <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
                   </div>
-                  <div *ngIf='componentName != "trash"'  class="icons">
+                  <div *ngIf='componentName != "trash"' class="icons">
                     <app-image-icon></app-image-icon>
                   </div>
                   <div *ngIf='componentName != "trash"' class="icons">
                     <app-archive-icon (archiveEvent)="archiveEventClicked($event)" (unArchiveEvent)="unArchiveEventClicked($event)" [notesDetails]="index"></app-archive-icon>
                   </div>
-                  <div  class="icons">
+                  <div>
                     <app-more-icon (eventClicked)="childEventClicked($event)" [componentName]="componentName" [notesDetails]="index"></app-more-icon>
                   </div>
                 </div>
@@ -85,6 +93,7 @@
             </mat-card>
     </div>
   </div>
+</div>
   <div fxFlex.xs=0 fxFlex.sm=0 fxFlex=5 fxFlex.xs=0>
   </div>
 </div>

@@ -167,14 +167,14 @@ url= "http://34.213.106.173/"+this.savedUrl;
 onImageUpload(event){
 this.selectedFile = event.path[0].files[0];
 this.imageUpload(); 
-}
+} 
 
 imageUpload(): void {
   const dialogRef = this.dialog.open(ImageCropDialogComponent, {
     width: '700px',
     height: '500px',
     position: { top: '100px', left: '250px'},
-    
+    data: {urlEvent:this.url}
   });
 
   dialogRef.afterClosed().subscribe(result => {

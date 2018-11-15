@@ -8,22 +8,22 @@
     <div *ngFor='let list of listArray; let index = index'>
         <div *ngIf='list.status == "open" && list.isDeleted == false'>
             <mat-checkbox style="margin-right:10px" (click)="$event.stopPropagation();" (click)='updateChecklist(list)'> </mat-checkbox>
-            <input [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="onEnter(list)" class="un-strike" cdkFocusInitial type="text" [(ngModel)]='list.itemName'>
+            <input [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="setFocus()" (keyup.enter)="onEnter(list)" class="un-strike" cdkFocusInitial type="text" [(ngModel)]='list.itemName'>
             <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
           </div>
       </div>
-      <div *ngIf='!show'>  
+      <div *ngIf='!show'>   
         <hr>
         <div>
           <div fxFlex=5><mat-icon>add</mat-icon></div> 
-          <input [ngStyle]="{'background-color': backGroundColor}" type="text" style=" outline:none; border:none;" (keyup)="onKey($event)" placeholder="List item" [(ngModel)]='listName'>
+          <input #myListInput [ngStyle]="{'background-color': backGroundColor}" type="text" style=" outline:none; border:none;" (keyup.enter)="onKey()" placeholder="List item" [(ngModel)]='listName'>
         </div>
           <hr>
         </div>
       <div *ngFor='let list of listArray;let index = index'>
          <div *ngIf='list.status == "close" && list.isDeleted == false '>
             <mat-checkbox style="margin-right:10px" cdkFocusInitial (click)="$event.stopPropagation();" (click)='updateChecklist(list)' [checked]='true'> </mat-checkbox>
-            <input [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="onEnter(list)" cdkFocusInitial type="text" class="strike" [(ngModel)]='list.itemName'>
+            <input (keyup.enter)="setFocus()"  [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="onEnter(list)" cdkFocusInitial type="text" class="strike" [(ngModel)]='list.itemName'>
             <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
             <!-- <span style="text-decoration: line-through">{{list.itemName}}</span> -->
          </div> 

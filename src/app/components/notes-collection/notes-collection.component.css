@@ -1,6 +1,6 @@
 .mat-card-grid {
     /* margin: 10px; */
-    width:200px;
+    min-width:220px;
     border-radius: 10px
   }
 
@@ -10,10 +10,19 @@
     border-radius: 10px
   }
 
-.icons {
-    opacity: 0.5;
-   
+
+
+.icons-collection {
+    opacity: 0;
 }
+
+.mat-card-grid:hover .icons-collection {
+    opacity: 0.5;
+}
+
+/* .icons-collection:hover {
+    opacity: 0.5;
+} */
 
 .icons:hover {
     opacity: 1.0;    

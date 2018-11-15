@@ -1,17 +1,18 @@
-import { Component, OnInit, Input,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input,Output,EventEmitter,ElementRef, ViewChild  } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
-
+import { MatMenu } from '@angular/material';
 @Component({
   selector: 'app-remind-icon', 
   templateUrl: './remind-icon.component.html',
-  styleUrls: ['./remind-icon.component.css']
+  styleUrls: ['./remind-icon.component.css'],
+  exportAs: 'menuInOtherComponent'
 })
 export class RemindIconComponent implements OnInit {
-
+  @ViewChild(MatMenu) menu: MatMenu;
   currentDate:any;
-  date: Date = new Date();
+  date: Date = new Date(); 
   customDate = this.date;
-  
+  value;
   customTime:any;
   constructor(private notesService: GetNotesService) { } 
   @Input() notesDetails: any;
@@ -25,7 +26,7 @@ export class RemindIconComponent implements OnInit {
 
   ngOnInit() {
   this.currentDate= this.date;
-  this.customTime = this.timeFormat(this.date)
+  this.customTime = this.timeFormat(this.date);
   }
 
   timeFormat(date) {
@@ -232,6 +233,12 @@ export class RemindIconComponent implements OnInit {
     this.reminderArrayEvent.emit(this.reminder);
   }
 }
+
+@ViewChild('customInput') customInput: ElementRef; 
+  
+setFocus() { 
+  this.customInput.nativeElement.focus(); 
+} 
 
 
 }
