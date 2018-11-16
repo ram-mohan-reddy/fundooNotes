@@ -121,7 +121,6 @@ this.router.navigate(['home/search']);
   createLabel(): void {
     const dialogRef = this.dialog.open(LabelDialogComponent, {
       width: '300px',
-      position: { top: '100px', left: '450px'},
       panelClass: 'myapp-no-padding-dialog',
       data: {label:this.labelList}
     });
@@ -179,7 +178,6 @@ imageUpload(): void {
   const dialogRef = this.dialog.open(ImageCropDialogComponent, {
     width: '700px',
     height: '500px',
-    position: { top: '100px', left: '250px'},
     data: {urlEvent:this.url}
   });
 

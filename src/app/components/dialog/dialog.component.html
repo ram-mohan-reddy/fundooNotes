@@ -71,35 +71,40 @@
                       <app-remind-icon #edit="menuInOtherComponent" (editReminderEventClicked)="reminderEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="data.notesData"></app-remind-icon></mat-chip>
                     </div>
               </div>
-             
+              
             </div>
           </mat-chip-list> 
     </div>
   </mat-card-content> 
   <mat-card-actions>
-    <div fxLayout='row' fxLayout.xs='row'>
-      <div fxFlex=7 class="icons">
+    <div fxLayout='column'>
+<div  fxLayout='row'  fxLayoutAlign='space-between'>
+      <div  class="icons">
         <app-remind-icon (editReminderEventClicked)="reminderEventClicked($event)" [notesDetails]="data.notesData"></app-remind-icon> 
       </div>
-      <div fxFlex=7 class="icons">
+      <div  class="icons">
         <app-collaborator-icon></app-collaborator-icon>
       </div>
-      <div fxFlex=7 class="icons">
+      <div  class="icons">
         <app-color-icon (colorCodeEvent)="colorEventClicked($event)" [notesDetails]="data.notesData"></app-color-icon>
       </div>
-      <div fxFlex=7 class="icons">
+      <div  class="icons">
         <app-image-icon></app-image-icon> 
       </div>
-      <div fxFlex=7 class="icons">
+      <div class="icons">
         <app-archive-icon (archiveEvent)="eventClicked($event)" [notesDetails]="data.notesData"></app-archive-icon>
       </div>
-      <div fxFlex=7 class="icons">
+      <div  class="icons">
         <app-more-icon (eventClicked)="eventClicked($event)" (labelAdd)="childEventClicked($event)" [notesDetails]="data.notesData"></app-more-icon>
       </div>
-      <div fxFlex fxLayoutAlign="end" class="icons">
+    </div>
+    <div  fxLayoutAlign="end" class="icons">
         <button mat-button [mat-dialog-close]="notesEditContent">Close</button>
       </div> 
+   
     </div>
+    
+     
   </mat-card-actions>
 </mat-card>
 

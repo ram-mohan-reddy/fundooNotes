@@ -1,22 +1,28 @@
-
-<p>Select profile photo</p>
-<hr>
-<input type="file" style="display:none" (change)="fileChangeEvent($event)" #selectImage/>
-
-<button mat-raised-button color="primary" (click)="selectImage.click()"> Select a photo from your computer</button>
-<div fxLayout='row' style="height:250px; margin-top: 20px">
-    <image-cropper *ngIf='imageChangedEvent != "" ' fxFlex 
-    [imageChangedEvent]="imageChangedEvent"
-    [maintainAspectRatio]="true"
-    [aspectRatio]="4 / 3"
-    [resizeToWidth]="128"
-    format="png"
-    (imageCropped)="imageCropped($event)"
-></image-cropper>
-<img style="height:50%" fxFlex=20 [src]="showCroppedImage" />
-</div>
-
-<div>
-    <button style="float:right;margin:10px" mat-raised-button (click)="onNoClick()">No Thanks</button>
-    <button style="float:right;margin:10px" [mat-dialog-close]="croppedImage" mat-raised-button cdkFocusInitial>Ok</button>
+<div fxLayout='column'>
+    <div>
+            <p>Select profile photo</p>
+            <hr>
+            <input type="file" style="display:none" (change)="fileChangeEvent($event)" #selectImage/>
+    </div>
+      
+      <div>
+            <button  fxFlex=50 fxFlex.xs=100 mat-raised-button color="primary" (click)="selectImage.click()"> Select a photo </button>
+      </div>  
+        
+        <div fxLayout='row' style="height:250px; margin-top: 20px">
+            <image-cropper *ngIf='imageChangedEvent != "" ' fxFlex 
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3"
+            [resizeToWidth]="128"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+        ></image-cropper>
+        <img style="height:50%" fxFlex=20 [src]="showCroppedImage" />
+        </div>
+        
+        <div fxLayoutAlign='space-between' fxLayout.xs='column'>
+            <button style="float:right;margin:10px" mat-raised-button (click)="onNoClick()">No Thanks</button>
+            <button style="float:right;margin:10px" [mat-dialog-close]="croppedImage" mat-raised-button cdkFocusInitial>Ok</button>
+        </div>
 </div>

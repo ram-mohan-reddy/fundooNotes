@@ -81,7 +81,7 @@ export class NotesCollectionComponent implements OnInit {
   openDialog(notes): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '600px',
-      position: { top: '250px', left: '450px' },
+      // position: { top: '250px', left: '450px' },
       panelClass: 'myapp-no-padding-dialog',
       data: {
         notesData: notes,
