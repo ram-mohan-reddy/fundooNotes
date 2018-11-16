@@ -29,9 +29,9 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
         </div>
         <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button 
           routerLink="/home"><mat-icon>refresh</mat-icon></button>
-        <button class="icons" *ngIf='notesView' (click)='changeView()' matTooltip="List view" 
+        <button class="icons" fxHide.xs = "true" *ngIf='notesView' (click)='changeView()' matTooltip="List view" 
           fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
-        <button class="icons" *ngIf='!notesView' (click)='changeView()' matTooltip="Grid view" 
+        <button class="icons" fxHide.xs = "true" *ngIf='!notesView' (click)='changeView()' matTooltip="Grid view" 
           fxFlex mat-icon-button><mat-icon>grid_on</mat-icon></button>
         <button class="icons" matTooltip="Notification" fxFlex mat-icon-button>
           <mat-icon>notifications_none</mat-icon></button>

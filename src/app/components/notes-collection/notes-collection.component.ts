@@ -7,7 +7,7 @@ import {LoggerService} from '../../core/services/loggerService/logger.service';
 import { HttpService } from '../../core/services/httpService/http.service';
 
 @Component({
-  selector: 'app-notes-collection',
+  selector: 'app-notes-collection', 
   templateUrl: './notes-collection.component.html',
   styleUrls: ['./notes-collection.component.css'],
 
@@ -36,7 +36,8 @@ export class NotesCollectionComponent implements OnInit {
   @Output() notesEditRequest = new EventEmitter<boolean>();
   todayDate: Date = new Date();
   tomorrowDate = new Date();
-
+  reminderEdit = false;
+  
   ngOnInit(){
     LoggerService.log('Using logger service: ');
     this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
@@ -67,7 +68,10 @@ export class NotesCollectionComponent implements OnInit {
       duration: 1000,
     });
   }
- 
+  onLabelClick(label){
+    this.dataService.changeIdentityEventTrigger(label);
+  }
+
   deleteNoteLabel(labelId, noteId) {
     this.notesService.notesPostService('api/notes/' + noteId + "/addLabelToNotes/" + labelId + '/remove', {})
       .subscribe(data => {
@@ -141,6 +145,17 @@ export class NotesCollectionComponent implements OnInit {
         }
       }
     });
+  }
+
+  compareDate(date) {
+    var currentDate = new Date().getTime();
+    var reminderDate = new Date(date).getTime();
+    if (currentDate > reminderDate) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   deleteRemainder(noteId) {

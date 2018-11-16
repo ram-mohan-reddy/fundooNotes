@@ -14,6 +14,9 @@ export class DataSharingService {
   private listEventEmit = new Subject<boolean>();
   listEventEmitted = this.listEventEmit.asObservable();
 
+  private identityEventEmit = new Subject<string>();
+  identityEventEmitted = this.identityEventEmit.asObservable();
+
   constructor() { }
   changeMessage(message: string) {
     this.messageSource.next(message) 
@@ -24,7 +27,11 @@ export class DataSharingService {
 
   listEventTrigger(message: boolean) {
     console.log('list event');
-    
     this.listEventEmit.next(message)
+  }
+
+  changeIdentityEventTrigger(message: string) {
+    console.log('list event');
+    this.identityEventEmit.next(message)
   }
 }

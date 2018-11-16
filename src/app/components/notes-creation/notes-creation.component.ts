@@ -21,7 +21,7 @@ export class NotesCreationComponent implements OnInit {
   addMessage: boolean = false;
   myArray = [];
   selectLabelArray = [];
-  selectRemainderArray=[];
+  selectRemainderArray=[]; 
   selectedReminder: string;
   labelArray = [];
   labelMenu: boolean = true; 
@@ -32,10 +32,8 @@ export class NotesCreationComponent implements OnInit {
     'id': undefined,
   }
 
-  reminderEdit = {
-    'id': undefined,
-    'show' : false
-  }
+  reminderEdit = false;
+  
 
   user = {
     roles: []
@@ -139,9 +137,9 @@ this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
         "reminder" : this.notesContent.reminder
       }   
           this.addNote(this.notesContentData); 
-     }  
+     }   
   }
-
+ 
 addNote(notes) {
 this.notesService.notesPostCreate('api/notes/addNotes',notes)
     .subscribe(data => {
@@ -196,6 +194,21 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
         this.selectLabelArray.splice(index, 1);
         this.labelArray.splice(index, 1);
     }  
+  }
+
+  onLabelClick(label){
+    this.data.changeIdentityEventTrigger(label);
+  }
+
+  compareDate(date) {
+    var currentDate = new Date().getTime();
+    var reminderDate = new Date(date).getTime();
+    if (currentDate > reminderDate) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   addLabelName(): void { 

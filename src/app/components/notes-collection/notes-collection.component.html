@@ -1,6 +1,6 @@
 <div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayout.md='row' style=" margin-top: 40px">
   <div fxFlex=5 fxFlex.xs=0 fxFlex.sm=0>   
-  </div>
+  </div> 
   <div fxFlex style="width:500px"  fxFlex.xs=100 fxFlex.sm=100>
   <div  fxLayout='row wrap' fxLayoutAlign='center' fxLayoutGap='10px'   fxFlex.xs=100 style="width:500px">
     <div  style="padding:10px" *ngFor='let index of notesListArray | search:searchText'>
@@ -32,7 +32,7 @@
                   <mat-chip-list>
                     <div *ngFor='let label of index.noteLabels'>
                       <mat-chip *ngIf='label.isDeleted == false'>
-                        {{label.label}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></span></mat-chip>
+                        <span style="border:none;outline:none" (click)='onLabelClick(label.label)' routerLink="/home/labels/{{label.label}}">{{label.label}}</span><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></mat-chip>
                     </div>
                   </mat-chip-list>
                   <div style="margin-top:10px">
@@ -40,26 +40,36 @@
                       <div *ngFor='let reminder of index.reminder'>
                         <div 
                         *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
-                        <mat-chip >
-                            Today, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                          <div *ngIf="compareDate(reminder)">
+                              <mat-chip [matMenuTriggerFor]="edit.menu">
+                                <del>Today, {{reminder | date:"mediumTime"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
+                                <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
+                            </div>
+                              <div *ngIf="!compareDate(reminder)">
+                                <mat-chip [matMenuTriggerFor]="edit.menu">
+                                    Today, {{reminder | date:"mediumTime"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
+                                  <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
+                                </div>
                         </div>
 
                         <div 
                         *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
-                        <mat-chip >
-                            Tomorrow, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                        <mat-chip [matMenuTriggerFor]="edit.menu">
+                            Tomorrow, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
+                            <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
                         </div>
 
                         <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
-
-                          <div *ngIf="(todayDate | date:'dd/MM/yyyy') > (reminder | date:'dd/MM/yyyy') ; else higherDate">
-                            <mat-chip >
-                              <del>{{reminder | date:"medium"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
+                          <div *ngIf="compareDate(reminder)">
+                            <mat-chip [matMenuTriggerFor]="edit.menu">
+                              <del>{{reminder | date:"medium"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
+                              <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
                           </div>
-                            <ng-template #higherDate>
-                              <mat-chip >
-                                {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span></mat-chip>
-                            </ng-template>
+                            <div *ngIf="!compareDate(reminder)">
+                              <mat-chip [matMenuTriggerFor]="edit.menu">
+                                {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
+                                <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
+                              </div>
                         </div>
                        
                       </div>

@@ -31,6 +31,12 @@ export class HomeNavigationComponent implements OnInit{
           this.getLabel();
         } 
       })
+      this.dataService.identityEventEmitted.subscribe(message => {
+        console.log(message);  
+        if (message) {
+         this.identify = message;
+        } 
+      })
     }
   searchText:string;
   identify: string;

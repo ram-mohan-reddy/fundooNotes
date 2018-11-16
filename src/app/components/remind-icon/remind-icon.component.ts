@@ -16,6 +16,7 @@ export class RemindIconComponent implements OnInit {
   customTime:any;
   constructor(private notesService: GetNotesService) { } 
   @Input() notesDetails: any;
+  @Input() hideIcon: any;
   @Output() reminderEventClicked = new EventEmitter<boolean>(); 
   @Output() reminderArrayEvent = new EventEmitter<any>();
   @Output() editReminderEventClicked = new EventEmitter<any>();
