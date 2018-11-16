@@ -1,10 +1,11 @@
 import { Component, OnInit,Inject,EventEmitter,ElementRef, ViewChild } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css'] 
+  styleUrls: ['./dialog.component.scss'] 
 })
 export class DialogComponent implements OnInit {
   onAdd = new EventEmitter<boolean>();
@@ -18,9 +19,12 @@ export class DialogComponent implements OnInit {
   onReminderRemove = new EventEmitter<any>();
   labelListArray;
   reminderArray;
+  todayDate: Date = new Date();
+  tomorrowDate = new Date();
+  reminderEdit = false;
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any, public dataService: DataSharingService) {}
     backGroundColor : string = this.data.notesData.color;
   notesEditContent = {
     "title": this.data['notesData'].title, 
@@ -37,10 +41,10 @@ export class DialogComponent implements OnInit {
     }
     this.labelListArray = this.data['notesData'].noteLabels;
     this.reminderArray = this.data['notesData'].reminder;
+    this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
   }
 
   colorEventClicked(event) { 
-    console.log(event);
     this.backGroundColor = event; 
   }
  
@@ -62,19 +66,25 @@ export class DialogComponent implements OnInit {
   }
 
   reminderEventClicked(event) {
-console.log(event);
-this.reminderArray =[];
-this.reminderArray.push(event)
+    if (event) {
+      this.reminderArray = [];
+      this.reminderArray.push(event);
+      this.onAdd.emit(true);
+    }
+  }
+
+  onLabelClick(label){
+    this.dataService.changeIdentityEventTrigger(label);
+    this.dialogRef.close();
   }
   
   deleteRemainder(id) {
-    console.log(id);
+
     this.onReminderRemove.emit(id);
     this.reminderArray =[];
   }
 
   removeLabel(label){
-console.log(label);
 const index: number = this.labelListArray.indexOf(label);
 if (index !== -1) {
     this.labelListArray.splice(index, 1);
@@ -90,7 +100,6 @@ this.onDelete.emit(labelDetails);
   
   removeList(index,list) {
     this.listArray.splice(index, 1); 
-    console.log(list);
     this.onCheckListDelete.emit({
       'checklistId': list.id,
       'noteId' : this.data.notesData.id
@@ -100,7 +109,6 @@ this.onDelete.emit(labelDetails);
   
   
   onKey() { 
-    console.log(this.listName);
     this.listArray.push({
       'itemName' : this.listName,
       'status' : "open",
@@ -115,7 +123,6 @@ this.onDelete.emit(labelDetails);
     this.listName = '';
   } 
   onEnter(list) {
-    console.log(list);
     this.onCheckListUpdate.emit({
       'noteId': this.data['notesData'].id,
       'newList': list
@@ -138,4 +145,15 @@ this.onDelete.emit(labelDetails);
   setFocus() { 
     this.myListInput.nativeElement.focus(); 
   } 
+
+  compareDate(date) {
+    var currentDate = new Date().getTime();
+    var reminderDate = new Date(date).getTime();
+    if (currentDate > reminderDate) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }

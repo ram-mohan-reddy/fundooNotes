@@ -9,7 +9,7 @@ import { HttpService } from '../../core/services/httpService/http.service';
 @Component({
   selector: 'app-notes-collection', 
   templateUrl: './notes-collection.component.html',
-  styleUrls: ['./notes-collection.component.css'],
+  styleUrls: ['./notes-collection.component.scss'],
 
 })
 export class NotesCollectionComponent implements OnInit { 
@@ -26,8 +26,7 @@ export class NotesCollectionComponent implements OnInit {
         } 
       })
       this.dataService.listEventEmitted.subscribe(message => {
-        console.log(message);
-        
+        console.log(message);   
       })
     }
   @Input() notesListArray: any;
@@ -90,7 +89,10 @@ export class NotesCollectionComponent implements OnInit {
       }
     });
     const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
-      this.notesEditRequest.emit(true);
+      console.log('on add');
+      if (data) {
+        this.notesEditRequest.emit(true);
+      }
     });
 
     const sub1 = dialogRef.componentInstance.onDelete.subscribe((data) => {
@@ -143,7 +145,7 @@ export class NotesCollectionComponent implements OnInit {
           });
         error => LoggerService.log('Error :' + error);
         }
-      }
+      } 
     });
   }
 
@@ -189,5 +191,20 @@ export class NotesCollectionComponent implements OnInit {
       this.notesEditRequest.emit(true);
     });
   error => console.log(error);
+  }
+
+  pinNotes(note){
+console.log(note.id);
+
+    var noteDetails = {
+      "isPined": true,
+      "noteIdList":[note.id]
+    }
+    this.notesService.notesPostService('api/notes/pinUnpinNotes', noteDetails)
+    .subscribe(data => {
+      this.notesEditRequest.emit(true);
+    });
+  error => LoggerService.log('Error :' + error);
+
   }
 }

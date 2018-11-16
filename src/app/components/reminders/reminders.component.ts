@@ -5,7 +5,7 @@ import { HttpService } from '../../core/services/httpService/http.service';
 @Component({
   selector: 'app-reminders',
   templateUrl: './reminders.component.html',
-  styleUrls: ['./reminders.component.css']
+  styleUrls: ['./reminders.component.scss']
 })
 export class RemindersComponent implements OnInit {
   list;

@@ -1,7 +1,7 @@
 <div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayout.md='row' style=" margin-top: 40px">
   <div fxFlex=5 fxFlex.xs=0 fxFlex.sm=0>   
   </div> 
-  <div fxFlex style="width:500px"  fxFlex.xs=100 fxFlex.sm=100>
+  <div fxFlex  fxFlex.xs=100 fxFlex.sm=100>
   <div  fxLayout='row wrap' fxLayoutAlign='center' fxLayoutGap='10px'   fxFlex.xs=100 style="width:500px">
     <div  style="padding:10px" *ngFor='let index of notesListArray | search:searchText'>
           <mat-card [ngStyle]="{'background-color': index.color }" [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">

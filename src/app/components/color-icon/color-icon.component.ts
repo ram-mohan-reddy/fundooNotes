@@ -4,7 +4,7 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 @Component({
   selector: 'app-color-icon',
   templateUrl: './color-icon.component.html',
-  styleUrls: ['./color-icon.component.css']
+  styleUrls: ['./color-icon.component.scss']
 })
 export class ColorIconComponent implements OnInit {
   event: boolean = true

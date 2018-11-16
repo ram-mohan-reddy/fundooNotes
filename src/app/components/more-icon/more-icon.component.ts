@@ -6,7 +6,7 @@ import { MatDialog} from '@angular/material';
 @Component({
   selector: 'app-more-icon',
   templateUrl: './more-icon.component.html',
-  styleUrls: ['./more-icon.component.css']
+  styleUrls: ['./more-icon.component.scss']
 })
 export class MoreIconComponent implements OnInit {
   event: boolean = true

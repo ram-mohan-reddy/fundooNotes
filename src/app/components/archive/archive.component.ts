@@ -4,7 +4,7 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 @Component({
   selector: 'app-archive',
   templateUrl: './archive.component.html',
-  styleUrls: ['./archive.component.css']
+  styleUrls: ['./archive.component.scss']
 })
 export class ArchiveComponent implements OnInit {
   totalNotes = [];

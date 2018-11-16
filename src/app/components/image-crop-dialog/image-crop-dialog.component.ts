@@ -4,7 +4,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'app-image-crop-dialog',
   templateUrl: './image-crop-dialog.component.html',
-  styleUrls: ['./image-crop-dialog.component.css']
+  styleUrls: ['./image-crop-dialog.component.scss']
 })
 export class ImageCropDialogComponent implements OnInit {
 
@@ -13,7 +13,6 @@ export class ImageCropDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    this.imageChangedEvent = this.data.urlEvent;
   }
   imageChangedEvent: any = '';
   croppedImage: any;

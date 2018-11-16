@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-collaborator-icon',
   templateUrl: './collaborator-icon.component.html',
-  styleUrls: ['./collaborator-icon.component.css']
+  styleUrls: ['./collaborator-icon.component.scss']
 })
 export class CollaboratorIconComponent implements OnInit {
 

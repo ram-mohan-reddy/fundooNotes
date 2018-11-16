@@ -4,7 +4,7 @@ import { MatMenu } from '@angular/material';
 @Component({
   selector: 'app-remind-icon', 
   templateUrl: './remind-icon.component.html',
-  styleUrls: ['./remind-icon.component.css'],
+  styleUrls: ['./remind-icon.component.scss'],
   exportAs: 'menuInOtherComponent'
 })
 export class RemindIconComponent implements OnInit {
@@ -45,7 +45,6 @@ export class RemindIconComponent implements OnInit {
     if (this.notesDetails.id != undefined) {
       const date: Date = new Date();
     if (value == 'today') {
-      this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 0, 20, 0, 0));
       var note = {
         "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 0, 20, 0, 0),
         "noteIdList":[this.notesDetails.id]
@@ -54,7 +53,6 @@ export class RemindIconComponent implements OnInit {
     }
 
     else if (value == 'nextDay') {
-      this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 8, 0, 0));
       var note = {
         "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 8, 0, 0),
         "noteIdList":[this.notesDetails.id]
@@ -65,7 +63,6 @@ export class RemindIconComponent implements OnInit {
       console.log(date.getDay());
 
       if (date.getDay() == 6) {
-        this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2, 8, 0, 0));
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2, 8, 0, 0),
           "noteIdList":[this.notesDetails.id]
@@ -74,7 +71,6 @@ export class RemindIconComponent implements OnInit {
       }
       
       else if (date.getDay() == 5) {
-        this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 3, 8, 0, 0));
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 3, 8, 0, 0),
           "noteIdList":[this.notesDetails.id]
@@ -83,7 +79,6 @@ export class RemindIconComponent implements OnInit {
       }
 
       else if (date.getDay() == 4) {
-        this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 4, 8, 0, 0));
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 4, 8, 0, 0),
           "noteIdList":[this.notesDetails.id]
@@ -92,7 +87,6 @@ export class RemindIconComponent implements OnInit {
       }
 
       else if (date.getDay() == 3) {
-        this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 5, 8, 0, 0));
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 5, 8, 0, 0),
           "noteIdList":[this.notesDetails.id]
@@ -100,7 +94,6 @@ export class RemindIconComponent implements OnInit {
         this.addReminder(note);
       }
       else if (date.getDay() == 2) {
-        this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 6, 8, 0, 0));
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 6, 8, 0, 0),
           "noteIdList":[this.notesDetails.id]
@@ -108,7 +101,6 @@ export class RemindIconComponent implements OnInit {
         this.addReminder(note);
       }
       else if (date.getDay() == 1) {
-        this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7, 8, 0, 0));
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7, 8, 0, 0),
           "noteIdList":[this.notesDetails.id]
@@ -116,7 +108,6 @@ export class RemindIconComponent implements OnInit {
         this.addReminder(note);
       }
       else if (date.getDay() == 0) {
-        this.editReminderEventClicked.emit(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 8, 8, 0, 0));
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 8, 8, 0, 0),
           "noteIdList":[this.notesDetails.id]
@@ -190,7 +181,8 @@ export class RemindIconComponent implements OnInit {
     this.notesService.notesPostService('api/notes/addUpdateReminderNotes',remainder)
     .subscribe(data => {
       console.log(data);
-      this.reminderEventClicked.emit(true);   
+      this.reminderEventClicked.emit(true);  
+      this.editReminderEventClicked.emit(remainder.reminder); 
     });
   error => console.log(error);
   
@@ -225,7 +217,6 @@ export class RemindIconComponent implements OnInit {
       "noteIdList":[this.notesDetails.id]
     }
     if (this.notesDetails.id != undefined) {
-    this.editReminderEventClicked.emit(new Date(this.customDate.getFullYear(), this.customDate.getMonth(), this.customDate.getDate(), splittedTime[0], splittedTime[2] + splittedTime[3]))
     this.addReminder(note);  
     }
   else {

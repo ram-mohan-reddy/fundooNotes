@@ -6,7 +6,7 @@ import {MatSnackBar} from '@angular/material';
 @Component({
   selector: 'app-login', 
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
   animations: [
     trigger('flyInOut', [
       state('in', style({ transform: 'translateX(0)' })),
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     else if (this.userLogin.email == '') {
       this.emptyEmail = 'Enter an email'
     }  
-  }
+  } 
   toggle1() {
     if (this.userLogin.password == '') {
       console.log(this.userLogin.password);  
@@ -61,7 +61,15 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token',data['id']);  
         localStorage.setItem('userId',data['userId']); 
         localStorage.setItem('imageUrl',data['imageUrl']);    
-        this.uesrData();
+        var token = localStorage.getItem('token');
+        var reminderToken = localStorage.getItem('reminderToken');
+        this.userService.postServiceAuthentication('api/user/registerPushToken',{
+        "pushToken":reminderToken
+        },token)
+        .subscribe(data => {
+          this.uesrData();
+          error => console.log('Error ', error);       
+        });
         error => console.log('Error ', error);       
       });
   }
@@ -69,11 +77,9 @@ export class LoginComponent implements OnInit {
   uesrData() {
     this.userService.getService('api/user')
     .subscribe(data => {
-      console.log(data);
       data.forEach(element => {
         if (element.email == this.userLogin.email) {
         this.userName = element.firstName;
-          console.log(element.firstName);
           localStorage.setItem('userName',this.userName);
           localStorage.setItem('email',this.userLogin.email);
           window.location.replace('home')

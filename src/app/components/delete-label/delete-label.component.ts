@@ -4,7 +4,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'app-delete-label',
   templateUrl: './delete-label.component.html',
-  styleUrls: ['./delete-label.component.css']
+  styleUrls: ['./delete-label.component.scss']
 })
 export class DeleteLabelComponent implements OnInit {
 

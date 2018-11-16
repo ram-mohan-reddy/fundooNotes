@@ -6,7 +6,7 @@ import {MatSnackBar} from '@angular/material';
 @Component({
   selector: 'app-notes-creation',
   templateUrl: './notes-creation.component.html',
-  styleUrls: ['./notes-creation.component.css']
+  styleUrls: ['./notes-creation.component.scss']
 })
 export class NotesCreationComponent implements OnInit {
   constructor(private notesService:GetNotesService,private data: DataSharingService,

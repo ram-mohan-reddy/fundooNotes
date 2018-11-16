@@ -5,7 +5,7 @@ import {LoggerService} from '../../core/services/loggerService/logger.service';
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.css'] 
+  styleUrls: ['./notes.component.scss'] 
 })
 export class NotesComponent implements OnInit {
   list;
@@ -14,16 +14,13 @@ export class NotesComponent implements OnInit {
   ngOnInit() { 
     this.notesService.getNotes()
     .subscribe(data => {
-      console.log(data);
       this.notesCollection(data) 
     });
     error => console.log('Error ', error);
   }
   notesAddRequest(event) {
     if (event) {
-      console.log(event);
       this.notesService.getNotes().subscribe(data => {
-        console.log(data);
          this.notesCollection(data)
       });
       error => console.log('Error ', error);

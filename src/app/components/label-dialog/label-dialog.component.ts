@@ -7,7 +7,7 @@ import { MatDialog} from '@angular/material';
 @Component({
   selector: 'app-label-dialog',
   templateUrl: './label-dialog.component.html',
-  styleUrls: ['./label-dialog.component.css'] 
+  styleUrls: ['./label-dialog.component.scss'] 
 })
 export class LabelDialogComponent implements OnInit {
   changeText: boolean = false;

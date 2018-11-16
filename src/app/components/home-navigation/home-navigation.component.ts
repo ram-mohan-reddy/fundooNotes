@@ -12,7 +12,7 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'app-home-navigation',
   templateUrl: './home-navigation.component.html',
-  styleUrls: ['./home-navigation.component.css']
+  styleUrls: ['./home-navigation.component.scss']
 })
 
 

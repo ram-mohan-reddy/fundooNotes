@@ -3,7 +3,7 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 @Component({
   selector: 'app-archive-icon',
   templateUrl: './archive-icon.component.html',
-  styleUrls: ['./archive-icon.component.css']
+  styleUrls: ['./archive-icon.component.scss']
 })
 export class ArchiveIconComponent implements OnInit {
   @Output() archiveEvent = new EventEmitter<boolean>();

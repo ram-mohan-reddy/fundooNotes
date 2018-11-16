@@ -32,6 +32,8 @@ import {LoggerService} from './core/services/loggerService/logger.service';
 import {DataSharingService} from './core/services/dataService/data-sharing.service';
 import {GetNotesService} from './core/services/notes/get-notes.service';
 import {AuthService} from './core/services/auth/auth.service';
+import {MessageServiceService} from './core/services/messageService/message-service.service';
+
 
 // Guards and Pipes
 import {AuthGuard} from './core/guards/auth.guard';
@@ -134,7 +136,8 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
               AuthGuard,
               GetNotesService,
               DataSharingService,
-              LoggerService],
+              LoggerService,
+              MessageServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
