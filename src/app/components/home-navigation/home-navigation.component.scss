@@ -61,7 +61,7 @@
 }
 
 .drop-down-button {
-  width:450px;
+  width:550px;
   padding:5px
 }
 
@@ -94,7 +94,11 @@
   background-color:#f2f2f2;
   color: #0d0d0d
 }
-
+.display-image-show {
+  width: 100px;
+  height: 100px;
+  cursor:pointer;
+}
 .change-button {
   font-size:12px;
   margin-top: 10px;
@@ -104,6 +108,24 @@
 .change-button:hover {
   opacity: 1;
 }
+
+.image-change-button {
+  font-size:12px;
+  top:30px; 
+  margin-left:10px;
+  color: white;
+  opacity: 0;
+}
+.image-change-button:hover {
+  opacity: 1;
+}
+::ng-deep.mat-menu-panel.notifications-dropdown {
+  min-width: 112px;
+  max-width: 320px;
+} 
+
+
+
 
 
 

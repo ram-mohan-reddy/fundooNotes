@@ -37,10 +37,10 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
           mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
         <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
           matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
-        <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+        <mat-menu class="notifications-dropdown" #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template matMenuContent>
-            <div style='padding: 10px;' fxLayoutGap=10px fxLayout='row'>
-              <div fxFlex=40>
+            <div style='padding: 10px;'  fxLayout='row' >
+              <div fxLayout='row' fxFlex=35 fxlayoutAlign='space-between'>
                 <button (click)="$event.stopPropagation();" class="display-image" *ngIf='savedUrl == ""'  mat-mini-fab>
                 <div style="margin-top:20px">
                     {{userName | titlecase | slice:0:1}}
@@ -50,12 +50,12 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
                 </div>
               </button>
                  
-                <div fxFlex (click)="$event.stopPropagation();" class="display-image" (click)="imageUpload()" mat-card-avatar 
-                *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"><button style="font-size:12px;top:30px;color: white" mat-button>Change</button></div>
+                <div fxFlex (click)="$event.stopPropagation();" class="display-image-show" (click)="imageUpload()" mat-card-avatar 
+                *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"><button class="image-change-button" mat-button>Change</button></div>
                 <input (click)="$event.stopPropagation();" style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>
               
               </div>
-              <div fxFlex> 
+              <div fxFlex fxLayout='column'> 
                 <div style="font-size:12px">{{userName}}</div>
                 <div style="font-size:12px">{{email}}</div>
               </div>

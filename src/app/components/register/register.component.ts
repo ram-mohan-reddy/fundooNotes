@@ -37,7 +37,6 @@ valid = false
   showService() {
       this.userService.getService('api/user/service')
         .subscribe((data) =>  {
-          console.log('Data about Service',  data.data.data);
           this.newServices= data.data.data;
          error => console.log('Error ', error);
         });
@@ -47,21 +46,17 @@ valid = false
 
       this.userService.postService('api/user/userSignUp',this.user)
       .subscribe(data => {
-        console.log(data);
-       
         this.snackBar.open('Registered successfully..!!','redirecting to login',{
           duration: 1000,
         });  
         setTimeout(()=>{ 
           this.router.navigateByUrl('/login');
-         }, 1100) 
-             
+         }, 1100)       
       });
       
     }
 
     onClickChange(select){
-      console.log(select.name);
       this.service=select.name;
       select.first=true;
       for(var i=0;i<this.newServices.length;i++)
