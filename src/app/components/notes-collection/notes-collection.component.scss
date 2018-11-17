@@ -15,7 +15,7 @@
 }
 
 .mat-card-grid:hover .icons-collection {
-    opacity: 0.5;
+    opacity: 1.0;
 }
 
 
@@ -30,3 +30,12 @@
 .icons-hide:hover {
     opacity: 1.0;    
 }
+
+.labels-chip {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden !important;
+    border:none;
+    outline:none;
+}
+

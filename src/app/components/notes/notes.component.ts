@@ -10,6 +10,9 @@ import {LoggerService} from '../../core/services/loggerService/logger.service';
 export class NotesComponent implements OnInit {
   list;
   totalNotes: any = [];
+  pinedNotes: any = [];
+  separateOthers : string = 'Others'
+  separatePinned : string = 'pinned'
   constructor(private notesService : GetNotesService) { }
   ngOnInit() { 
     this.notesService.getNotes()
@@ -35,5 +38,12 @@ export class NotesComponent implements OnInit {
     }
     this.totalNotes = this.list.reverse();
     LoggerService.log('Notes : ',this.totalNotes );
+    this.list = [];
+    for (let index = 0; index < data['data'].data.length; index++) {
+      if (data['data'].data[index].isDeleted == false && data['data'].data[index].isArchived == false && data['data'].data[index].isPined == true) {
+        this.list.push(data['data'].data[index])
+      }
+    }
+    this.pinedNotes = this.list.reverse();
   }
 }

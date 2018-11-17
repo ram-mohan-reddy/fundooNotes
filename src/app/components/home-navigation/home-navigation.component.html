@@ -6,21 +6,19 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
       <mat-icon class="icons" aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
   </div> 
-  <span class='identity' fxShow fxHide.xs = "true"  fxFlex=15>{{identify}}</span>
-  <mat-card fxShow fxHide.xs = "true" fxFlex=55 fxLayout='row' fxLayout.xs='row' class="search-box">
-    <div style="margin-left:10px" fxFlex=7>
-        <button  mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
-    </div>
-    <input placeholder="Search" style="min-width:auto" fxFlex [(ngModel)]="searchText" 
-        name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" 
-          class="search-text" type='text'>
-    <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button> 
-  </mat-card>
-    <!-- <form fxFlex=50 fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="15px" class="search-box" >
-      <button fxFlex=5 mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
-      <input style="min-width:auto" fxFlex=90 [(ngModel)]="searchText" name="search"   (click)='naviagteSearch()' (keydown)="dataTransfer()" class="search-text" type='text'>
-    </form> -->
-  <div fxFlex>
+  <div fxFlex fxLayout='row' fxHide.xs = "true" fxLayoutGap='10px'>
+      <span class='identity' fxShow fxHide.xs = "true"  >{{identify}}</span>
+      <mat-card fxShow fxHide.xs = "true" fxFlex fxLayout='row' fxLayoutGap='10px' fxLayout.xs='row' class="search-box">
+        <div  fxFlex=7>
+            <button  mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
+        </div>
+        <input placeholder="Search" style="min-width:auto" fxFlex [(ngModel)]="searchText" 
+            name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" 
+              class="search-text" type='text'>
+        <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button> 
+      </mat-card>
+  </div>
+  <div fxFlex.xs fxFlex=20>
     <div  fxFlex>
     </div> 
     <div fxFlex fxLayoutAlign='end'>
@@ -43,8 +41,15 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
           <ng-template matMenuContent>
             <div style='padding: 10px;' fxLayoutGap=10px fxLayout='row'>
               <div fxFlex=40>
-                <button (click)="$event.stopPropagation();" *ngIf='savedUrl == ""' (click)="selectImage.click()" mat-mini-fab 
-                class='drop-down'>{{userName | titlecase | slice:0:1}}</button>
+                <button (click)="$event.stopPropagation();" class="display-image" *ngIf='savedUrl == ""'  mat-mini-fab>
+                <div style="margin-top:20px">
+                    {{userName | titlecase | slice:0:1}}
+                </div> 
+                <div class="change-button" (click)="selectImage.click()">
+                  Change
+                </div>
+              </button>
+                 
                 <div fxFlex (click)="$event.stopPropagation();" class="display-image" (click)="imageUpload()" mat-card-avatar 
                 *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"><button style="font-size:12px;top:30px;color: white" mat-button>Change</button></div>
                 <input (click)="$event.stopPropagation();" style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>

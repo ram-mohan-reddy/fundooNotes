@@ -1,5 +1,7 @@
 
 <app-notes-creation (notesAdded)="notesAddRequest($event)"></app-notes-creation> 
 
-<app-notes-collection (notesEditRequest)="notesAddRequest($event)" [notesListArray]="totalNotes" ></app-notes-collection>
+<app-notes-collection (notesEditRequest)="notesAddRequest($event)" [separate]="separatePinned" [notesListArray]="pinedNotes" ></app-notes-collection>
+
+<app-notes-collection (notesEditRequest)="notesAddRequest($event)" [separate]="separateOthers" [notesListArray]="totalNotes" ></app-notes-collection>
  

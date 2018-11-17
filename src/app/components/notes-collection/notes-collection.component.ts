@@ -30,6 +30,7 @@ export class NotesCollectionComponent implements OnInit {
       })
     }
   @Input() notesListArray: any;
+  @Input() separate: any;
   @Input() searchText: any;
   @Input() componentName:any;
   @Output() notesEditRequest = new EventEmitter<boolean>();

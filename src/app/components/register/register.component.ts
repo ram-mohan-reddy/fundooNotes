@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../core/services/httpService/http.service';
+import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material';
+
 
 @Component({
   selector: 'app-register',
@@ -24,13 +27,10 @@ valid = false
     "password": ''
   }
 
-  constructor(private userService: HttpService) { }
+  constructor(private userService: HttpService,private router: Router,public snackBar: MatSnackBar) { }
 
-  ngOnInit() {
-    
-    this.showService();
-   
-    
+  ngOnInit() {  
+    this.showService(); 
   }
 
 
@@ -47,8 +47,12 @@ valid = false
 
       this.userService.postService('api/user/userSignUp',this.user)
       .subscribe(data => {
-        console.log(data);   
-        window.location.replace('login');     
+        console.log(data);
+       
+        this.snackBar.open('Registered successfully..!!','redirecting to login',{
+          duration: 500,
+        });   
+        this.router.navigateByUrl('/login');     
       });
       
     }
@@ -69,22 +73,10 @@ valid = false
     newUser() {
       if (this.user.email != '' && this.user.password != '' && this.service != '' ) {
         this.user.service = this.service
-        console.log(this.user);
         this.userSignup();         
       }
-
       else {
-
-          this.fieldsEmpty = 'Enter your details';
-          console.log('Enter your details');
-       
-        
-        
+          this.fieldsEmpty = 'Enter your details';      
       }
-      
-      
     }
-
-    
-
 }

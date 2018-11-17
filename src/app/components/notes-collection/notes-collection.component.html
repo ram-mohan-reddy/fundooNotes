@@ -10,8 +10,9 @@
                   <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
                     {{index.title}} 
                   </div>
-                  <div fxFlex class="icons-collection" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
-                </div>
+                  <div fxFlex *ngIf='!index.isPined' class="icons-collection" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
+                  <div fxFlex *ngIf='index.isPined' class="icons-collection" matTooltip="un pin note"><img src="../../../assets/images/unPin.svg"></div>
+                </div> 
                 <p style="word-wrap: break-word; margin-left: 10px">
                   {{index.description}} 
                 </p>
@@ -31,8 +32,8 @@
                 <div>
                   <mat-chip-list>
                     <div *ngFor='let label of index.noteLabels'>
-                      <mat-chip *ngIf='label.isDeleted == false'>
-                        <span style="border:none;outline:none" (click)='onLabelClick(label.label)' routerLink="/home/labels/{{label.label}}">{{label.label}}</span><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></mat-chip>
+                      <mat-chip  *ngIf='label.isDeleted == false'>
+                        <span  class="labels-chip" (click)='onLabelClick(label.label)' routerLink="/home/labels/{{label.label}}">{{label.label}}</span><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></mat-chip>
                     </div>
                   </mat-chip-list>
                   <div style="margin-top:10px">

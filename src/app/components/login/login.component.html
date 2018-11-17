@@ -1,53 +1,8 @@
-<!-- Email input -->
-<!-- <div fxLayout='column' *ngIf=value fxLayoutAlign="center center" 
-        fxLayoutAlign.xs="center" fxLayout.xs="column" class="container">
-        <mat-card fxLayout='column' fxLayoutGap="20px" fxLayoutGap.xs="0px" 
-                fxLayout.xs="column" fxFlex.xs="100" fxFlex="60">
-                <div class="top1" fxLayoutAlign="center">
-                        <span class="top1_1">f</span>
-                        <span class="top1_2">u</span>
-                        <span class="top1_3">n</span>
-                        <span class="top1_4">d</span>
-                        <span class="top1_5">o</span>
-                        <span class="top1_6">o</span>
-                        <span class="top1_1">N</span>
-                        <span class="top1_2">o</span>
-                        <span class="top1_3">t</span>
-                        <span class="top1_4">e</span>
-                        <span class="top1_5">s</span>
-                </div>
-                <div class="top2" fxLayoutAlign="center">Sign in </div>
-                <div fxLayoutAlign="center" class="if_empty">
-                        {{emptyEmail}}
-                </div>
-                <mat-form-field fxLayout='column' fxLayoutAlign="center" fxFlex="50" 
-                        class="email-input">
-                        <input matInput placeholder="Email" #email="ngModel" required 
-                                pattern="[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-                                        [(ngModel)]="userLogin.email">
-                        <mat-error *ngIf="email.invalid && (email.dirty || email.touched)" 
-                        class="alert alert-danger">
-                                <div *ngIf="email.errors.required">
-                                        email is required.
-                                </div>
-                                <div *ngIf="email.errors.pattern">
-                                        Invalid mail.
-                                </div>
-                        </mat-error>
-                </mat-form-field>
-                <div fxLayout.xs= 'column' fxLayout.md= 'column' fxLayoutGap="150px" 
-                        fxLayoutGap.xs="0">
-                        <a mat-button routerLink="/register">Create account</a>
-                        <button mat-raised-button color="primary" (click)='toggle()'>Next</button>
-                </div>
-        </mat-card>
-</div> -->
-<!-- Password input -->
-<div fxLayout='column' fxLayoutAlign="center center" 
+
+<div fxLayout='row' fxLayoutAlign="center center" 
         fxLayoutAlign.xs="center"  fxLayout.xs="column" class="container">
-        <mat-card fxLayout='column' fxLayoutGap="20px" fxLayout.xs="column" 
-                fxFlex="60" fxFlex.xs="100" class="login-form">
-                <div class="top1" fxLayoutAlign="center">
+        <mat-card fxLayout='column' fxLayout.xs='column' fxFlex="40" fxFlex.lg="40" fxFlex.md="40" fxFlex.xs="100" class="login-form">
+                <div  class="top1" fxLayoutAlign="center">
                         <span class="top1_1">f</span>
                         <span class="top1_2">u</span>
                         <span class="top1_3">n</span>
@@ -60,12 +15,12 @@
                         <span class="top1_4">e</span>
                         <span class="top1_5">s</span>
                 </div>
-                <div fxLayout='column' *ngIf=value fxLayoutGap="30px" fxFlex="50">
-                                <div class="top2" fxLayoutAlign="center">Sign in </div>
-                                <div fxLayoutAlign="center" class="if_empty">
+                <div  fxLayout='column' *ngIf=value fxLayoutGap="50px" fxLayoutGap.xs="50px">
+                                <div fxFlex class="top2" fxLayoutAlign="center">Sign in </div>
+                                <div fxFlex fxLayoutAlign="center" class="if_empty">
                                         {{emptyEmail}}
                                 </div>
-                                <mat-form-field fxLayout='column' fxLayoutAlign="center" fxFlex="50" 
+                                <mat-form-field fxLayout='column' fxFlex fxLayoutAlign="center" fxFlex="50" 
                                         class="email-input">
                                         <input matInput placeholder="Email" #email="ngModel" required 
                                                 pattern="[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
@@ -80,41 +35,39 @@
                                                 </div>
                                         </mat-error>
                                 </mat-form-field>
-                                <div fxLayout.xs= 'column' fxLayout.md= 'column' fxLayoutGap="150px" 
-                                        fxLayoutGap.xs="0">
+                                <div fxLayout='row' fxLayout.xs='column' fxLayoutAlign='space-between'>
                                         <a mat-button routerLink="/register">Create account</a>
                                         <button mat-raised-button color="primary" (click)='toggle()'>Next</button>
                                 </div>
                 </div>
-                <div *ngIf='forgotPassword && !value'  @flyInOut  fxLayout='column' fxLayoutGap="30px" fxFlex="50">
-                        <div class="top2" fxLayoutAlign="center">Sign in </div>
-                        <div fxLayoutAlign="center" class="if_empty">
+                <div *ngIf='forgotPassword && !value'  @flyInOut  fxLayout='column' fxLayoutGap="50px" fxLayoutGap.xs="50px">
+                        <div fxFlex class="top2" fxLayoutAlign="center">Sign in </div>
+                        <div fxFlex fxLayoutAlign="center" class="if_empty">
                                 {{emptyPassword}}
                         </div>
-                        <mat-form-field>
+                        <mat-form-field fxLayout='column' fxFlex fxLayoutAlign="center" fxFlex="50">
                                 <input matInput placeholder="Enter your password" 
                                         [(ngModel)]="userLogin.password" 
                                         [type]="hide ? 'text' : 'password'">
                                 <mat-icon matSuffix (click)="hide = !hide">
                                         {{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                         </mat-form-field>
-                        <div fxLayout.xs= 'column' fxLayout.md= 'column' fxLayoutGap="150px" fxLayoutGap.xs="0">
+                        <div fxLayout='row' fxLayout.xs='column' fxLayoutAlign='space-between'>
                                 <a mat-button (click)='userForgotPassword()'>Forgot password?</a>
                                 <button mat-raised-button color="primary" (click)='toggle1()'>Next</button>
                         </div>
                 </div>
                 <!-- Forgot password -->
-                <div *ngIf=!forgotPassword @flyInOut fxLayout='column' fxLayoutGap="30px" 
-                        fxFlex="50">
-                        <div class="top2" fxLayoutAlign="center">Account recovery </div>
-                        <div fxLayoutAlign="center" class="if_empty">
+                <div *ngIf=!forgotPassword @flyInOut fxLayout='column' fxLayoutGap="50px" fxLayoutGap.xs="50px">
+                        <div fxFlex class="top2" fxLayoutAlign="center">Account recovery </div>
+                        <div fxFlex fxLayoutAlign="center" class="if_empty">
                                 {{confirmPassword}}
                         </div>
-                        <mat-form-field>
+                        <mat-form-field fxLayout='column' fxFlex fxLayoutAlign="center" fxFlex="50">
                                 <input matInput placeholder="Email" #confirmEmail="ngModel" 
                                 [(ngModel)]="reset.email">
                         </mat-form-field>
-                        <div fxLayout.xs= 'column' fxLayout.md= 'column' fxLayoutGap="150px" fxLayoutGap.xs="0">
+                        <div fxLayout='row' fxLayout.xs='column' fxLayoutAlign='space-between'>
                                 <a mat-button (click)='return()'>Back</a>
                                 <button mat-raised-button (click)='forgotPasswordLink()' 
                                 color="primary">Next</button>

@@ -116,7 +116,7 @@
     <mat-card *ngFor="let service of newServices" class="card" (click)="onClickChange(service)" [ngClass]="service.first? 'first': 'second'" >
         <div class='text1' fxLayoutAlign='center' >{{service.name}}</div> 
        <div class='text2' fxLayoutAlign='center'>
-            {{service.description}}
+            {{service.description}} 
        </div> 
     </mat-card>
 </div>

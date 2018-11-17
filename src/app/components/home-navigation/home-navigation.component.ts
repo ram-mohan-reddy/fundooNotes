@@ -60,9 +60,7 @@ export class HomeNavigationComponent implements OnInit{
     this.token = localStorage.getItem('token');
     this.userId = localStorage.getItem('userId');
     this.identify = 'fundooNotes'
-    
     this.getLabel();
-
   }
 
   logout() {
@@ -72,8 +70,7 @@ export class HomeNavigationComponent implements OnInit{
     .subscribe(data => {
       console.log(data);
       localStorage.clear();
-    window.location.replace('login');
-        
+      this.router.navigateByUrl('/login');  
       });
       error => console.log('Error ', error);         
   }
@@ -94,9 +91,10 @@ this.router.navigate(['home/search']);
       this.labelList = [];
       for (let index = 0; index < data['data'].details.length; index++) {
         if (data['data'].details[index].isDeleted == false) {
-          this.labelList.push(data['data'].details[index])
+          this.labelList.push(data['data'].details[index]) 
         }
-      }   
+      }  
+      this.labelList.sort((a,b) => a.label.localeCompare(b.label)); 
       });
       error => console.log('Error ', error);
   }

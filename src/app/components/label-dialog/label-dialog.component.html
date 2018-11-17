@@ -12,7 +12,7 @@
     <div  style="margin-top:10px;white-space: nowrap;
     /* text-overflow: ellipsis; */
     overflow: hidden !important;" contenteditable="true" 
-    cdkFocusInitial placeholder="Create new label" [textContent]="labelName"  onkeypress="return (this.innerText.length <= 75)" (input)="labelName=$event.target.innerText"></div> 
+    cdkFocusInitial placeholder="Create new label" [textContent]="labelName"  onkeypress="return (this.innerText.length <= 50)" (input)="labelName=$event.target.innerText"></div> 
     <hr>
 </div>
          
@@ -29,7 +29,7 @@
                         <div  style="margin-top:10px;white-space: nowrap;
                         /* text-overflow: ellipsis; */
                         overflow: hidden !important;" contenteditable="true" 
-                        cdkFocusInitial  onkeypress="return (this.innerText.length <= 75)" (input)="newLabelName=$event.target.innerText">{{labels.label}}</div> 
+                        cdkFocusInitial  onkeypress="return (this.innerText.length <= 50)" (input)="newLabelName=$event.target.innerText">{{labels.label}}</div> 
                         <hr>
                 </div>
                <span *ngIf="editShow != labels.id" style="margin-left: auto" (click)='editLabel(labels.id)'><mat-icon>mode_edit</mat-icon></span> 

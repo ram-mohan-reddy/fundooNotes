@@ -16,7 +16,7 @@ import { SearchComponent } from './components/search/search.component';
 const routes: Routes = [
  
   { path: '', redirectTo: '/login', pathMatch: 'full' }, 
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent },
   { path:'resetpassword/:id',component: ResetPasswordComponent},
   { path:'home',component: HomePageComponent,canActivate: [AuthGuardService],children:[

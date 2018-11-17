@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpService } from '../../core/services/httpService/http.service';
 import {MatSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login', 
@@ -19,7 +20,7 @@ import {MatSnackBar} from '@angular/material';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: HttpService,public message: MatSnackBar) { }
+  constructor(private userService: HttpService,public message: MatSnackBar,public router : Router) { }
   userLogin = {
     "email": '',
     "password" : ''
@@ -33,6 +34,9 @@ export class LoginComponent implements OnInit {
   confirmPassword='';
   userName = '';
   ngOnInit() { 
+    if (localStorage.getItem('token') != null) {
+      this.router.navigateByUrl('/home');
+    }
   }
   toggle() {
     this.display = !this.display;
@@ -60,33 +64,20 @@ export class LoginComponent implements OnInit {
         console.log(data.id);     
         localStorage.setItem('token',data['id']);  
         localStorage.setItem('userId',data['userId']); 
-        localStorage.setItem('imageUrl',data['imageUrl']);    
+        localStorage.setItem('imageUrl',data['imageUrl']); 
+        localStorage.setItem('userName',data['firstName']);
+        localStorage.setItem('email',data['email']);   
         var token = localStorage.getItem('token');
         var reminderToken = localStorage.getItem('reminderToken');
         this.userService.postServiceAuthentication('api/user/registerPushToken',{
         "pushToken":reminderToken
         },token)
         .subscribe(data => {
-          this.uesrData();
+          this.router.navigateByUrl('/home');
           error => console.log('Error ', error);       
         });
         error => console.log('Error ', error);       
       });
-  }
-
-  uesrData() {
-    this.userService.getService('api/user')
-    .subscribe(data => {
-      data.forEach(element => {
-        if (element.email == this.userLogin.email) {
-        this.userName = element.firstName;
-          localStorage.setItem('userName',this.userName);
-          localStorage.setItem('email',this.userLogin.email);
-          window.location.replace('home')
-        } 
-      });
-      error => console.log('Error ', error);       
-    });
   }
   reset = {
     "email": '',

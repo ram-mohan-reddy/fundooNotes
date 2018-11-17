@@ -14,7 +14,9 @@ export class RemindIconComponent implements OnInit {
   customDate = this.date;
   value;
   customTime:any;
-  constructor(private notesService: GetNotesService) { } 
+  constructor(private notesService: GetNotesService) { 
+   
+  } 
   @Input() notesDetails: any;
   @Input() hideIcon: any;
   @Output() reminderEventClicked = new EventEmitter<boolean>(); 
@@ -39,6 +41,12 @@ export class RemindIconComponent implements OnInit {
     minutes = minutes < 10 ? '0'+minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
+  }
+
+  myFilter = (d: Date): boolean => {
+    const day = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const today = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    return day >= today;
   }
 
   displayDate(value) {
@@ -231,6 +239,13 @@ export class RemindIconComponent implements OnInit {
 setFocus() { 
   this.customInput.nativeElement.focus(); 
 } 
+
+getTime() {
+  var currentTime = this.currentDate.getTime();
+  var time = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate(), 8,0,0)
+  var checkTime = time.getTime();
+  return
+}
 
 
 }
