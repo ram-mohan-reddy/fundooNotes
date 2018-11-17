@@ -50,9 +50,12 @@ valid = false
         console.log(data);
        
         this.snackBar.open('Registered successfully..!!','redirecting to login',{
-          duration: 500,
-        });   
-        this.router.navigateByUrl('/login');     
+          duration: 1000,
+        });  
+        setTimeout(()=>{ 
+          this.router.navigateByUrl('/login');
+         }, 1100) 
+             
       });
       
     }
