@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter,ElementRef, ViewChild } from '@
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {MatSnackBar} from '@angular/material';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 
 @Component({
   selector: 'app-notes-creation',
@@ -64,8 +65,8 @@ export class NotesCreationComponent implements OnInit {
   todayDate: Date = new Date();
   tomorrowDate = new Date();
   ngOnInit() {
-this.getLabel();
-this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
+    this.getLabel();
+    this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
   }
 
   receiveMessage(event) {
@@ -151,7 +152,7 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
      this.selectLabelArray=[];
      this.labelArray = [];  
     });
-    error => console.log('Error ', error);
+    error => LoggerService.log('Error :' + error);
     this.selectLabelArray=[];
     this.labelArray=[];
   }
@@ -221,7 +222,7 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
           this.getLabel(); 
           this.data.eventTrigger(true)
         });
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
       }
     }
   }
@@ -259,7 +260,7 @@ this.notesService.notesPostCreate('api/notes/addNotes',notes)
           }
         }
       }); 
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
   }
 
   strike(index) {

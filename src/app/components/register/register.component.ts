@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../core/services/httpService/http.service';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material';
+import {LoggerService} from '../../core/services/loggerService/logger.service';
 
 
 @Component({
@@ -38,7 +39,7 @@ valid = false
       this.userService.getService('api/user/service')
         .subscribe((data) =>  {
           this.newServices= data.data.data;
-         error => console.log('Error ', error);
+         error => LoggerService.log('Error :' + error);
         });
     }
 

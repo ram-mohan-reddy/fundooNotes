@@ -1,48 +1,48 @@
-import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatSnackBar} from '@angular/material';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component'
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
-import {LoggerService} from '../../core/services/loggerService/logger.service';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { HttpService } from '../../core/services/httpService/http.service';
 
 @Component({
-  selector: 'app-notes-collection', 
+  selector: 'app-notes-collection',
   templateUrl: './notes-collection.component.html',
   styleUrls: ['./notes-collection.component.scss'],
 
 })
-export class NotesCollectionComponent implements OnInit { 
-  notesView:boolean=true;
-  token: string = localStorage.getItem('token') 
+export class NotesCollectionComponent implements OnInit {
+  notesView: boolean = true;
+  token: string = localStorage.getItem('token')
 
-  constructor(public dialog: MatDialog,private notesService : GetNotesService,
-    public dataService: DataSharingService,public snackBar: MatSnackBar,private userService: HttpService) { 
-      this.dataService.listEventEmitted.subscribe(message => { 
-        if (message) {
-          console.log(message);
-          this.notesView = !this.notesView;
-          this.notesEditRequest.emit(true);   
-        } 
-      })
-      this.dataService.listEventEmitted.subscribe(message => {
-        console.log(message);   
-      })
-    }
+  constructor(public dialog: MatDialog, private notesService: GetNotesService,
+    public dataService: DataSharingService, public snackBar: MatSnackBar,
+    private userService: HttpService) {
+    this.dataService.listEventEmitted.subscribe(message => {
+      if (message) {
+        this.notesView = !this.notesView;
+        this.notesEditRequest.emit(true);
+      }
+    })
+    this.dataService.eventEmitted.subscribe(message => {
+      this.notesEditRequest.emit(true);
+    })
+  }
   @Input() notesListArray: any;
   @Input() separate: any;
   @Input() searchText: any;
-  @Input() componentName:any;
+  @Input() componentName: any;
   @Output() notesEditRequest = new EventEmitter<boolean>();
   todayDate: Date = new Date();
   tomorrowDate = new Date();
   reminderEdit = false;
-  
-  ngOnInit(){
+
+  ngOnInit() {
     LoggerService.log('Using logger service: ');
     this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
   }
- 
+
   childEventClicked(event) {
     if (event) {
       this.notesEditRequest.emit(event);
@@ -68,7 +68,7 @@ export class NotesCollectionComponent implements OnInit {
       duration: 1000,
     });
   }
-  onLabelClick(label){
+  onLabelClick(label) {
     this.dataService.changeIdentityEventTrigger(label);
   }
 
@@ -82,7 +82,6 @@ export class NotesCollectionComponent implements OnInit {
   openDialog(notes): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '600px',
-      // position: { top: '250px', left: '450px' },
       panelClass: 'myapp-no-padding-dialog',
       data: {
         notesData: notes,
@@ -90,7 +89,6 @@ export class NotesCollectionComponent implements OnInit {
       }
     });
     const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
-      console.log('on add');
       if (data) {
         this.notesEditRequest.emit(true);
       }
@@ -104,49 +102,42 @@ export class NotesCollectionComponent implements OnInit {
       this.deleteRemainder(data);
     });
     const sub3 = dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
-      console.log(data);
       var body = ''
-      this.notesService.notesPostService('api/notes/'+data.noteId+'/checklist/'+data.checklistId+'/remove',body)
-    .subscribe(data => {
-      console.log(data);
-      this.notesEditRequest.emit(true);
+      this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/' + data.checklistId + '/remove', body)
+        .subscribe(data => {
+          this.notesEditRequest.emit(true);
+        });
+      error => LoggerService.log('Error :' + error);
     });
-  error => console.log(error);
-    }); 
 
     const sub4 = dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
-     console.log(data);
-     if (data.newList.id != undefined) {
-      this.notesService.notesPostService('api/notes/'+data.noteId+'/checklist/'+data.newList.id+'/update',data.newList)
-    .subscribe(data => {
-      console.log(data);
-      this.notesEditRequest.emit(true);
-    });
-  error => console.log(error);
-  }
-     else {
-       console.log('new list');
-    this.notesService.notesPostService('api/notes/'+data.noteId+'/checklist/add',data.newList)
-     .subscribe(data => {
-       console.log(data);
-       this.notesEditRequest.emit(true);
-     });
-   error => console.log(error);
-     }
- 
-     
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      if (result != undefined) {
-        if (result.description != '') {
-          this.notesService.notesUpdateService('api/notes/updateNotes', result)
+      if (data.newList.id != undefined) {
+        this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/' + data.newList.id + '/update', data.newList)
           .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
         error => LoggerService.log('Error :' + error);
+      }
+      else {
+        this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/add', data.newList)
+          .subscribe(data => {
+            this.notesEditRequest.emit(true);
+          });
+        error => LoggerService.log('Error :' + error);
+      }
+
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        if (result.description != '') {
+          this.notesService.notesUpdateService('api/notes/updateNotes', result)
+            .subscribe(data => {
+              this.notesEditRequest.emit(true);
+            });
+          error => LoggerService.log('Error :' + error);
         }
-      } 
+      }
     });
   }
 
@@ -167,45 +158,37 @@ export class NotesCollectionComponent implements OnInit {
     }
     this.notesService.notesPostService('api/notes/removeReminderNotes', note)
       .subscribe(data => {
-        console.log(data);
         this.notesEditRequest.emit(true);
       });
-    error => console.log(error);
+    error => LoggerService.log('Error :' + error);
   }
 
-  updateChecklist(list,index) {
-    console.log('in update');
-    console.log(list.status);
+  updateChecklist(list, index) {
     if (list.status == "open") {
       list.status = "close";
     }
     else {
       list.status = "open";
     }
-   this.updateList(list,index);
+    this.updateList(list, index);
   }
-  updateList(list,note) {
-    console.log(list);
-    this.notesService.notesPostService('api/notes/'+note.id+'/checklist/'+list.id+'/update', list)
-    .subscribe(data => {
-      console.log(data);
-      this.notesEditRequest.emit(true);
-    });
-  error => console.log(error);
+  updateList(list, note) {
+    this.notesService.notesPostService('api/notes/' + note.id + '/checklist/' + list.id + '/update', list)
+      .subscribe(data => {
+        this.notesEditRequest.emit(true);
+      });
+    error => LoggerService.log('Error :' + error);
   }
 
-  pinNotes(note){
-console.log(note.id);
-
+  pinNotes(note) {
     var noteDetails = {
       "isPined": true,
-      "noteIdList":[note.id]
+      "noteIdList": [note.id]
     }
     this.notesService.notesPostService('api/notes/pinUnpinNotes', noteDetails)
-    .subscribe(data => {
-      this.notesEditRequest.emit(true);
-    });
-  error => LoggerService.log('Error :' + error);
-
+      .subscribe(data => {
+        this.notesEditRequest.emit(true);
+      });
+    error => LoggerService.log('Error :' + error);
   }
 }

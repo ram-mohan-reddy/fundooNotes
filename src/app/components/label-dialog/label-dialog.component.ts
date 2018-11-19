@@ -4,6 +4,7 @@ import { HttpService } from '../../core/services/httpService/http.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {DeleteLabelComponent} from '../delete-label/delete-label.component';
 import { MatDialog} from '@angular/material';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 @Component({
   selector: 'app-label-dialog',
   templateUrl: './label-dialog.component.html',
@@ -27,12 +28,10 @@ export class LabelDialogComponent implements OnInit {
     toCreate = new EventEmitter();
     editShow : boolean = true;
   ngOnInit() {  
-    console.log(this.data.label);
     this.labelCollection = this.data.label;
   }
  
   deleteLabel(id){ 
-    console.log('delete activated');
     this.deleteLabelConfirmation(id);
   }
 
@@ -41,18 +40,14 @@ this.editShow = id;
   }
 
   editLabelName(id){
-    console.log('edit clicked');
-    console.log(this.newLabelName);
     for (let index = 0; index < this.labelCollection.length; index++) {
       if (this.labelCollection[index].id == id) {
         this.labelCollection[index].label = this.newLabelName;
         this.editData = {
-
           "label": this.newLabelName,
           "isDeleted": false,
           "id": id,
           "userId":  this.labelCollection[index].userId
-    
         }
       }
     }
@@ -62,14 +57,12 @@ this.editShow = id;
   }
 
   clearText() {
-    console.log('clear clicked');
     this.labelName= null
   }
 
   createNewLabel() {
     if (this.labelName != undefined) {
       if (!this.labelCollection.some((data) => data.label == this.labelName)) {
-        console.log('create new label');
         var newLabel = {
           'label': this.labelName
         }
@@ -77,7 +70,6 @@ this.editShow = id;
         this.toCreate.emit(this.labelName);
       }
       else {
-        console.log('label name already exits');
         this.message = 'label name already exits'
       }
     }
@@ -92,23 +84,20 @@ this.editShow = id;
     }); 
    
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) { 
         this.newLabelList = [];
         this.userService.deleteLabel("api/noteLabels/" + id + '/deleteNoteLabel')
           .subscribe(data => {
-            console.log(data);
             for (let index = 0; index < this.labelCollection.length; index++) {
               if (this.labelCollection[index].id != id) {
                 this.newLabelList.push(this.labelCollection[index])
               }
             }
-            console.log(this.newLabelList);
             this.labelCollection = this.newLabelList;
             this.onAdd.emit(true);
             this.dataService.eventTrigger(true)
           });
-        error => console.log('Error ', error);
+        error => LoggerService.log('Error :' + error);
       }
     });
 } 

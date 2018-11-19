@@ -22,7 +22,7 @@ export class HttpService {
     return this.http.post<any>(url, user);
   }
 
-
+ 
   //pst service with authentication
   postServiceAuthentication(url, data, token) {
     url = this.server_url + url;

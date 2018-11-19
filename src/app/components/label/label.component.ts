@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { ActivatedRoute } from '@angular/router';
+import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
+import {Router} from '@angular/router';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 
 @Component({
   selector: 'app-label',
@@ -11,39 +14,55 @@ export class LabelComponent implements OnInit {
   list;
   totalNotes: any = [];
   label : string;
-  constructor(private notesService : GetNotesService, private route: ActivatedRoute) { 
+  constructor(private notesService : GetNotesService, private route: ActivatedRoute,
+    public dataService: DataSharingService,public router : Router) { 
     this.route.params.subscribe(params => {
-      console.log(params);
       if (params) { 
         this.label = params.id;
         this.notesService.getNotes()
         .subscribe(data => {
-          console.log(data);
           this.notesCollection(data) 
         });
-        error => console.log('Error ', error);
+        error => LoggerService.log('Error :' + error);
       }
     });
+
+    this.dataService.currentMessage.subscribe(message => {
+      if (message) {
+        this.label = message;
+        this.navigate(message);
+        this.notesService.getNotes()
+        .subscribe(data => {
+          this.notesCollection(data) 
+        });
+        error => LoggerService.log('Error :' + error);
+      }
+     
+    })
   }
 
   ngOnInit() {
     this.notesService.getNotes()
     .subscribe(data => {
-      console.log(data);
       this.notesCollection(data) 
     });
-    error => console.log('Error ', error);
+    error => LoggerService.log('Error :' + error);
   } 
+  
 
   notesAddRequest(event) {
     if (event) {
-      console.log(event);
       this.notesService.getNotes().subscribe(data => {
-        console.log(data);
          this.notesCollection(data)
       });
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
     }
+  }
+
+  navigate(message){
+    var path = '/home/labels/'+message;
+    this.dataService.changeIdentityEventTrigger(message)
+    this.router.navigateByUrl(path)
   }
 
   notesCollection(data) {
@@ -60,6 +79,5 @@ export class LabelComponent implements OnInit {
   
   }
   this.totalNotes = this.list.reverse();
-  console.log(this.totalNotes);
 }
 }

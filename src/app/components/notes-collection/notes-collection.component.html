@@ -34,8 +34,10 @@
                 <div>
                   <mat-chip-list>
                     <div *ngFor='let label of index.noteLabels'>
-                      <mat-chip  *ngIf='label.isDeleted == false'>
-                        <span  class="labels-chip" (click)='onLabelClick(label.label)' routerLink="/home/labels/{{label.label}}">{{label.label}}</span><mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon></mat-chip>
+                      <mat-chip class="chip" *ngIf='label.isDeleted == false'>
+                        <span class="labels-chip" (click)='onLabelClick(label.label)' routerLink="/home/labels/{{label.label}}">{{label.label}}</span>
+                        <mat-icon matChipRemove (click)='deleteNoteLabel(label.id,index.id)'>cancel</mat-icon>
+                      </mat-chip>
                     </div>
                   </mat-chip-list>
                   <div style="margin-top:10px">

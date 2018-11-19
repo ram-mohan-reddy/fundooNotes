@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 
 @Component({
   selector: 'app-archive',
@@ -20,7 +21,6 @@ export class ArchiveComponent implements OnInit {
   getNotes() { 
     this.notesService.getNotes()
       .subscribe(data => {
-        console.log(data);
         this.list = [];
         for (let index = 0; index < data['data'].data.length; index++) {
           if (data['data'].data[index].isArchived == true) {
@@ -29,12 +29,11 @@ export class ArchiveComponent implements OnInit {
         }
         this.totalNotes = this.list.reverse();
       });
-    error => console.log('Error ', error);
+    error => LoggerService.log('Error :' + error);
   }
 
   notesArchiveRequest(event) {
     if (event) {
-      console.log(event);
       this.getNotes();
     }
   }

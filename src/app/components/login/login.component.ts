@@ -3,6 +3,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { HttpService } from '../../core/services/httpService/http.service';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
+import {LoggerService} from '../../core/services/loggerService/logger.service';
 
 @Component({
   selector: 'app-login', 
@@ -50,7 +51,6 @@ export class LoginComponent implements OnInit {
   } 
   toggle1() {
     if (this.userLogin.password == '') {
-      console.log(this.userLogin.password);  
       this.emptyPassword = "Enter password"    
     }
     else {
@@ -59,14 +59,12 @@ export class LoginComponent implements OnInit {
   }
   login() {
     this.userService.postService('api/user/login',this.userLogin)
-      .subscribe(data => {
-        console.log(data);
-        console.log(data.id);     
+      .subscribe(data => {     
         localStorage.setItem('token',data['id']);  
         localStorage.setItem('userId',data['userId']); 
         localStorage.setItem('imageUrl',data['imageUrl']); 
         localStorage.setItem('userName',data['firstName']);
-        localStorage.setItem('email',data['email']);   
+        localStorage.setItem('email',data['email']);
         var token = localStorage.getItem('token');
         var reminderToken = localStorage.getItem('reminderToken');
         this.userService.postServiceAuthentication('api/user/registerPushToken',{
@@ -74,9 +72,9 @@ export class LoginComponent implements OnInit {
         },token)
         .subscribe(data => {
           this.router.navigateByUrl('/home');
-          error => console.log('Error ', error);       
+          error => LoggerService.log('Error :' + error);      
         });
-        error => console.log('Error ', error);       
+        error => LoggerService.log('Error :' + error);       
       });
   }
   reset = {
@@ -89,18 +87,14 @@ export class LoginComponent implements OnInit {
     this.forgotPassword = true
   }
   forgotPasswordLink() {
-    console.log(this.reset.email);
-    console.log(this.userLogin.email);
     if (this.reset.email == this.userLogin.email) {
-      console.log(this.reset);
       this.userService.postService('api/user/reset',this.reset)
       .subscribe(data => {
-        console.log(data);
        this.reset.email = ''
         this.message.open('Password resetLink sent to your mail', 'Reset', {
           duration: 5000,
         });
-        error => console.log('Error ', error);       
+        error => LoggerService.log('Error :' + error);       
       });
     }
     else if (this.reset.email == '') {
@@ -108,8 +102,6 @@ export class LoginComponent implements OnInit {
     }
     else {
       this.confirmPassword = 'Enter registered email '
-      console.log('Enter registered email');
-      
     }
   }
 }

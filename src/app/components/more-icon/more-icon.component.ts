@@ -3,6 +3,7 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {DeleteLabelComponent} from '../delete-label/delete-label.component';
 import { MatDialog} from '@angular/material';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 @Component({
   selector: 'app-more-icon',
   templateUrl: './more-icon.component.html',
@@ -43,17 +44,15 @@ export class MoreIconComponent implements OnInit {
 
 
   deleteCard(value) {
-    console.log(this.notesDetails); 
     this.note = {
       "isDeleted": value,
       "noteIdList":[this.notesDetails.id]
     }
     this.notesService.notesPostService('api/notes/trashNotes',this.note)
     .subscribe(data => {
-      this.eventClicked.emit(this.event); 
-      console.log(data);  
+      this.eventClicked.emit(this.event);   
     });
-    error => console.log('Error ', error);
+    error => LoggerService.log('Error :' + error);
   } 
 
 
@@ -65,26 +64,22 @@ export class MoreIconComponent implements OnInit {
       data: {componentName:"trash"}
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      if (result) {
-        console.log(this.notesDetails);  
+      if (result) {  
         this.note = {
           "isDeleted": true,
           "noteIdList":[this.notesDetails.id]
         }
         this.notesService.notesPostService('api/notes/deleteForeverNotes',this.note)
         .subscribe(data => {
-          this.eventClicked.emit(this.event); 
-          console.log(data);  
+          this.eventClicked.emit(this.event);   
         });
-        error => console.log('Error ', error);
+        error => LoggerService.log('Error :' + error);
         
       }
     });
 } 
 
   changeMenu(){
-    console.log(this.labelMenu);
     if (this.labelMenu) { 
       this.labelMenu = !this.labelMenu
     }
@@ -94,18 +89,16 @@ export class MoreIconComponent implements OnInit {
   } 
 
   addLabelName(): void {
-    console.log(this.newLabelName);
     if (this.newLabelName != undefined) {
       if (!this.myArray.some((data) => data.label == this.newLabelName)) {
       this.labelData.label = this.newLabelName;
       this.labelData.userId = this.userId;
       this.notesService.notesPostService('api/noteLabels', this.labelData)
         .subscribe(data => {
-          console.log(data);
           this.getLabel();
           this.data.eventTrigger(true)
         });
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
       }
     } 
   }
@@ -113,7 +106,6 @@ export class MoreIconComponent implements OnInit {
   getLabel(): void {
     this.notesService.getLabelData('api/noteLabels/getNoteLabelList')
       .subscribe(data => {
-        console.log("get  :", data);
         this.myArray = [];
         for (let index = 0; index < data['data'].details.length; index++) {
           if (data['data'].details[index].isDeleted == false) {
@@ -121,7 +113,6 @@ export class MoreIconComponent implements OnInit {
           }
         }      
       });
-    console.log(this.checkedArray);
 } 
 
 onClick(value): void {
@@ -129,24 +120,22 @@ onClick(value): void {
   if (!this.notesDetails.noteLabels.some((data) => data.label == value.label)) {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/add', {})
     .subscribe(data => {
-      console.log(data);
       setTimeout(()=>{ 
         this.eventClicked.emit(this.event);
        }, 1000)
        this.labelAdd.emit(value)
     });
-  error => console.log('Error ', error);
+  error => LoggerService.log('Error :' + error);
   }
   else {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/remove', {})
     .subscribe(data => {
-      console.log(data);
       setTimeout(()=>{ 
         this.eventClicked.emit(this.event);
        }, 1000)
        this.labelAdd.emit(value)
     });
-  error => console.log('Error ', error);
+  error => LoggerService.log('Error :' + error);
   }
   } 
 

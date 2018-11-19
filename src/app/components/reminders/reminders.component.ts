@@ -16,20 +16,17 @@ export class RemindersComponent implements OnInit {
   ngOnInit() { 
     this.notesService.getNotesList('api/notes/getReminderNotesList',this.token)
     .subscribe(data => {
-      console.log(data);
       this.notesCollection(data) 
     });
-    error => console.log('Error ', error);
+    error => LoggerService.log('Error :' + error);
   }
 
   notesAddRequest(event) {
     if (event) {
-      console.log(event);
       this.notesService.getNotesList('api/notes/getReminderNotesList',this.token).subscribe(data => {
-        console.log(data);
-         this.notesCollection(data)
+      this.notesCollection(data)
       });
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
     }
   } 
 
@@ -42,7 +39,6 @@ export class RemindersComponent implements OnInit {
       }
     }
     this.totalNotes = this.list.reverse();
-    // console.log(this.totalNotes);
     this.totalNotes.sort(this.compare);
     LoggerService.log('Notes : ',this.totalNotes );
   }

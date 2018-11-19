@@ -7,7 +7,10 @@ import { MatDialog} from '@angular/material';
 import { LabelDialogComponent } from '../label-dialog/label-dialog.component';
 import { ImageCropDialogComponent } from '../image-crop-dialog/image-crop-dialog.component';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
+
  
 @Component({
   selector: 'app-home-navigation',
@@ -24,22 +27,21 @@ export class HomeNavigationComponent implements OnInit{
     );
     
   constructor(private breakpointObserver: BreakpointObserver,private router: Router,private userService: HttpService,
-    public dialog: MatDialog,public dataService: DataSharingService) {
-      this.dataService.eventEmitted.subscribe(message => {
-        console.log(message);  
+    public dialog: MatDialog,public dataService: DataSharingService,private route: ActivatedRoute) {
+      this.dataService.eventEmitted.subscribe(message => { 
         if (message) {
           this.getLabel();
         } 
       })
-      this.dataService.identityEventEmitted.subscribe(message => {
-        console.log(message);  
+      this.dataService.identityEventEmitted.subscribe(message => {  
         if (message) {
          this.identify = message;
+         localStorage.setItem('identify',message)
         } 
       })
     }
   searchText:string;
-  identify: string;
+  identify: string='fundooNotes';
   userName: string = ''; 
   email: string='';
   token: string=''; 
@@ -53,26 +55,27 @@ export class HomeNavigationComponent implements OnInit{
   }
 
   ngOnInit() {
-   console.log(localStorage.getItem('userName'));
-   console.log(localStorage.getItem('email'));
    this.email = localStorage.getItem('email');
     this.userName = localStorage.getItem('userName');
     this.token = localStorage.getItem('token');
     this.userId = localStorage.getItem('userId');
-    this.identify = 'fundooNotes'
+    if (localStorage.getItem('identify')!= undefined) {
+      this.identify = localStorage.getItem('identify');
+    }
     this.getLabel();
   }
 
   logout() {
-   console.log(this.token);
-   
     this.userService.userLogout('api/user/logout',this.token)
     .subscribe(data => {
-      console.log(data);
-      localStorage.clear();
+      localStorage.removeItem('token');
+      localStorage.removeItem('imageUrl');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('email');
       this.router.navigateByUrl('/login');  
       });
-      error => console.log('Error ', error);         
+      error => LoggerService.log('Error :' + error);         
   }
  
   naviagteSearch() {
@@ -80,14 +83,12 @@ this.router.navigate(['home/search']);
   }
 
   dataTransfer(){
-    console.log(this.searchText);
     this.dataService.changeMessage(this.searchText)
   }
 
   getLabel(): void {
     this.userService.getNotesList('api/noteLabels/getNoteLabelList',this.token)
     .subscribe(data => {
-      console.log("get  :",data);
       this.labelList = [];
       for (let index = 0; index < data['data'].details.length; index++) {
         if (data['data'].details[index].isDeleted == false) {
@@ -96,25 +97,25 @@ this.router.navigate(['home/search']);
       }  
       this.labelList.sort((a,b) => a.label.localeCompare(b.label)); 
       });
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
   }
   updateLabel(data):void {
+    var labelName = data.label
     this.userService.postServiceAuthentication("api/noteLabels/"+ data.id +'/updateNoteLabel',data,this.token)
     .subscribe(data => {
-      console.log(data);
       this.getLabel(); 
-      this.dataService.eventTrigger(true)
+      this.dataService.changeMessage(labelName)
+      this.dataService.eventTrigger(true);
       });
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
   }
 
   createNewLabel(labelData): void {
     this.userService.postServiceAuthentication('api/noteLabels',labelData,this.token)
     .subscribe(data => {
-      console.log(data);
       this.getLabel();
       });
-      error => console.log('Error ', error);
+      error => LoggerService.log('Error :' + error);
   }
   createLabel(): void {
     const dialogRef = this.dialog.open(LabelDialogComponent, {
@@ -129,12 +130,10 @@ this.router.navigate(['home/search']);
     });
 
     const sub1 = dialogRef.componentInstance.onEdit.subscribe((data) => {
-     console.log(data);
      this.updateLabel(data)
     });
 
     const sub2 = dialogRef.componentInstance.toCreate.subscribe((data) => {
-      console.log(data);
       this.labelData.label = data;
       this.labelData.userId = this.userId;
       this.createNewLabel(this.labelData)
@@ -142,17 +141,14 @@ this.router.navigate(['home/search']);
      }); 
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result != undefined) {
         if (!this.labelList.some((data) => data.label == result)) {
-          console.log('create new label');
           this.labelData.label = result;
           this.labelData.userId = this.userId;
           this.createNewLabel(this.labelData)
         }
         else {
-          console.log('label name already exits');
-          
+          LoggerService.log('label name already exits');
         }
       }
      
@@ -161,6 +157,7 @@ this.router.navigate(['home/search']);
 
 changeIdentity(data) {
   this.searchText= '';
+  localStorage.setItem('identify',data)
   this.identify = data;
 }
 selectedFile : File; 
@@ -180,7 +177,6 @@ imageUpload(): void {
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    console.log(result);
    if (result != undefined) {
     this.selectedFile = result;
      const uploadData = new FormData();
@@ -191,7 +187,7 @@ imageUpload(): void {
          localStorage.setItem('imageUrl', data['status'].imageUrl);
          this.url = "http://34.213.106.173/" + this.savedUrl;
        });
-     error => console.log('Error ', error);
+     error => LoggerService.log('Error :' + error);
    }
 
   });

@@ -31,11 +31,12 @@
     opacity: 1.0;    
 }
 
-.labels-chip {
-    white-space: nowrap;
+.labels-chip{
+      white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden !important;
-    border:none;
-    outline:none;
 }
 
+.chip {
+    max-width: 100px;
+}

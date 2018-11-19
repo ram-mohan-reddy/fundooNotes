@@ -29,7 +29,8 @@
                         <div  style="margin-top:10px;white-space: nowrap;
                         /* text-overflow: ellipsis; */
                         overflow: hidden !important;" contenteditable="true" 
-                        cdkFocusInitial  onkeypress="return (this.innerText.length <= 50)" (input)="newLabelName=$event.target.innerText">{{labels.label}}</div> 
+                        cdkFocusInitial  onkeypress="return (this.innerText.length <= 50)" 
+                        (input)="newLabelName=$event.target.innerText">{{labels.label}}</div> 
                         <hr>
                 </div>
                <span *ngIf="editShow != labels.id" style="margin-left: auto" (click)='editLabel(labels.id)'><mat-icon>mode_edit</mat-icon></span> 

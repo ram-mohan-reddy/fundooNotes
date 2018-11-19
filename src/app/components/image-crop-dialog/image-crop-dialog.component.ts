@@ -18,8 +18,6 @@ export class ImageCropDialogComponent implements OnInit {
   croppedImage: any;
   showCroppedImage: any = '';
   fileChangeEvent(event: any): void {
-    console.log(event);
-    
       this.imageChangedEvent = event;
   }
   imageCropped(event: any) {

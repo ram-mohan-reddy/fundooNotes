@@ -1,5 +1,6 @@
 import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 
 @Component({
   selector: 'app-color-icon',
@@ -30,20 +31,17 @@ export class ColorIconComponent implements OnInit {
   ngOnInit() {
   }
   changeColor(colorCode) {
-    console.log(colorCode);
     this.colorCodeEvent.emit(colorCode)
     if (this.notesDetails != undefined) {
-      console.log(this.notesDetails.id);
       this.colorDetails = {
         "color": colorCode,
         "noteIdList": [this.notesDetails.id]
       }
     this.notesService.notesPostService('api/notes/changesColorNotes',this.colorDetails)
     .subscribe(data => {
-      this.colorEvent.emit(this.event);
-      console.log(data);  
+      this.colorEvent.emit(this.event);  
     });
-    error => console.log('Error ', error);       
+    error => LoggerService.log('Error :' + error);       
     }    
   }
 }

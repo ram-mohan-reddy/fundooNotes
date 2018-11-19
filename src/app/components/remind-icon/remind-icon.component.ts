@@ -1,6 +1,7 @@
 import { Component, OnInit, Input,Output,EventEmitter,ElementRef, ViewChild  } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { MatMenu } from '@angular/material';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 @Component({
   selector: 'app-remind-icon', 
   templateUrl: './remind-icon.component.html',
@@ -68,8 +69,6 @@ export class RemindIconComponent implements OnInit {
       this.addReminder(note);
     }
     else if (value == 'week') {
-      console.log(date.getDay());
-
       if (date.getDay() == 6) {
         var note = {
           "reminder": new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2, 8, 0, 0),
@@ -134,14 +133,11 @@ export class RemindIconComponent implements OnInit {
       }
   
       else if (value == 'nextDay') {
-        console.log();
         this.reminder=[];
         this.reminder.push(new Date(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 8, 0, 0)));         
         this.reminderArrayEvent.emit(this.reminder);
       }
       else if (value == 'week') {
-        console.log(date.getDay());
-  
         if (date.getDay() == 6) {
           this.reminder=[];
           this.reminder.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2, 8, 0, 0));         
@@ -188,11 +184,10 @@ export class RemindIconComponent implements OnInit {
   addReminder(remainder) {
     this.notesService.notesPostService('api/notes/addUpdateReminderNotes',remainder)
     .subscribe(data => {
-      console.log(data);
       this.reminderEventClicked.emit(true);  
       this.editReminderEventClicked.emit(remainder.reminder); 
     });
-  error => console.log(error);
+  error => LoggerService.log('Error :' + error);
   
   }
   changeMenu(){
@@ -218,8 +213,6 @@ export class RemindIconComponent implements OnInit {
       splittedTime[0] = splittedTime[0] + splittedTime[1];
       splittedTime.splice(1, 1);
     }
-    console.log(splittedTime);
-    
     var note = {
       "reminder": new Date(this.customDate.getFullYear(), this.customDate.getMonth(), this.customDate.getDate(), splittedTime[0], splittedTime[2] + splittedTime[3]),
       "noteIdList":[this.notesDetails.id]
