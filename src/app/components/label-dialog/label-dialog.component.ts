@@ -1,70 +1,72 @@
-import { Component, OnInit,Inject,EventEmitter } from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpService } from '../../core/services/httpService/http.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
-import {DeleteLabelComponent} from '../delete-label/delete-label.component';
-import { MatDialog} from '@angular/material';
+import { DeleteLabelComponent } from '../delete-label/delete-label.component';
+import { MatDialog } from '@angular/material';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
+import { Label } from '../../core/models/notes';
 @Component({
   selector: 'app-label-dialog',
   templateUrl: './label-dialog.component.html',
-  styleUrls: ['./label-dialog.component.scss'] 
+  styleUrls: ['./label-dialog.component.scss']
 })
 export class LabelDialogComponent implements OnInit {
   changeText: boolean = false;
-  constructor( public dialogRef: MatDialogRef<LabelDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private userService: HttpService,
+  constructor(public dialogRef: MatDialogRef<LabelDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, private userService: HttpService,
     private dataService: DataSharingService, public dialog: MatDialog) { }
 
-    labelCollection:any;
-    newLabelList: any;
-    message: string;
-    labelName : string;
-    newLabelName: string;
-    editData;
-    notify: boolean = true;
-    onAdd = new EventEmitter();
-    onEdit = new EventEmitter();
-    toCreate = new EventEmitter();
-    editShow : boolean = true;
-  ngOnInit() {  
+  private labelCollection: Label[] = [];
+  private newLabelList: Label[] = [];
+  private message: string = '';
+  private labelName: string = '';
+  private newLabelName: string = '';
+  onAdd = new EventEmitter<boolean>();
+  onEdit = new EventEmitter<Label>();
+  toCreate = new EventEmitter<string>();
+  private editShow: boolean = true;
+  ngOnInit() {
     this.labelCollection = this.data.label;
   }
- 
-  deleteLabel(id){ 
+
+  deleteLabel(id) {
     this.deleteLabelConfirmation(id);
   }
 
-  editLabel(id){ 
-this.editShow = id;
+  editLabel(id) {
+    this.editShow = id;
   }
 
-  editLabelName(id){
+  editLabelName(id) {
     for (let index = 0; index < this.labelCollection.length; index++) {
       if (this.labelCollection[index].id == id) {
         this.labelCollection[index].label = this.newLabelName;
-        this.editData = {
+        var editData = {
           "label": this.newLabelName,
           "isDeleted": false,
           "id": id,
-          "userId":  this.labelCollection[index].userId
+          "userId": this.labelCollection[index].userId
         }
       }
     }
-   this.editShow = !this.editShow;
-   
-   this.onEdit.emit(this.editData);
+    this.editShow = !this.editShow;
+    this.onEdit.emit(editData);
   }
 
   clearText() {
-    this.labelName= null
+    this.labelName = null
   }
 
   createNewLabel() {
     if (this.labelName != undefined) {
       if (!this.labelCollection.some((data) => data.label == this.labelName)) {
+
         var newLabel = {
-          'label': this.labelName
+          'label': this.labelName,
+          'id': '',
+          'isDeleted': false,
+          'userId': ''
         }
         this.labelCollection.push(newLabel)
         this.toCreate.emit(this.labelName);
@@ -78,13 +80,13 @@ this.editShow = id;
   deleteLabelConfirmation(id): void {
     const dialogRef = this.dialog.open(DeleteLabelComponent, {
       width: '500px',
-      position: { top: '300px', left: '450px'},
+      position: { top: '300px', left: '450px' },
       panelClass: 'myapp-no-padding-dialog',
-      data: {componentName:"label"}
-    }); 
-   
+      data: { componentName: "label" }
+    });
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result) { 
+      if (result) {
         this.newLabelList = [];
         this.userService.deleteLabel("api/noteLabels/" + id + '/deleteNoteLabel')
           .subscribe(data => {
@@ -100,5 +102,5 @@ this.editShow = id;
         error => LoggerService.log('Error :' + error);
       }
     });
-} 
+  }
 }

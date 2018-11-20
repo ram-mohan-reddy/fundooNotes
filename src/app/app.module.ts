@@ -22,7 +22,7 @@ import {MatCardModule,
 import { ChecklistModule } from 'angular-checklist';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS} from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -68,6 +68,7 @@ import { DeleteLabelComponent } from './components/delete-label/delete-label.com
 import { DialogComponent } from './components/dialog/dialog.component';
 import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
 import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
+import { InterceptService} from './core/services/interceptor/interceptor.service';
 
 
 @NgModule({
@@ -101,7 +102,8 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
   ],
   entryComponents : [DialogComponent,
                     LabelDialogComponent,
-                    DeleteLabelComponent,ImageCropDialogComponent],
+                    DeleteLabelComponent,
+                    ImageCropDialogComponent],
   imports: [
     BrowserModule,
     FlexLayoutModule,
@@ -129,7 +131,8 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
     MatDatepickerModule,
     MatNativeDateModule,
     ImageCropperModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    HttpClientModule
   ],
   providers: [HttpService,
               AuthService,
@@ -137,7 +140,13 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
               GetNotesService,
               DataSharingService,
               LoggerService,
-              MessageServiceService],
+              MessageServiceService,
+              InterceptService,
+              {
+                provide: HTTP_INTERCEPTORS,
+                useClass: InterceptService,
+                multi: true
+              }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

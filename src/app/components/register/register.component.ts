@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../core/services/httpService/http.service';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {LoggerService} from '../../core/services/loggerService/logger.service';
-
+import { UserService } from '../../core/services/users/user.service';
+import {Subject} from 'rxjs';
+import{takeUntil} from 'rxjs/operators'
 
 @Component({
   selector: 'app-register',
@@ -28,15 +29,16 @@ valid = false
     "password": ''
   }
 
-  constructor(private userService: HttpService,private router: Router,public snackBar: MatSnackBar) { }
-
+  constructor(private userService: UserService,private router: Router,public snackBar: MatSnackBar) { }
+  destroy$: Subject<boolean> = new Subject<boolean>();
   ngOnInit() {  
     this.showService(); 
   }
 
 
   showService() {
-      this.userService.getService('api/user/service')
+      this.userService.userGetService('service')
+        .pipe(takeUntil(this.destroy$))
         .subscribe((data) =>  {
           this.newServices= data.data.data;
          error => LoggerService.log('Error :' + error);
@@ -45,7 +47,8 @@ valid = false
 
     userSignup() {
 
-      this.userService.postService('api/user/userSignUp',this.user)
+      this.userService.userPost('userSignUp',this.user)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.snackBar.open('Registered successfully..!!','redirecting to login',{
           duration: 1000,
@@ -78,4 +81,9 @@ valid = false
           this.fieldsEmpty = 'Enter your details';      
       }
     }
+    ngOnDestroy() {
+      LoggerService.log('On destroy works');
+      this.destroy$.next(true);
+       this.destroy$.unsubscribe();   
+     }
 }

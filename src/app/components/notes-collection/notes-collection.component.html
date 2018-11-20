@@ -12,8 +12,14 @@
                   <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
                     {{index.title}} 
                   </div>
-                  <div fxFlex *ngIf='!index.isPined' class="icons-collection" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
-                  <div fxFlex *ngIf='index.isPined' class="icons-collection" matTooltip="un pin note"><img src="../../../assets/images/unPin.svg"></div>
+                  <div fxFlex (click)="$event.stopPropagation();" *ngIf='!index.isPined' 
+                   (click)="pinNotes(index)" class="icons-collection" matTooltip="Pin note">
+                    <img src="../../../assets/images/pin.svg">
+                  </div>
+                  <div fxFlex (click)="$event.stopPropagation();" *ngIf='index.isPined' 
+                  (click)="unPinNotes(index)" class="icons-collection" matTooltip="un pin note">
+                    <img src="../../../assets/images/unPin.svg">
+                  </div>
                 </div> 
                 <p style="word-wrap: break-word; margin-left: 10px">
                   {{index.description}} 

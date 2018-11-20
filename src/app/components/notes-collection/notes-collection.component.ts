@@ -1,3 +1,18 @@
+/************************************************************************************************
+*  Execution       :   1. default node         cmd> notes-collection.ts 
+*        
+*  Purpose         : To add the cards down & display the collection of cards after the click of close button
+* 
+*  Description    
+* 
+*  @file           : notes-collection.ts
+*  @overview       : To add the cards down & display the collection of cards after the click of close button
+*  @module         : notes-collection.ts - This is optional if expeclictly it's an npm or local package
+*  @author         : ram-mohan-reddy <ram.mohan10595@gmail.com>
+*  @since          : 20-10-2018
+*
+*************************************************************************************************/
+/**component has imports , decorator & class */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component'
@@ -5,13 +20,18 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { HttpService } from '../../core/services/httpService/http.service';
-
+/**A componenet can be reused throughout the application & even in other applications */
 @Component({
+  /**A string value which represents the component on browser at execution time */
   selector: 'app-notes-collection',
+  /**External templating process to define html tags in component */
   templateUrl: './notes-collection.component.html',
+  /**It is used to provide style of components */
   styleUrls: ['./notes-collection.component.scss'],
 
 })
+/**To use components in other modules , we have to export them */
+
 export class NotesCollectionComponent implements OnInit {
   notesView: boolean = true;
   token: string = localStorage.getItem('token')
@@ -29,34 +49,37 @@ export class NotesCollectionComponent implements OnInit {
       this.notesEditRequest.emit(true);
     })
   }
-  @Input() notesListArray: any;
-  @Input() separate: any;
-  @Input() searchText: any;
-  @Input() componentName: any;
-  @Output() notesEditRequest = new EventEmitter<boolean>();
+/**Input and Output are two decorators in Angular responsible for communication between two components*/
+@Input() notesListArray: any;
+@Input() separate: any;
+@Input() searchText: any;
+@Input() componentName: any;
+/**To be able to use our output we need to import & bind a new instance of the event emitter to it */
+@Output() notesEditRequest = new EventEmitter<boolean>();
   todayDate: Date = new Date();
   tomorrowDate = new Date();
   reminderEdit = false;
-
-  ngOnInit() {
+  /**it is a interface */
+  /**OnInit is a lifecycle hook that is called after Angular has initialized all data-bound properties of a directive. */
+ngOnInit() {
     LoggerService.log('Using logger service: ');
     this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
   }
-
-  childEventClicked(event) {
+/**callback will be invoked &data associated with the event will be given to us via $event property */
+childEventClicked(event) {
     if (event) {
       this.notesEditRequest.emit(event);
     }
   }
-
-  archiveEventClicked(event) {
+/**callback will be invoked & data associated with the event will be given to us via $event property */
+archiveEventClicked(event) {
     if (event) {
       this.openSnackBar('Note archived', 'Undo');
       this.notesEditRequest.emit(event);
     }
   }
-
-  unArchiveEventClicked(event) {
+/**callback will be invoked &data associated with the event will be given to us via $event property */
+unArchiveEventClicked(event) {
     if (event) {
       this.openSnackBar('Note unarchived', 'Undo');
       this.notesEditRequest.emit(event);
@@ -188,7 +211,19 @@ export class NotesCollectionComponent implements OnInit {
     this.notesService.notesPostService('api/notes/pinUnpinNotes', noteDetails)
       .subscribe(data => {
         this.notesEditRequest.emit(true);
-      });
+      }); 
+    error => LoggerService.log('Error :' + error);
+  }
+
+  unPinNotes(note) {
+    var noteDetails = {
+      "isPined": false,
+      "noteIdList": [note.id]
+    }
+    this.notesService.notesPostService('api/notes/pinUnpinNotes', noteDetails)
+      .subscribe(data => {
+        this.notesEditRequest.emit(true);
+      }); 
     error => LoggerService.log('Error :' + error);
   }
 }

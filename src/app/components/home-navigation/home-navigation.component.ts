@@ -1,9 +1,9 @@
-import { Component,OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '../../core/services/httpService/http.service';
-import { MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { LabelDialogComponent } from '../label-dialog/label-dialog.component';
 import { ImageCropDialogComponent } from '../image-crop-dialog/image-crop-dialog.component';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 
- 
+
 @Component({
   selector: 'app-home-navigation',
   templateUrl: './home-navigation.component.html',
@@ -19,126 +19,128 @@ import { LoggerService } from '../../core/services/loggerService/logger.service'
 })
 
 
-export class HomeNavigationComponent implements OnInit{
+export class HomeNavigationComponent implements OnInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
     );
-    
-  constructor(private breakpointObserver: BreakpointObserver,private router: Router,private userService: HttpService,
-    public dialog: MatDialog,public dataService: DataSharingService,private route: ActivatedRoute) {
-      this.dataService.eventEmitted.subscribe(message => { 
-        if (message) {
-          this.getLabel();
-        } 
-      })
-      this.dataService.identityEventEmitted.subscribe(message => {  
-        if (message) {
-         this.identify = message;
-         localStorage.setItem('identify',message)
-        } 
-      })
-    }
-  searchText:string;
-  identify: string='fundooNotes';
-  userName: string = ''; 
-  email: string='';
-  token: string=''; 
-  userId: string;
-  labelList;
-  notesView: boolean = true;
-  labelData = {
+
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router, private userService: HttpService,
+    public dialog: MatDialog, public dataService: DataSharingService, private route: ActivatedRoute) {
+    this.dataService.eventEmitted.subscribe(message => {
+      if (message) {
+        this.getLabel();
+      }
+    })
+    this.dataService.identityEventEmitted.subscribe(message => {
+      if (message) {
+        this.identify = message;
+        localStorage.setItem('identify', message)
+      }
+    })
+  }
+  private searchText: string;
+  private identify: string = 'fundooNotes';
+  private userName: string = '';
+  private email: string = '';
+  private token: string = '';
+  private userId: string;
+  private labelList;
+  private selectedFile: File;
+  private selectedFileName: string;
+  private notesView: boolean = true;
+  private labelData = {
     "label": "string",
     "isDeleted": false,
     "userId": "string"
   }
 
   ngOnInit() {
-   this.email = localStorage.getItem('email');
+    this.email = localStorage.getItem('email');
     this.userName = localStorage.getItem('userName');
     this.token = localStorage.getItem('token');
     this.userId = localStorage.getItem('userId');
-    if (localStorage.getItem('identify')!= undefined) {
+    if (localStorage.getItem('identify') != undefined) {
       this.identify = localStorage.getItem('identify');
     }
     this.getLabel();
   }
 
   logout() {
-    this.userService.userLogout('api/user/logout',this.token)
-    .subscribe(data => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('imageUrl');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('email');
-      this.router.navigateByUrl('/login');  
+    this.userService.userLogout('api/user/logout')
+      .subscribe(data => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('imageUrl');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('email');
+        this.router.navigateByUrl('/login');
       });
-      error => LoggerService.log('Error :' + error);         
-  }
- 
-  naviagteSearch() {
-this.router.navigate(['home/search']);
+    error => LoggerService.log('Error :' + error);
   }
 
-  dataTransfer(){
+  naviagteSearch() {
+    this.router.navigate(['home/search']);
+  }
+
+  dataTransfer() {
     this.dataService.changeMessage(this.searchText)
   }
 
   getLabel(): void {
-    this.userService.getNotesList('api/noteLabels/getNoteLabelList',this.token)
-    .subscribe(data => {
-      this.labelList = [];
-      for (let index = 0; index < data['data'].details.length; index++) {
-        if (data['data'].details[index].isDeleted == false) {
-          this.labelList.push(data['data'].details[index]) 
+    this.userService.getNotesList('api/noteLabels/getNoteLabelList')
+      .subscribe(data => {
+        this.labelList = [];
+        for (let index = 0; index < data['data'].details.length; index++) {
+          if (data['data'].details[index].isDeleted == false) {
+            this.labelList.push(data['data'].details[index])
+          }
         }
-      }  
-      this.labelList.sort((a,b) => a.label.localeCompare(b.label)); 
+        this.labelList.sort((a, b) => a.label.localeCompare(b.label));
       });
-      error => LoggerService.log('Error :' + error);
+    error => LoggerService.log('Error :' + error);
   }
-  updateLabel(data):void {
+  updateLabel(data): void {
     var labelName = data.label
-    this.userService.postServiceAuthentication("api/noteLabels/"+ data.id +'/updateNoteLabel',data,this.token)
-    .subscribe(data => {
-      this.getLabel(); 
-      this.dataService.changeMessage(labelName)
-      this.dataService.eventTrigger(true);
+    this.userService.postServiceAuthentication("api/noteLabels/" + data.id + '/updateNoteLabel', data,)
+      .subscribe(data => {
+        this.getLabel();
+        this.dataService.changeMessage(labelName)
+        this.dataService.eventTrigger(true);
       });
-      error => LoggerService.log('Error :' + error);
+    error => LoggerService.log('Error :' + error);
   }
 
   createNewLabel(labelData): void {
-    this.userService.postServiceAuthentication('api/noteLabels',labelData,this.token)
-    .subscribe(data => {
-      this.getLabel();
+    this.userService.postServiceAuthentication('api/noteLabels', labelData)
+      .subscribe(data => {
+        this.getLabel();
       });
-      error => LoggerService.log('Error :' + error);
+    error => LoggerService.log('Error :' + error);
   }
   createLabel(): void {
     const dialogRef = this.dialog.open(LabelDialogComponent, {
       width: '300px',
       panelClass: 'myapp-no-padding-dialog',
-      data: {label:this.labelList}
+      data: { label: this.labelList }
     });
     const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
       if (data) {
-        this.getLabel(); 
-      }  
+        this.getLabel();
+      }
     });
 
     const sub1 = dialogRef.componentInstance.onEdit.subscribe((data) => {
-     this.updateLabel(data)
+      this.updateLabel(data)
     });
 
     const sub2 = dialogRef.componentInstance.toCreate.subscribe((data) => {
       this.labelData.label = data;
       this.labelData.userId = this.userId;
       this.createNewLabel(this.labelData)
-     
-     }); 
+
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
@@ -151,50 +153,48 @@ this.router.navigate(['home/search']);
           LoggerService.log('label name already exits');
         }
       }
-     
+
     });
-} 
+  }
 
-changeIdentity(data) {
-  this.searchText= '';
-  localStorage.setItem('identify',data)
-  this.identify = data;
-}
-selectedFile : File; 
-selectedFileName : string;
-savedUrl = localStorage.getItem('imageUrl');
-url= "http://34.213.106.173/"+this.savedUrl;
-onImageUpload(event){
-this.selectedFile = event.path[0].files[0];
-this.imageUpload(); 
-} 
+  changeIdentity(data) {
+    this.searchText = '';
+    localStorage.setItem('identify', data)
+    this.identify = data;
+  }
+  savedUrl = localStorage.getItem('imageUrl');
+  url = "http://34.213.106.173/" + this.savedUrl;
+  onImageUpload(event) {
+    this.selectedFile = event.path[0].files[0];
+    this.imageUpload();
+  }
 
-imageUpload(): void {
-  const dialogRef = this.dialog.open(ImageCropDialogComponent, {
-    width: '700px',
-    height: '500px',
-    data: {urlEvent:this.url}
-  });
+  imageUpload(): void {
+    const dialogRef = this.dialog.open(ImageCropDialogComponent, {
+      width: '700px',
+      height: '500px',
+      data: { urlEvent: this.url }
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-   if (result != undefined) {
-    this.selectedFile = result;
-     const uploadData = new FormData();
-     uploadData.append('file', this.selectedFile);
-     this.userService.imageUpload('api/user/uploadProfileImage', uploadData, this.token)
-       .subscribe(data => {
-         this.savedUrl = data['status'].imageUrl;
-         localStorage.setItem('imageUrl', data['status'].imageUrl);
-         this.url = "http://34.213.106.173/" + this.savedUrl;
-       });
-     error => LoggerService.log('Error :' + error);
-   }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        this.selectedFile = result;
+        const uploadData = new FormData();
+        uploadData.append('file', this.selectedFile);
+        this.userService.imageUpload('api/user/uploadProfileImage', uploadData)
+          .subscribe(data => {
+            this.savedUrl = data['status'].imageUrl;
+            localStorage.setItem('imageUrl', data['status'].imageUrl);
+            this.url = "http://34.213.106.173/" + this.savedUrl;
+          });
+        error => LoggerService.log('Error :' + error);
+      }
 
-  });
-} 
+    });
+  }
 
-changeView() {
-  this.notesView = !this.notesView;
-  this.dataService.listEventTrigger(true);
-}
+  changeView() {
+    this.notesView = !this.notesView;
+    this.dataService.listEventTrigger(true);
+  }
 }

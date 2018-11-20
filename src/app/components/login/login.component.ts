@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HttpService } from '../../core/services/httpService/http.service';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
 import {LoggerService} from '../../core/services/loggerService/logger.service';
+import { UserService } from '../../core/services/users/user.service';
+import {Subject} from 'rxjs';
+import{takeUntil} from 'rxjs/operators'
+
+
 
 @Component({
   selector: 'app-login', 
@@ -19,18 +23,19 @@ import {LoggerService} from '../../core/services/loggerService/logger.service';
     ])
   ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy{
 
-  constructor(private userService: HttpService,public message: MatSnackBar,public router : Router) { }
+  constructor(private userService: UserService,public message: MatSnackBar,public router : Router) { }
   userLogin = {
     "email": '',
     "password" : ''
   }
-  reg = "[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-  display = true;
-  value = true;
-  forgotPassword = true;
-  emptyEmail = '';
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  private reg : string = "[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+  private display : boolean = true;
+  private value : boolean = true;
+  private forgotPassword : boolean = true;
+  private emptyEmail: string = '';
   emptyPassword = '';
   confirmPassword='';
   userName = '';
@@ -58,24 +63,28 @@ export class LoginComponent implements OnInit {
     }
   }
   login() {
-    this.userService.postService('api/user/login',this.userLogin)
+    this.userService.userPost('login',this.userLogin)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {     
         localStorage.setItem('token',data['id']);  
         localStorage.setItem('userId',data['userId']); 
         localStorage.setItem('imageUrl',data['imageUrl']); 
         localStorage.setItem('userName',data['firstName']);
-        localStorage.setItem('email',data['email']);
-        var token = localStorage.getItem('token');
-        var reminderToken = localStorage.getItem('reminderToken');
-        this.userService.postServiceAuthentication('api/user/registerPushToken',{
-        "pushToken":reminderToken
-        },token)
-        .subscribe(data => {
-          this.router.navigateByUrl('/home');
-          error => LoggerService.log('Error :' + error);      
-        });
-        error => LoggerService.log('Error :' + error);       
+        localStorage.setItem('email',data['email']);  
+        this.registerPushToken();      
       });
+      error => LoggerService.log('Error :' + error); 
+  }
+
+  registerPushToken() {
+    var token = localStorage.getItem('token');
+    var reminderToken = localStorage.getItem('reminderToken');
+    this.userService.userPostService('registerPushToken',{"pushToken":reminderToken})
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
+        this.router.navigateByUrl('/home');    
+      });
+      error => LoggerService.log('Error :' + error);  
   }
   reset = {
     "email": '',
@@ -88,7 +97,8 @@ export class LoginComponent implements OnInit {
   }
   forgotPasswordLink() {
     if (this.reset.email == this.userLogin.email) {
-      this.userService.postService('api/user/reset',this.reset)
+      this.userService.userPost('reset',this.reset)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
        this.reset.email = ''
         this.message.open('Password resetLink sent to your mail', 'Reset', {
@@ -104,4 +114,10 @@ export class LoginComponent implements OnInit {
       this.confirmPassword = 'Enter registered email '
     }
   }
+
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  } 
 }

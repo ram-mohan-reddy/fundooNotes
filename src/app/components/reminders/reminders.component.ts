@@ -14,7 +14,7 @@ export class RemindersComponent implements OnInit {
   constructor(private notesService : HttpService) { }
 
   ngOnInit() { 
-    this.notesService.getNotesList('api/notes/getReminderNotesList',this.token)
+    this.notesService.getNotesList('api/notes/getReminderNotesList')
     .subscribe(data => {
       this.notesCollection(data) 
     });
@@ -23,7 +23,7 @@ export class RemindersComponent implements OnInit {
 
   notesAddRequest(event) {
     if (event) {
-      this.notesService.getNotesList('api/notes/getReminderNotesList',this.token).subscribe(data => {
+      this.notesService.getNotesList('api/notes/getReminderNotesList').subscribe(data => {
       this.notesCollection(data)
       });
       error => LoggerService.log('Error :' + error);

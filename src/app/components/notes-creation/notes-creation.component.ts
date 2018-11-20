@@ -1,15 +1,38 @@
+/************************************************************************************************
+*  Execution       :   1. default node         cmd> notes-creation.ts 
+*        
+*  Purpose         : To display small card & hiddencards & change color when clicked 
+* 
+*  Description    
+* 
+*  @file           : notes-creation.ts
+*  @overview       : To display small card & hiddencards & change color when clicked 
+*  @module         : notes-creation.ts - This is optional if expeclictly it's an npm or local package
+*  @author         : ram-mohan-reddy <ram.mohan10595@gmail.com>
+*  @since          : 20-10-2018
+*
+*************************************************************************************************/
+/**component has imports , decorator & class */
 import { Component, OnInit, Output, EventEmitter,ElementRef, ViewChild } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {MatSnackBar} from '@angular/material';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
+/**A componenet can be reused throughout the application & even in other applications */
 
 @Component({
+/**A string value which represents the component on browser at execution time */
   selector: 'app-notes-creation',
+/**External templating process to define html tags in component */
   templateUrl: './notes-creation.component.html',
+/**It is used to provide style of components */
   styleUrls: ['./notes-creation.component.scss']
 })
+/**To use components in other modules , we have to export them */
+
 export class NotesCreationComponent implements OnInit {
+    /**To be able to use our output we need to import & bind a new instance of the event emitter to it */
+
   constructor(private notesService:GetNotesService,private data: DataSharingService,
   public snackBar: MatSnackBar) { }
   listArray=[];
@@ -39,14 +62,14 @@ export class NotesCreationComponent implements OnInit {
   user = {
     roles: []
   };
-  labelData = {
+  labelData = {/**body to be passed in hitting the api of labels */
     "label": "string",
     "isDeleted": false, 
     "userId": "string"
   }
 
   notesContentData:any;
-  notesContent = {
+  notesContent = {/**body to be passed in hitting the api of notes cards */
     "file": File,
     "title": "",
     "description": "",
@@ -58,17 +81,21 @@ export class NotesCreationComponent implements OnInit {
     "reminder" : ""
   }
 
-  noteArchive = {
+  noteArchive = {/**body to be passed in hitting the api of archive notes */
     "isArchived": false
   }
+    /**Input and Output are two decorators in Angular responsible for communication between two components*/
+  /**it is a interface */
+
   @Output() notesAdded = new EventEmitter<boolean>();
   todayDate: Date = new Date();
   tomorrowDate = new Date();
+  /**OnInit is a lifecycle hook that is called after Angular has initialized all data-bound properties of a directive. */
   ngOnInit() {
     this.getLabel();
     this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
   }
-
+/**callback will be invoked &data associated with the event will be given to us via $event property */
   receiveMessage(event) {
     if (event) {
       this.saveNote();
@@ -82,7 +109,7 @@ export class NotesCreationComponent implements OnInit {
   trackByIndex(index: number, obj: any): any {
     return index;
   }
-  
+/**callback will be invoked &data associated with the event will be given to us via $event property */  
   receiveColor(event) {
     if (event) {
      this.colorCode = event;

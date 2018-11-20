@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-import { HttpService } from '../../core/services/httpService/http.service';
 import { Router,ActivatedRoute } from '@angular/router';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
+import { UserService } from '../../core/services/users/user.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,7 +11,7 @@ import { LoggerService } from '../../core/services/loggerService/logger.service'
 })
 export class ResetPasswordComponent implements OnInit {
 
-  constructor(private userService: HttpService,public route:ActivatedRoute ,public message: MatSnackBar) { }
+  constructor(private userService: UserService,public route:ActivatedRoute ,public message: MatSnackBar) { }
 
   newData = {
     "newPassword": ''
@@ -40,7 +40,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   changePassword(){
-    this.userService.resetPassword('api/user/reset-password',this.newData,this.token)
+    this.userService.userPostService('reset-password',this.newData)
     .subscribe(data => {
 
       this.newData.newPassword = '';
@@ -48,7 +48,6 @@ export class ResetPasswordComponent implements OnInit {
       this.message.open('Password updated', 'Success', {
         duration: 5000,
       });
-     
       error => {LoggerService.log('Error :' + error); 
       this.message.open('Process failed', 'Sorry.!', {
         duration: 5000,

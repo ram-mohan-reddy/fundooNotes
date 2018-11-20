@@ -14,9 +14,9 @@ export class ImageCropDialogComponent implements OnInit {
   ngOnInit() {
 
   }
-  imageChangedEvent: any = '';
-  croppedImage: any;
-  showCroppedImage: any = '';
+ private imageChangedEvent: string = '';
+ private croppedImage: File;
+ private showCroppedImage:string = '';
   fileChangeEvent(event: any): void {
       this.imageChangedEvent = event;
   }

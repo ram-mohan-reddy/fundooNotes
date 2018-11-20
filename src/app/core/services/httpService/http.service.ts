@@ -24,24 +24,24 @@ export class HttpService {
 
  
   //pst service with authentication
-  postServiceAuthentication(url, data, token) {
+  postServiceAuthentication(url,data) {
     url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': token
+        // 'Authorization': token
       })
 
     };
-    return this.http.post(url,data, httpAuthenticate);
+    return this.http.post(url,data,httpAuthenticate);
   }
 
-  postServiceAuth(url, data, token) {
+  postServiceAuth(url, data) {
     url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': token
+        // 'Authorization': token
       })
 
     };
@@ -49,12 +49,12 @@ export class HttpService {
   }
 
   //get service with authentication
-  getNotesList(url, token){ 
+  getNotesList(url){ 
     url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': token
+        // 'Authorization': token
       })
 
     };
@@ -63,12 +63,12 @@ export class HttpService {
   }
 
   //post service with body empty and authentication
-  userLogout(url, token) {
+  userLogout(url) {
     url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': token
+        // 'Authorization': token
       })
 
     }; 
@@ -81,11 +81,11 @@ deleteLabel(url){
   return this.http.delete(url);
 }
 
-imageUpload(url,file,token) {
+imageUpload(url,file) {
   url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({
-        'Authorization': token
+        // 'Authorization': token
       })
     };
     return this.http.post(url,file, httpAuthenticate);
@@ -101,12 +101,12 @@ imageUpload(url,file,token) {
 //   return this.http.post(this.url+"/"+nexturl,body,httpOptions)
 // }
   //post service for reset password
-  resetPassword(url, data, token) {
+  resetPassword(url, data) {
     url = this.server_url + url;
     var httpAuthenticate = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': token
+        // 'Authorization': token
       })
     };
     return this.http.post(url, this.getFormUrlEncoded(data), httpAuthenticate);

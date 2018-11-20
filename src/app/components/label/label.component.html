@@ -1,4 +1,9 @@
 <app-notes-creation (notesAdded)="notesAddRequest($event)"></app-notes-creation> 
-
-<app-notes-collection (notesEditRequest)="notesAddRequest($event)" [notesListArray]="totalNotes" ></app-notes-collection> 
- 
+<div *ngIf='pinedNotes.length != 0'>Pinned</div>
+<app-notes-collection (notesEditRequest)="notesAddRequest($event)" 
+    [notesListArray]="pinedNotes" >
+</app-notes-collection> 
+<div  *ngIf='pinedNotes.length != 0'>Others</div>
+<app-notes-collection (notesEditRequest)="notesAddRequest($event)" 
+    [notesListArray]="totalNotes" >
+</app-notes-collection>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
+import { Notes } from '../../core/models/notes';
 
 @Component({
   selector: 'app-archive',
@@ -8,23 +9,24 @@ import { LoggerService } from '../../core/services/loggerService/logger.service'
   styleUrls: ['./archive.component.scss']
 })
 export class ArchiveComponent implements OnInit {
-  totalNotes = [];
-  token: string;
-  list;
-  note;
-  constructor(private notesService : GetNotesService) { }
+  private notes: Notes[] = [];
+  private totalNotes: Notes[] = [];
+  private list: Notes[] = [];
+  constructor(private notesService: GetNotesService) { }
 
   ngOnInit() {
     this.getNotes();
   }
 
-  getNotes() { 
+  /*********************** This function used to get archived notes*********************/ 
+  getNotes() {
     this.notesService.getNotes()
-      .subscribe(data => {
+      .subscribe((data: Notes[]) => {
+        this.notes = data['data'].data;
         this.list = [];
-        for (let index = 0; index < data['data'].data.length; index++) {
-          if (data['data'].data[index].isArchived == true) {
-            this.list.push(data['data'].data[index])
+        for (let index = 0; index < this.notes.length; index++) {
+          if (this.notes[index].isArchived == true && this.notes[index].isPined == false){
+            this.list.push(this.notes[index])
           }
         }
         this.totalNotes = this.list.reverse();
@@ -32,10 +34,10 @@ export class ArchiveComponent implements OnInit {
     error => LoggerService.log('Error :' + error);
   }
 
+  // Event emitted to get updated notes after hitting archived or unarchived request
   notesArchiveRequest(event) {
     if (event) {
       this.getNotes();
     }
   }
-
 } 
