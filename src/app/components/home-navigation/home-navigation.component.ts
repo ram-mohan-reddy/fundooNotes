@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { HttpService } from '../../core/services/httpService/http.service';
 import { MatDialog } from '@angular/material';
 import { LabelDialogComponent } from '../label-dialog/label-dialog.component';
@@ -10,6 +10,8 @@ import { DataSharingService } from '../../core/services/dataService/data-sharing
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
+import{environment} from '../../../environments/environment'
+
 
 
 @Component({
@@ -19,7 +21,7 @@ import { LoggerService } from '../../core/services/loggerService/logger.service'
 })
 
 
-export class HomeNavigationComponent implements OnInit {
+export class HomeNavigationComponent implements OnInit, OnDestroy {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -40,6 +42,8 @@ export class HomeNavigationComponent implements OnInit {
       }
     })
   }
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
   private searchText: string;
   private identify: string = 'fundooNotes';
   private userName: string = '';
@@ -50,6 +54,7 @@ export class HomeNavigationComponent implements OnInit {
   private selectedFile: File;
   private selectedFileName: string;
   private notesView: boolean = true;
+  private server_url = environment.baseUrl;
   private labelData = {
     "label": "string",
     "isDeleted": false,
@@ -69,6 +74,7 @@ export class HomeNavigationComponent implements OnInit {
 
   logout() {
     this.userService.userLogout('api/user/logout')
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         localStorage.removeItem('token');
         localStorage.removeItem('imageUrl');
@@ -90,6 +96,7 @@ export class HomeNavigationComponent implements OnInit {
 
   getLabel(): void {
     this.userService.getNotesList('api/noteLabels/getNoteLabelList')
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.labelList = [];
         for (let index = 0; index < data['data'].details.length; index++) {
@@ -104,6 +111,7 @@ export class HomeNavigationComponent implements OnInit {
   updateLabel(data): void {
     var labelName = data.label
     this.userService.postServiceAuthentication("api/noteLabels/" + data.id + '/updateNoteLabel', data,)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.getLabel();
         this.dataService.changeMessage(labelName)
@@ -114,6 +122,7 @@ export class HomeNavigationComponent implements OnInit {
 
   createNewLabel(labelData): void {
     this.userService.postServiceAuthentication('api/noteLabels', labelData)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.getLabel();
       });
@@ -163,7 +172,7 @@ export class HomeNavigationComponent implements OnInit {
     this.identify = data;
   }
   savedUrl = localStorage.getItem('imageUrl');
-  url = "http://34.213.106.173/" + this.savedUrl;
+  url = this.server_url + this.savedUrl;
   onImageUpload(event) {
     this.selectedFile = event.path[0].files[0];
     this.imageUpload();
@@ -182,12 +191,13 @@ export class HomeNavigationComponent implements OnInit {
         const uploadData = new FormData();
         uploadData.append('file', this.selectedFile);
         this.userService.imageUpload('api/user/uploadProfileImage', uploadData)
+          .pipe(takeUntil(this.destroy$))
           .subscribe(data => {
             this.savedUrl = data['status'].imageUrl;
             localStorage.setItem('imageUrl', data['status'].imageUrl);
-            this.url = "http://34.213.106.173/" + this.savedUrl;
+            this.url = this.server_url + this.savedUrl;
           });
-        error => LoggerService.log('Error :' + error);
+        error => LoggerService.log('Error :' + error); 
       }
 
     });
@@ -197,4 +207,10 @@ export class HomeNavigationComponent implements OnInit {
     this.notesView = !this.notesView;
     this.dataService.listEventTrigger(true);
   }
+
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  } 
 }

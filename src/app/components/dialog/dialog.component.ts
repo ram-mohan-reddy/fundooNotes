@@ -12,9 +12,9 @@ export class DialogComponent implements OnInit {
   onDelete = new EventEmitter<any>();
   onCheckListDelete = new EventEmitter<any>();
   onCheckListUpdate = new EventEmitter<any>();
-  show:boolean=true;
-  listName:string; 
- listArray=[];  
+  show: boolean = true;
+  listName: string;
+  listArray = [];  
 
   onReminderRemove = new EventEmitter<any>();
   labelListArray;
@@ -79,7 +79,6 @@ export class DialogComponent implements OnInit {
   }
   
   deleteRemainder(id) {
-
     this.onReminderRemove.emit(id);
     this.reminderArray =[];
   }

@@ -1,15 +1,17 @@
-import { Component, OnInit,Input,Output, EventEmitter } from '@angular/core';
+import { Component, OnInit,Input,Output, EventEmitter, OnDestroy } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {DeleteLabelComponent} from '../delete-label/delete-label.component';
 import { MatDialog} from '@angular/material';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-more-icon',
   templateUrl: './more-icon.component.html',
   styleUrls: ['./more-icon.component.scss']
 })
-export class MoreIconComponent implements OnInit {
+export class MoreIconComponent implements OnInit, OnDestroy{
   event: boolean = true
   @Output() eventClicked = new EventEmitter<boolean>();
   @Output() labelAdd = new EventEmitter<boolean>();
@@ -29,6 +31,7 @@ export class MoreIconComponent implements OnInit {
     "isDeleted": false,
     "userId": "string"
   }
+  destroy$: Subject<boolean> = new Subject<boolean>();
   ngOnInit() {   
     
   }
@@ -49,7 +52,8 @@ export class MoreIconComponent implements OnInit {
       "noteIdList":[this.notesDetails.id]
     }
     this.notesService.notesPostService('api/notes/trashNotes',this.note)
-    .subscribe(data => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
       this.eventClicked.emit(this.event);   
     });
     error => LoggerService.log('Error :' + error);
@@ -70,6 +74,7 @@ export class MoreIconComponent implements OnInit {
           "noteIdList":[this.notesDetails.id]
         }
         this.notesService.notesPostService('api/notes/deleteForeverNotes',this.note)
+        .pipe(takeUntil(this.destroy$))
         .subscribe(data => {
           this.eventClicked.emit(this.event);   
         });
@@ -94,7 +99,8 @@ export class MoreIconComponent implements OnInit {
       this.labelData.label = this.newLabelName;
       this.labelData.userId = this.userId;
       this.notesService.notesPostService('api/noteLabels', this.labelData)
-        .subscribe(data => {
+      .pipe(takeUntil(this.destroy$))  
+      .subscribe(data => {
           this.getLabel();
           this.data.eventTrigger(true)
         });
@@ -105,7 +111,8 @@ export class MoreIconComponent implements OnInit {
 
   getLabel(): void {
     this.notesService.getLabelData('api/noteLabels/getNoteLabelList')
-      .subscribe(data => {
+    .pipe(takeUntil(this.destroy$))  
+    .subscribe(data => {
         this.myArray = [];
         for (let index = 0; index < data['data'].details.length; index++) {
           if (data['data'].details[index].isDeleted == false) {
@@ -119,6 +126,7 @@ onClick(value): void {
 
   if (!this.notesDetails.noteLabels.some((data) => data.label == value.label)) {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/add', {})
+    .pipe(takeUntil(this.destroy$))
     .subscribe(data => {
       setTimeout(()=>{ 
         this.eventClicked.emit(this.event);
@@ -129,6 +137,7 @@ onClick(value): void {
   }
   else {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/remove', {})
+    .pipe(takeUntil(this.destroy$))
     .subscribe(data => {
       setTimeout(()=>{ 
         this.eventClicked.emit(this.event);
@@ -137,6 +146,12 @@ onClick(value): void {
     });
   error => LoggerService.log('Error :' + error);
   }
+  }
+  
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   } 
 
 }

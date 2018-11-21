@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpService } from '../../core/services/httpService/http.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
@@ -6,12 +6,14 @@ import { DeleteLabelComponent } from '../delete-label/delete-label.component';
 import { MatDialog } from '@angular/material';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { Label } from '../../core/models/notes';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-label-dialog',
   templateUrl: './label-dialog.component.html',
   styleUrls: ['./label-dialog.component.scss']
 })
-export class LabelDialogComponent implements OnInit {
+export class LabelDialogComponent implements OnInit, OnDestroy {
   changeText: boolean = false;
   constructor(public dialogRef: MatDialogRef<LabelDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private userService: HttpService,
@@ -26,6 +28,7 @@ export class LabelDialogComponent implements OnInit {
   onEdit = new EventEmitter<Label>();
   toCreate = new EventEmitter<string>();
   private editShow: boolean = true;
+  destroy$: Subject<boolean> = new Subject<boolean>();
   ngOnInit() {
     this.labelCollection = this.data.label;
   }
@@ -89,6 +92,7 @@ export class LabelDialogComponent implements OnInit {
       if (result) {
         this.newLabelList = [];
         this.userService.deleteLabel("api/noteLabels/" + id + '/deleteNoteLabel')
+          .pipe(takeUntil(this.destroy$))
           .subscribe(data => {
             for (let index = 0; index < this.labelCollection.length; index++) {
               if (this.labelCollection[index].id != id) {
@@ -103,4 +107,10 @@ export class LabelDialogComponent implements OnInit {
       }
     });
   }
+
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  } 
 }

@@ -13,10 +13,12 @@
 *
 *************************************************************************************************/
 /**component has imports , decorator & class */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import {LoggerService} from '../../core/services/loggerService/logger.service';
 import { Notes } from '../../core/models/notes';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 /**A componenet can be reused throughout the application & even in other applications */
 @Component({
   /**A string value which represents the component on browser at execution time */
@@ -27,32 +29,34 @@ import { Notes } from '../../core/models/notes';
   styleUrls: ['./notes.component.scss'] 
 })
 /**To use components in other modules , we have to export them */
-export class NotesComponent implements OnInit {
+export class NotesComponent implements OnInit, OnDestroy{
   note: Notes[]=[];
   list;
   totalNotes: any = [];
   pinedNotes: any = [];
   separateOthers : string = 'Others'
-  separatePinned : string = 'pinned'
+  separatePinned : string = 'pinned';
+  destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private notesService : GetNotesService) { }
     /**it is a interface */
   /**OnInit is a lifecycle hook that is called after Angular has initialized all data-bound properties of a directive. */
   ngOnInit() { 
-    this.notesService.getNotes()
-    .subscribe((data: Notes[]) => {
-     this.note = data['data'].data;
-      this.notesCollection(this.note) 
-    });
-    error =>  LoggerService.log('Error :' + error);
+    this.getNotes();
   }
   notesAddRequest(event) {
     if (event) {
-      this.notesService.getNotes().subscribe((data: Notes[]) => {
-        this.note = data['data'].data;
-        this.notesCollection(this.note)
-      });
-      error =>  LoggerService.log('Error :' + error);
+      this.getNotes();
     }
+  }
+
+  getNotes() {
+    this.notesService.getNotes()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data: Notes[]) => {
+      this.note = data['data'].data;
+      this.notesCollection(this.note)
+    });
+    error =>  LoggerService.log('Error :' + error);
   }
   notesCollection(data) {
     this.list = [];
@@ -71,4 +75,10 @@ export class NotesComponent implements OnInit {
     }
     this.pinedNotes = this.list.reverse();
   }
+
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  } 
 }

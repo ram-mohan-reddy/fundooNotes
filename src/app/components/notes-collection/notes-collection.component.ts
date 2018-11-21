@@ -13,13 +13,15 @@
 *
 *************************************************************************************************/
 /**component has imports , decorator & class */
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component'
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { HttpService } from '../../core/services/httpService/http.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 /**A componenet can be reused throughout the application & even in other applications */
 @Component({
   /**A string value which represents the component on browser at execution time */
@@ -32,9 +34,10 @@ import { HttpService } from '../../core/services/httpService/http.service';
 })
 /**To use components in other modules , we have to export them */
 
-export class NotesCollectionComponent implements OnInit {
+export class NotesCollectionComponent implements OnInit, OnDestroy {
   notesView: boolean = true;
   token: string = localStorage.getItem('token')
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public dialog: MatDialog, private notesService: GetNotesService,
     public dataService: DataSharingService, public snackBar: MatSnackBar,
@@ -97,7 +100,8 @@ unArchiveEventClicked(event) {
 
   deleteNoteLabel(labelId, noteId) {
     this.notesService.notesPostService('api/notes/' + noteId + "/addLabelToNotes/" + labelId + '/remove', {})
-      .subscribe(data => {
+    .pipe(takeUntil(this.destroy$))  
+    .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
     error => LoggerService.log('Error :' + error);
@@ -127,7 +131,8 @@ unArchiveEventClicked(event) {
     const sub3 = dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
       var body = ''
       this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/' + data.checklistId + '/remove', body)
-        .subscribe(data => {
+      .pipe(takeUntil(this.destroy$))  
+      .subscribe(data => {
           this.notesEditRequest.emit(true);
         });
       error => LoggerService.log('Error :' + error);
@@ -136,14 +141,16 @@ unArchiveEventClicked(event) {
     const sub4 = dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
       if (data.newList.id != undefined) {
         this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/' + data.newList.id + '/update', data.newList)
-          .subscribe(data => {
+        .pipe(takeUntil(this.destroy$))  
+        .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
         error => LoggerService.log('Error :' + error);
       }
       else {
         this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/add', data.newList)
-          .subscribe(data => {
+        .pipe(takeUntil(this.destroy$))  
+        .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
         error => LoggerService.log('Error :' + error);
@@ -155,7 +162,8 @@ unArchiveEventClicked(event) {
       if (result != undefined) {
         if (result.description != '') {
           this.notesService.notesUpdateService('api/notes/updateNotes', result)
-            .subscribe(data => {
+          .pipe(takeUntil(this.destroy$))  
+          .subscribe(data => {
               this.notesEditRequest.emit(true);
             });
           error => LoggerService.log('Error :' + error);
@@ -180,7 +188,8 @@ unArchiveEventClicked(event) {
       "noteIdList": [noteId]
     }
     this.notesService.notesPostService('api/notes/removeReminderNotes', note)
-      .subscribe(data => {
+    .pipe(takeUntil(this.destroy$))  
+    .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
     error => LoggerService.log('Error :' + error);
@@ -197,7 +206,8 @@ unArchiveEventClicked(event) {
   }
   updateList(list, note) {
     this.notesService.notesPostService('api/notes/' + note.id + '/checklist/' + list.id + '/update', list)
-      .subscribe(data => {
+    .pipe(takeUntil(this.destroy$))  
+    .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
     error => LoggerService.log('Error :' + error);
@@ -209,6 +219,7 @@ unArchiveEventClicked(event) {
       "noteIdList": [note.id]
     }
     this.notesService.notesPostService('api/notes/pinUnpinNotes', noteDetails)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.notesEditRequest.emit(true);
       }); 
@@ -221,9 +232,16 @@ unArchiveEventClicked(event) {
       "noteIdList": [note.id]
     }
     this.notesService.notesPostService('api/notes/pinUnpinNotes', noteDetails)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.notesEditRequest.emit(true);
       }); 
     error => LoggerService.log('Error :' + error);
+  }
+
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

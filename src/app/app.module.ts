@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,ErrorHandler } from '@angular/core';
 import {FormsModule,
         ReactiveFormsModule}   from '@angular/forms';
 import {FlexLayoutModule} from "@angular/flex-layout";
@@ -69,6 +69,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
 import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
 import { InterceptService} from './core/services/interceptor/interceptor.service';
+import { ErrorService} from './core/services/error/error.service';
+
 
 
 @NgModule({
@@ -146,7 +148,14 @@ import { InterceptService} from './core/services/interceptor/interceptor.service
                 provide: HTTP_INTERCEPTORS,
                 useClass: InterceptService,
                 multi: true
-              }],
+              },
+              ErrorService,
+              {
+                provide: ErrorHandler,
+                useClass: ErrorService,
+              }
+            ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { Router } from '@angular/router';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { Notes } from '../../core/models/notes';
+import {Subject} from 'rxjs';
+import{takeUntil} from 'rxjs/operators' 
 
 @Component({
   selector: 'app-label',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss']
 })
-export class LabelComponent implements OnInit {
+export class LabelComponent implements OnInit, OnDestroy {
   list: Notes[] = [];
   note: Notes[] = [];
   totalNotes: Notes[] = [];
@@ -38,13 +40,15 @@ export class LabelComponent implements OnInit {
 
     })
   }
-
+  destroy$: Subject<boolean> = new Subject<boolean>();
   ngOnInit() {
     this.getNotes();
   }
 
   getNotes() {
-    this.notesService.getNotes().subscribe((data: Notes[]) => {
+    this.notesService.getNotes()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data: Notes[]) => {
       this.note = data['data'].data;
       this.notesCollection(this.note)
     });
@@ -89,4 +93,10 @@ export class LabelComponent implements OnInit {
     }
     this.pinedNotes = this.list.reverse();
   }
+
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  } 
 }

@@ -30,3 +30,8 @@ export interface Checklists {
     notesId: string
     status: string
 }
+
+export interface Services {
+    name: string
+    description: string
+}

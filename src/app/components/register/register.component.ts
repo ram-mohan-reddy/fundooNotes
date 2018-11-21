@@ -1,24 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {LoggerService} from '../../core/services/loggerService/logger.service';
 import { UserService } from '../../core/services/users/user.service';
 import {Subject} from 'rxjs';
-import{takeUntil} from 'rxjs/operators'
+import{takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   newServices;
-  display = 'first';
-  display1 = true;
-  service;
-  fieldsEmpty;
-  confirmPassword = '';
-valid = false
+  private display: string = 'first';
+  private display1: boolean = true;
+  private service: string = '';
+  private fieldsEmpty: string = '';
+  private confirmPassword: string = '';
+  private valid: boolean = false
 
   user = {
     "firstName": '',
@@ -40,6 +40,8 @@ valid = false
       this.userService.userGetService('service')
         .pipe(takeUntil(this.destroy$))
         .subscribe((data) =>  {
+          console.log(data);
+          
           this.newServices= data.data.data;
          error => LoggerService.log('Error :' + error);
         });

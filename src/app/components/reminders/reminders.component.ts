@@ -1,48 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import {LoggerService} from '../../core/services/loggerService/logger.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { HttpService } from '../../core/services/httpService/http.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Notes } from '../../core/models/notes';
 
 @Component({
   selector: 'app-reminders',
   templateUrl: './reminders.component.html',
   styleUrls: ['./reminders.component.scss']
 })
-export class RemindersComponent implements OnInit {
-  list;
-  totalNotes: any = [];
-  token: string = localStorage.getItem('token') 
-  constructor(private notesService : HttpService) { }
+export class RemindersComponent implements OnInit, OnDestroy {
+  private totalNotes: Notes[] = [];
+  private list: Notes[] = [];
+  private note: Notes[] = [];
+  token: string = localStorage.getItem('token')
+  constructor(private notesService: HttpService) { }
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ngOnInit() { 
-    this.notesService.getNotesList('api/notes/getReminderNotesList')
-    .subscribe(data => {
-      this.notesCollection(data) 
-    });
-    error => LoggerService.log('Error :' + error);
+  ngOnInit() {
+    this.getNotes();
   }
 
+  getNotes() {
+    this.notesService.getNotesList('api/notes/getReminderNotesList')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: Notes[]) => {
+        this.notesCollection(data)
+      });
+    error => LoggerService.log('Error :' + error);
+  }
   notesAddRequest(event) {
     if (event) {
-      this.notesService.getNotesList('api/notes/getReminderNotesList').subscribe(data => {
-      this.notesCollection(data)
-      });
-      error => LoggerService.log('Error :' + error);
+      this.getNotes();
     }
-  } 
-
+  }
   notesCollection(data) {
     this.list = [];
-
-    for (let index = 0; index < data['data'].data.length; index++) {
-      if (data['data'].data[index].isDeleted == false && data['data'].data[index].isArchived == false) {
-        this.list.push(data['data'].data[index])
+    this.note = data['data'].data;
+    for (let index = 0; index < this.note.length; index++) {
+      if (this.note[index].isDeleted == false && this.note[index].isArchived == false) {
+        this.list.push(this.note[index])
       }
     }
     this.totalNotes = this.list.reverse();
     this.totalNotes.sort(this.compare);
-    LoggerService.log('Notes : ',this.totalNotes );
+    LoggerService.log('Notes : ', this.totalNotes);
   }
-  compare(first,second) {
+  compare(first, second) {
     first = new Date(first.reminder);
     second = new Date(second.reminder);
     if (first < second)
@@ -50,5 +55,11 @@ export class RemindersComponent implements OnInit {
     if (first > second)
       return 1;
     return 0;
+  }
+
+  ngOnDestroy() {
+    LoggerService.log('On destroy works');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

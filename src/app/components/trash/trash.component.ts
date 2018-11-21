@@ -1,31 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Notes } from '../../core/models/notes';
 
 @Component({
   selector: 'app-trash',
   templateUrl: './trash.component.html',
   styleUrls: ['./trash.component.scss']
 })
-export class TrashComponent implements OnInit {
+export class TrashComponent implements OnInit, OnDestroy {
 
-  totalNotes = [];
-  token: string;
-  list;
-  note;
-  componentName = 'trash'; 
-  constructor(private notesService : GetNotesService) { }
-
+  private totalNotes: Notes[] = [];
+  private list: Notes[] = [];
+  private note: Notes[]=[];
+  private componentName: string = 'trash';
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  constructor(private notesService: GetNotesService) { }
   ngOnInit() {
     this.getNotes();
   }
   getNotes() {
     this.notesService.getNotes()
-      .subscribe(data => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: Notes[]) => {
+        this.note = data['data'].data;
         this.list = [];
-        for (let index = 0; index < data['data'].data.length; index++) {
-          if (data['data'].data[index].isDeleted == true) {
-            this.list.push(data['data'].data[index])
+        for (let index = 0; index < this.note.length; index++) {
+          if (this.note[index].isDeleted == true) {
+            this.list.push(this.note[index])
           }
         }
         this.totalNotes = this.list.reverse();
@@ -37,5 +41,10 @@ export class TrashComponent implements OnInit {
     if (event) {
       this.getNotes();
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
