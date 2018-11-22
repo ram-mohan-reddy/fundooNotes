@@ -58,7 +58,6 @@ export class RemindersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    LoggerService.log('On destroy works');
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

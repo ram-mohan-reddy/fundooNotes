@@ -1,0 +1,8 @@
+
+<div fxLayoutAlign='center' *ngIf="routeParams?.error">
+  <h3>ERROR {{ routeParams?.error }}</h3>
+</div>
+<div fxLayout='column' *ngIf="data?.error">
+  <h1 fxLayoutAlign='center' >ERROR {{ data?.error}}</h1>
+  <h5 fxLayoutAlign='center'  *ngIf="data?.error === 404">Not found :(</h5>
+</div>

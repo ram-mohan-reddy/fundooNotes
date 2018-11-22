@@ -1,15 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
-
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import './sass/variable';
+@import './sass/mixin';
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Roboto', sans-serif; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Roboto', sans-serif; }
-
 
 .myapp-no-padding-dialog .mat-dialog-container {
     padding: 0;
     border-radius: 10px;
-    /* overflow-y: initial !important; */
-  }
+}
 
+.top1_1 {
+  @include logo($sky-blue);
+}
+
+.top1_2 {
+  @include logo($red);
+}
+
+.top1_3 {
+  @include logo($orange);
+}
+
+.top1_4 {
+  @include logo($light-green);
+}
+
+.fields_empty {
+  @include font(#ff0000,12px,(arial,sans-serif));
+}
+
+.display-none {
+  display: none;
+}

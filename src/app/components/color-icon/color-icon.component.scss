@@ -1,9 +1,14 @@
+@import 'src/sass/mixin';
 
-.minifab-size {
-    width:25px ; height:25px
-}
-
-.color {
+.color { 
     width:25px ; 
     height:25px;
+}
+
+.padding-container {
+    @include padding(5px);
+}
+
+.space {
+    margin-top:5px
 }

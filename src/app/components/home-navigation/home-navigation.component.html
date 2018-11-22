@@ -12,9 +12,8 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
         <div  fxFlex=7>
             <button  mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
         </div>
-        <input placeholder="Search" style="min-width:auto" fxFlex [(ngModel)]="searchText" 
-            name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" 
-              class="search-text" type='text'>
+        <input placeholder="Search" fxFlex [(ngModel)]="searchText" 
+            name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" type='text'>
         <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button> 
       </mat-card>
   </div>
@@ -39,7 +38,7 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
           matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
         <mat-menu class="notifications-dropdown" #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template matMenuContent>
-            <div style='padding: 10px;'  fxLayout='row' >
+            <div class="padding-container" fxLayout='row' >
               <div fxLayout='row' fxFlex=35 fxlayoutAlign='space-between'>
                 <button (click)="$event.stopPropagation();" class="display-image" *ngIf='savedUrl == ""'  mat-mini-fab>
                 <div style="margin-top:20px">
@@ -52,16 +51,16 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
                  
                 <div fxFlex (click)="$event.stopPropagation();" class="display-image-show" (click)="imageUpload()" mat-card-avatar 
                 *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"><button class="image-change-button" mat-button>Change</button></div>
-                <input (click)="$event.stopPropagation();" style="display:none" type="file" (change)="onImageUpload($event)" #selectImage>
+                <input (click)="$event.stopPropagation();" class="display-none" type="file" (change)="onImageUpload($event)" #selectImage>
               
               </div>
               <div fxFlex fxLayout='column'> 
-                <div style="font-size:12px">{{userName}}</div>
-                <div style="font-size:12px">{{email}}</div>
+                <div class="display-user">{{userName}}</div>
+                <div class="display-user">{{email}}</div>
               </div>
-            </div>
+            </div> 
             <hr> 
-            <div fxLayout='row' fxLayoutGap="30px" style="padding:10px">
+            <div fxLayout='row' fxLayoutGap="30px">
               <button fxFlex class="drop-down-button" mat-raised-button (click)=logout()>Signout </button>
             </div>
           </ng-template>

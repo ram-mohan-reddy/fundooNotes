@@ -6,23 +6,23 @@
                         <span class="top1_1">f</span>
                         <span class="top1_2">u</span>
                         <span class="top1_3">n</span>
-                        <span class="top1_4">d</span>
-                        <span class="top1_5">o</span>
-                        <span class="top1_6">o</span>
+                        <span class="top1_1">d</span>
+                        <span class="top1_4">o</span>
+                        <span class="top1_2">o</span>
                         <span class="top1_1">N</span>
                         <span class="top1_2">o</span>
                         <span class="top1_3">t</span>
-                        <span class="top1_4">e</span>
-                        <span class="top1_5">s</span>
+                        <span class="top1_1">e</span>
+                        <span class="top1_4">s</span>
                 </div>
                 <div  fxLayout='column' *ngIf=value fxLayoutGap="50px" fxLayoutGap.xs="50px">
                                 <div fxFlex class="top2" fxLayoutAlign="center">Sign in </div>
-                                <div fxFlex fxLayoutAlign="center" class="if_empty">
+                                <div fxFlex fxLayoutAlign="center" class="fields_empty">
                                         {{emptyEmail}}
                                 </div>
                                 <mat-form-field fxLayout='column' fxFlex fxLayoutAlign="center" fxFlex="50" 
                                         class="email-input">
-                                        <input matInput placeholder="Email" #email="ngModel" required 
+                                        <input matInput placeholder="Email" id="email" #email="ngModel" required 
                                                 pattern="[a-z0-9]+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                                                         [(ngModel)]="userLogin.email">
                                         <mat-error *ngIf="email.invalid && (email.dirty || email.touched)" 
@@ -42,11 +42,11 @@
                 </div>
                 <div *ngIf='forgotPassword && !value'  @flyInOut  fxLayout='column' fxLayoutGap="50px" fxLayoutGap.xs="50px">
                         <div fxFlex class="top2" fxLayoutAlign="center">Sign in </div>
-                        <div fxFlex fxLayoutAlign="center" class="if_empty">
+                        <div fxFlex fxLayoutAlign="center" class="fields_empty">
                                 {{emptyPassword}}
                         </div>
                         <mat-form-field fxLayout='column' fxFlex fxLayoutAlign="center" fxFlex="50">
-                                <input matInput placeholder="Enter your password" 
+                                <input matInput id="password" placeholder="Enter your password" 
                                         [(ngModel)]="userLogin.password" 
                                         [type]="hide ? 'text' : 'password'">
                                 <mat-icon matSuffix (click)="hide = !hide">
@@ -60,7 +60,7 @@
                 <!-- Forgot password -->
                 <div *ngIf=!forgotPassword @flyInOut fxLayout='column' fxLayoutGap="50px" fxLayoutGap.xs="50px">
                         <div fxFlex class="top2" fxLayoutAlign="center">Account recovery </div>
-                        <div fxFlex fxLayoutAlign="center" class="if_empty">
+                        <div fxFlex fxLayoutAlign="center" class="fields_empty">
                                 {{confirmPassword}}
                         </div>
                         <mat-form-field fxLayout='column' fxFlex fxLayoutAlign="center" fxFlex="50">

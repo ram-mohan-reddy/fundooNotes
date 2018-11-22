@@ -240,7 +240,6 @@ unArchiveEventClicked(event) {
   }
 
   ngOnDestroy() {
-    LoggerService.log('On destroy works');
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

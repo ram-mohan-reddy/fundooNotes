@@ -10,7 +10,8 @@
         <div fxFlex fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" 
           fxLayoutAlign="end" fxLayoutAlign.xs="center">
           <button fxFlex=30 mat-icon-button class="icons" (click)='checkList = true' 
-            (click)='show = !show' matTooltip="New list"><mat-icon>list</mat-icon></button>
+            (click)='show = !show' matTooltip="New list"><mat-icon>list</mat-icon>
+          </button>
         </div>
       </mat-card-content> 
     </mat-card>
@@ -106,38 +107,50 @@
       <mat-card-actions>
         <div fxLayout='row' fxLayoutGap='space-between' fxLayout.xs='row'>
           <div  class="icons"> 
-            <app-remind-icon [notesDetails]='componentName' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon>
+            <app-remind-icon [notesDetails]='componentName'
+              (reminderArrayEvent)="reminderEventClicked($event)">
+            </app-remind-icon>
           </div>
           <div  class="icons">
             <app-collaborator-icon></app-collaborator-icon>
           </div>
           <div  class="icons">
-            <app-color-icon  (colorCodeEvent)="receiveColor($event)" ></app-color-icon>
+            <app-color-icon  (colorCodeEvent)="receiveColor($event)" >
+            </app-color-icon>
           </div>
           <div  class="icons"> 
             <app-image-icon></app-image-icon>
           </div>
           <div  class="icons">  
-            <app-archive-icon [notesDetails]='noteArchive' (archiveEvent)="archiveEventClicked($event)"></app-archive-icon>
+            <app-archive-icon [notesDetails]='noteArchive' 
+              (archiveEvent)="archiveEventClicked($event)">
+            </app-archive-icon>
           </div>
           <div class="icons"> 
               <button  mat-icon-button (click)='changeMenu()' matTooltip="more" 
-                [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
+                [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon>
+              </button> 
 
               <mat-menu  #appMenu="matMenu" [overlapTrigger]="false"> 
-              <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" (click)='changeMenu()' 
-                style="height: 50px;">Add label</button> 
+              <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" 
+                (click)='changeMenu()' style="height: 50px;">Add 
+              </button> 
                 <div  *ngIf='labelMenu'>
                   <div class="label-note">Label note</div>
                   <div>
                       <div (click)="$event.stopPropagation();" (click)='addLabelName()' 
-                        style="cursor:pointer" fxFlex=10><mat-icon>add</mat-icon></div>
-                      <div (click)="$event.stopPropagation();" class="label-create" contenteditable="true" 
-                      cdkFocusInitial placeholder='Enter label name'  onkeypress="return (this.innerText.length <= 75)" (input)="newLabelName=$event.target.innerText"></div> 
+                        style="cursor:pointer" fxFlex=10><mat-icon>add</mat-icon>
+                      </div>
+                      <div (click)="$event.stopPropagation();" class="label-create" 
+                        contenteditable="true" cdkFocusInitial placeholder='Enter label name'  
+                        onkeypress="return (this.innerText.length <= 75)" 
+                        (input)="newLabelName=$event.target.innerText">
+                      </div> 
                   </div>
                    <label fxLayout = 'column' *ngFor="let option of myArray | search : newLabelName">
                      <div class="label-menu">
-                         <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox"
+                         <input (click)="$event.stopPropagation();" (click)='onClick(option)' 
+                          type="checkbox"
                          [(checklist)]="list"
                          [checklistValue]="option" >{{option.label}}
                      </div>   

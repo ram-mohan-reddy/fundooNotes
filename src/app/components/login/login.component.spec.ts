@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
@@ -23,11 +22,14 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
+  it('should create', () => { 
     expect(component).toBeTruthy();
   });
 
-  it('should not be empty', () => { 
-    expect(component.userLogin.email).toBeUndefined(); 
+  it('login', () => { 
+    expect(component.userLogin.email).not.toBeNull();
+    expect(component.userLogin.password).not.toBeNull(); 
+    expect(component.userLogin.password).toBe.toString();
+    expect(component.login).toBeTruthy();
   });
 });

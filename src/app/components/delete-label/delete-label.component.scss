@@ -1,0 +1,9 @@
+@import 'src/sass/mixin';
+
+.padding-container {
+    @include padding(10px);
+  }
+
+  .actions {
+      margin: 10px
+  }

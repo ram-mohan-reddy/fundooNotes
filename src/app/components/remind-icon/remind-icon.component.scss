@@ -1,16 +1,41 @@
+@import 'src/sass/mixin';
+@import 'src/sass/variable';
+
 .mat-menu-style-p{
     width: 250px; 
     margin-left:10px
 }
 
 .mat-menu-item {
-    font-size: 12px;
+    @include font(#000000,12px,(arial,sans-serif));
 }
-
+ 
 .mat-menu-item span {
     float: right;
 }
 
 .space {
     margin-left:50px
+}
+
+.opacity-display {
+    @include opacity(0.2);
+}
+
+.save-button {
+    float:right; 
+    margin:10px
+}
+
+.drop-down {
+    float:right;
+    cursor: pointer;
+}
+
+.custom-input {
+    width:90%
+}
+
+.arrow-back {
+    margin-top:5px;
 }

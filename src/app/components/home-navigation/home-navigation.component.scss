@@ -1,145 +1,20 @@
 
-// @import 'src/sass/_variable.scss';
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
 
-// .sidenav-container {
-//   height: 90%;
-//   width: 100%;
-//   background-color:#f2f2f2
-// }
-
-// .sidenav {
-//   width: 280px;
-//  margin-top: 65px;
-//  box-shadow: none;
-//  background-color:#f2f2f2
-// }
-
-// .mat-toolbar.mat-primary {
-//   position: sticky;
-//   top: 0;
-// }
-
-// .tool-bar {
-//   background-color: $navbar-color;
-//   /* padding-right:0px */
-// }
-
-// .search-box {
-//   height: 40px;  
-//   background-color: white;
-//   border-radius: 5px;
-//   overflow: hidden;
-//   padding:0px;
-// }
-
-// .search-box input {
-//   border:none;
-//   outline: none;
-//   font-size: 16px;
-//   overflow: hidden;
-// }
-
-// .child-links {
-//   margin-left:20px;
-//   font-size: 14px;
-//   white-space: nowrap;
-//   text-overflow: ellipsis;
-//   overflow: hidden !important;
-// }
-
-// .mat-list-item:hover {
-//   background-color: #fff7e6;
-//   border-radius: 0 25px 25px 0;
-// }
-
-// .mat-list-item {
-//   background-color: #f2f2f2;
-//   border-radius: 0 25px 25px 0;
-// }
-
-
-// .drop-down {
-//   background-color:#f2f2f2;
-//   color:#0d0d0d
-// }
-
-// .drop-down-button {
-//   width:550px;
-//   padding:5px
-// }
-
-// .icons {
-//   opacity: 0.5;
- 
-// }
-
-// .icons:hover {
-//   opacity: 1.0;    
-// }
-
-// .label {
-//   padding: 10px;
-//   margin-left: 10px;
-//   font-size: 10px
-// }
-
-// .identity {
-//   font-size: 16px;
-//   opacity: 0.8;
-//   margin-top: 5px
-// }
-
-// .display-image {
-//   width: 100px;
-//   height: 100px;
-//   cursor:pointer;
-//   font-size: 50px;
-//   background-color:#f2f2f2;
-//   color: #0d0d0d
-// }
-// .display-image-show {
-//   width: 100px;
-//   height: 100px;
-//   cursor:pointer;
-// }
-// .change-button {
-//   font-size:12px;
-//   margin-top: 10px;
-//   opacity: 0;
-// }
-
-// .change-button:hover {
-//   opacity: 1;
-// }
-
-// .image-change-button {
-//   font-size:12px;
-//   top:30px; 
-//   margin-left:10px;
-//   color: white;
-//   opacity: 0;
-// }
-// .image-change-button:hover {
-//   opacity: 1;
-// }
-// ::ng-deep.mat-menu-panel.notifications-dropdown {
-//   min-width: 112px;
-//   max-width: 320px;
-// } 
-
-@import 'src/sass/_variable.scss';
 
 .sidenav-container {
   height: 90%;
   width: 100%;
-  background-color: #f2f2f2;
+  @include background-color($light-grey);
+  // background-color: #f2f2f2;
 }
 
 .sidenav {
   width: 280px;
   margin-top: 65px;
   box-shadow: none;
-  background-color: #f2f2f2;
+  @include background-color($light-grey);
 }
 
 .mat-toolbar.mat-primary {
@@ -154,7 +29,7 @@
 
 .search-box {
   height: 40px;
-  background-color: white;
+  @include background-color(#ffffff);
   border-radius: 5px;
   overflow: hidden;
   padding: 0px;
@@ -169,28 +44,26 @@
 .child-links {
   margin-left: 20px;
   font-size: 14px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden !important;
+  @include word-overflow;
 }
 
 .mat-list-item {
   &:hover {
-    background-color: #fff7e6;
+    @include background-color(#fff7e6);
     border-radius: 0 25px 25px 0;
   }
-  background-color: #f2f2f2;
+  @include background-color($light-grey);
   border-radius: 0 25px 25px 0;
 }
 
 .drop-down {
-  background-color: #f2f2f2;
+  @include background-color($light-grey);
   color: #0d0d0d;
 }
 
 .drop-down-button {
   width: 550px;
-  padding: 5px;
+  @include padding(5px);
 }
 
 .icons {
@@ -201,7 +74,7 @@
 }
 
 .label {
-  padding: 10px;
+  @include padding(10px);
   margin-left: 10px;
   font-size: 10px;
 }
@@ -217,7 +90,7 @@
   height: 100px;
   cursor: pointer;
   font-size: 50px;
-  background-color: #f2f2f2;
+  @include background-color($light-grey);
   color: #0d0d0d;
 }
 
@@ -230,7 +103,7 @@
 .change-button {
   font-size: 12px;
   margin-top: 10px;
-  opacity: 0;
+  @include padding(0px);
   &:hover {
     opacity: 1;
   }
@@ -240,7 +113,7 @@
   font-size: 12px;
   top: 30px;
   margin-left: 10px;
-  color: white;
+  color:$white;
   opacity: 0;
   &:hover {
     opacity: 1;
@@ -250,6 +123,14 @@
 ::ng-deep.mat-menu-panel.notifications-dropdown {
   min-width: 112px;
   max-width: 320px;
+}
+
+.display-user {
+  @include font(#000000,12px,(arial,sans-serif));
+}
+
+.padding-container {
+  @include padding(10px);
 }
 
 

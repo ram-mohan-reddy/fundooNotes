@@ -1,54 +1,15 @@
-
+@import 'src/sass/mixin';
+@import 'src/sass/variable';
 .top1 {
-
-    font-size: 25px;
+    @include font(#000000,25px,(arial,sans-serif));
     margin-bottom: 20px;
-    font-style: arial,sans-serif
-}
-
-.top1_1 {
-    color: #3399ff
-}
-
-.top1_2 {
-    color: #ff0000
-}
-
-.top1_3 {
-    color: #ff6600
-}
-.top1_4 {
-    color: #3399ff
-}
-
-.top1_5 {
-    color: #33cc33
-}
-
-.top1_6 {
-    color: #ff0000
 }
 
 .top2 {
-
-    font-size: 20px;
+    @include font(#000000,20px,(arial,sans-serif));
 }
-
 
 .container {
     height: 100vh;
-
 }
 
-.if_empty {
-    color: #ff0000;
-    font-size: 12px;
-}
-
-.account-recovery {
-    background-color: #3f51b5;
-    color: azure;
-
-    border-radius: 10px;
-}
- 

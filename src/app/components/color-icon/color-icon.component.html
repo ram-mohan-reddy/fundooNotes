@@ -2,8 +2,8 @@
       <mat-icon>color_lens</mat-icon></button>
 <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
       <ng-template matMenuContent>
-        <div style="padding:5px">
-            <div fxLayout=row fxLayoutGap=10px style="margin-top:5px" 
+        <div class="padding-container"> 
+            <div fxLayout=row fxLayoutGap=10px class="space"
                 *ngFor='let colors of colorArray'>
                     <div *ngFor='let color of colors'>
                         <button class="color" [ngStyle]="{'background-color': color.color }" 

@@ -1,0 +1,30 @@
+@mixin logo($color) {
+   color: $color;
+}
+
+
+@mixin font($color,$size,$style) {
+    color: $color;
+    font-size: $size;
+    font-style: $style
+}
+
+
+@mixin background-color($color) {
+    background-color:$color
+}
+
+@mixin padding($value) {
+    padding:$value
+}
+
+@mixin word-overflow {
+    white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden !important;
+}
+
+@mixin opacity($value) {
+    opacity:$value
+}
+

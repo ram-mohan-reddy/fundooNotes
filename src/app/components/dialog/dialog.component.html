@@ -1,7 +1,7 @@
 <mat-card fxFlex [ngStyle] = "{'background-color': backGroundColor }" style=" width:50%; ;position: relative;padding: 5;border-radius: 10px">
   <mat-card-content>
     <div fxLayout='row' fxLayout.xs='row'>
-      <div fxFlex=98 style=" font-weight: bold" placeholder="Title" contenteditable="true" (input)="notesEditContent.title=$event.target.innerText">{{data.notesData.title}}</div>
+      <div fxFlex=98 style="font-weight: bold" placeholder="Title" contenteditable="true" (input)="notesEditContent.title=$event.target.innerText">{{data.notesData.title}}</div>
       <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
     </div>
     <div cdkFocusInitial *ngIf='show'  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>

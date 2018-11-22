@@ -6,6 +6,7 @@ import {LoggerService} from '../../core/services/loggerService/logger.service';
 import { UserService } from '../../core/services/users/user.service';
 import {Subject} from 'rxjs';
 import{takeUntil} from 'rxjs/operators' 
+import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 
 
 
@@ -25,7 +26,10 @@ import{takeUntil} from 'rxjs/operators'
 })
 export class LoginComponent implements OnInit, OnDestroy{
 
-  constructor(private userService: UserService,public message: MatSnackBar,public router : Router) { }
+  constructor(private userService: UserService,public message: MatSnackBar,
+    public router : Router, public dataService: DataSharingService) { 
+   
+  }
   userLogin = {
     "email": '',
     "password" : ''
@@ -43,6 +47,9 @@ export class LoginComponent implements OnInit, OnDestroy{
     if (localStorage.getItem('token') != null) {
       this.router.navigateByUrl('/home');
     }
+    this.dataService.currentMessage.subscribe(message => {
+      this.notify(message);
+     })
   }
   toggle() {
     this.display = !this.display;
@@ -73,7 +80,6 @@ export class LoginComponent implements OnInit, OnDestroy{
         localStorage.setItem('email',data['email']);  
         this.registerPushToken();      
       });
-      error => LoggerService.log('Error :' + error); 
   }
 
   registerPushToken() {
@@ -83,8 +89,7 @@ export class LoginComponent implements OnInit, OnDestroy{
       .pipe(takeUntil(this.destroy$))
       .subscribe(data => {
         this.router.navigateByUrl('/home');    
-      });
-      error => LoggerService.log('Error :' + error);  
+      }); 
   }
   reset = {
     "email": '',
@@ -115,8 +120,15 @@ export class LoginComponent implements OnInit, OnDestroy{
     }
   }
 
+  notify(message) {
+    this.userLogin.password = '';
+    this.message.open( message, 'Retry', {
+      duration: 500,
+    });
+
+  }
+
   ngOnDestroy() {
-    LoggerService.log('On destroy works');
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   } 

@@ -12,6 +12,7 @@ import { TrashComponent } from './components/trash/trash.component';
 import { AuthGuard as AuthGuardService } from './core/guards/auth.guard';
 import { LabelComponent } from './components/label/label.component';
 import { SearchComponent } from './components/search/search.component';
+import { ErrorComponent } from './components/error/error.component';
 
 const routes: Routes = [
  
@@ -32,7 +33,8 @@ const routes: Routes = [
     {path:'search',component: SearchComponent},
     {path:'labels/:id',component: LabelComponent}
   ]},
-  {path:'**',redirectTo: '/login'},
+  { path: 'error', component: ErrorComponent },
+  {path:'**',component: ErrorComponent, data: { error: 404 }},
 
   
 ];

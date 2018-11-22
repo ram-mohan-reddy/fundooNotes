@@ -3,7 +3,7 @@ import {Location} from "@angular/common";
 import {TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {RouterTestingModule} from "@angular/router/testing";
 import {Router} from "@angular/router";
-import {LoginComponent} from "./components/login/login.component"
+
 
 describe('AppRoutingModule', () => {
   let appRoutingModule: AppRoutingModule;
@@ -22,4 +22,11 @@ describe('AppRoutingModule', () => {
     tick(); 
     expect(location.path()).toBe('/login'); 
   }));
+
+  it('navigate to "home" takes you to /home', fakeAsync(() => {
+    router.navigate(['home']);
+    tick();
+    expect(location.path()).toBe('/home');
+  }));
+  
 });

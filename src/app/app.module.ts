@@ -70,6 +70,7 @@ import { LabelDialogComponent } from './components/label-dialog/label-dialog.com
 import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
 import { InterceptService} from './core/services/interceptor/interceptor.service';
 import { ErrorService} from './core/services/error/error.service';
+import { ErrorComponent } from './components/error/error.component';
 
 
 
@@ -101,6 +102,7 @@ import { ErrorService} from './core/services/error/error.service';
     SearchComponent,
     DeleteLabelComponent,
     ImageCropDialogComponent,
+    ErrorComponent,
   ],
   entryComponents : [DialogComponent,
                     LabelDialogComponent,

@@ -1,29 +1,8 @@
-
+@import 'src/sass/mixin';
+@import 'src/sass/variable';
 
 .register-top { 
-    font-size: 25px;
-}
-.registertop1_1 {
-    color: #3399ff
-}
-
-.registertop1_2 {
-    color: #ff0000
-}
-
-.registertop1_3 {
-    color: #ff6600
-}
-.registertop1_4 {
-    color: #3399ff
-}
-
-.registertop1_5 {
-    color: #33cc33
-}
-
-.registertop1_6 {
-    color: #ff0000
+    @include font(#000000,25px,(arial,sans-serif));
 }
 
 .container {
@@ -37,39 +16,35 @@
     padding: 5px;
     font-size: 12px;
     border-radius: 10px;
-  
 }
  
   .first{
-    background-color:   #999966
+      @include background-color(#999966);
   }
   .second{
-    background-color: #546e7a
+    @include background-color(#546e7a);
   }
 
   .text1 {
       font-size: 20px;
       margin-bottom: 10px;
-      color: aliceblue
+      color: $white
   }
- 
+  
   .text2 {
     font-size: 14px;
     text-align: center;
-    color: aliceblue
+    color: $white
     
 } 
 
-.fields_empty {
-    color: #ff0000;
-    font-size: 12px;
-}
+
 
 .footer {
     margin-top: 18px
 }
 
 .next_button {
-    color: aliceblue;
-    background-color: #3399ff
+    color: $white;
+    @include background-color($sky-blue);
 }
