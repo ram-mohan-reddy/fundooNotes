@@ -115,20 +115,20 @@ unArchiveEventClicked(event) {
         componentName: this.componentName
       }
     });
-    const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
+   dialogRef.componentInstance.onAdd.subscribe((data) => {
       if (data) {
         this.notesEditRequest.emit(true);
       }
     });
 
-    const sub1 = dialogRef.componentInstance.onDelete.subscribe((data) => {
+    dialogRef.componentInstance.onDelete.subscribe((data) => {
       this.deleteNoteLabel(data.labelId, data.noteId)
     });
 
-    const sub2 = dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
+     dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
       this.deleteRemainder(data);
     });
-    const sub3 = dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
+    dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
       var body = ''
       this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/' + data.checklistId + '/remove', body)
       .pipe(takeUntil(this.destroy$))  
@@ -138,7 +138,7 @@ unArchiveEventClicked(event) {
       error => LoggerService.log('Error :' + error);
     });
 
-    const sub4 = dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
+    dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
       if (data.newList.id != undefined) {
         this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/' + data.newList.id + '/update', data.newList)
         .pipe(takeUntil(this.destroy$))  

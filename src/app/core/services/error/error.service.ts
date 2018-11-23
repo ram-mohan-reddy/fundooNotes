@@ -1,5 +1,5 @@
 
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DataSharingService } from '../dataService/data-sharing.service';
@@ -24,7 +24,7 @@ export class ErrorService {
           }
           catch (e) {
             console.log(e);
-            dataService.changeMessage(e)
+            dataService.errorChangeMessage(e)
           }
         } else {
           // Handle Http Error (error.status === 403, 404...)
@@ -33,17 +33,14 @@ export class ErrorService {
           }
           catch (e) {
             console.log(e);
-            dataService.changeMessage(e)
+            dataService.errorChangeMessage(e)
           }
         }
       } else {
 
         console.log(error);
-        router.navigate(['/error'], { queryParams: {error: error} });
-        // Handle Client Error (Angular Error, ReferenceError...)     
+        router.navigate(['/error'], { queryParams: {error: error} });    
       }
-
-      // console.error('It happens: ', error);
     }
   }
 

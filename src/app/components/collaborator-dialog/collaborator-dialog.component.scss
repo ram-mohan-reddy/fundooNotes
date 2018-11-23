@@ -1,0 +1,60 @@
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+
+.container {
+    @include padding(15px);
+}
+
+.header {
+    @include font(#000000,18px,(arial,sans-serif));
+}
+
+.details {
+    @include padding(5px);
+}
+
+.display-text-size {
+    @include font(#000000,14px,(arial,sans-serif));
+}
+
+.display-list-size {
+    @include font(#000000,12px,(arial,sans-serif));
+    @include padding(5px)
+}
+
+
+.blur {
+    opacity:0.5
+}
+
+.button-action {
+    @include background-color(#eff1f3);
+    height: 60px;
+    @include padding(10px);
+}
+
+.add-person {
+    @include background-color(#f0f8ff);
+}
+
+.icon {
+    color:grey
+}
+
+.share-with {
+    margin-top:10px; 
+    width:500px;
+    outline: none;
+    border: none
+}
+
+::ng-deep.mat-menu-panel.notifications-dropdown {
+    min-width: 112px;
+    max-width: 500px;
+  }
+
+::ng-deep.mat-menu-item {
+    //   height: 20px;
+      line-height:0px;
+      display: inline;
+  } 

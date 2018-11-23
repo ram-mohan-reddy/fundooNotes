@@ -134,17 +134,17 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
       panelClass: 'myapp-no-padding-dialog',
       data: { label: this.labelList }
     });
-    const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
+    dialogRef.componentInstance.onAdd.subscribe((data) => {
       if (data) {
         this.getLabel();
       }
     });
 
-    const sub1 = dialogRef.componentInstance.onEdit.subscribe((data) => {
+    dialogRef.componentInstance.onEdit.subscribe((data) => {
       this.updateLabel(data)
     });
 
-    const sub2 = dialogRef.componentInstance.toCreate.subscribe((data) => {
+    dialogRef.componentInstance.toCreate.subscribe((data) => {
       this.labelData.label = data;
       this.labelData.userId = this.userId;
       this.createNewLabel(this.labelData)

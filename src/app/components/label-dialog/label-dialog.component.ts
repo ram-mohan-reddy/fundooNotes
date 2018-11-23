@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { Label } from '../../core/models/notes';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs'; 
 @Component({
   selector: 'app-label-dialog',
   templateUrl: './label-dialog.component.html',
@@ -83,7 +83,6 @@ export class LabelDialogComponent implements OnInit, OnDestroy {
   deleteLabelConfirmation(id): void {
     const dialogRef = this.dialog.open(DeleteLabelComponent, {
       width: '500px',
-      position: { top: '300px', left: '450px' },
       panelClass: 'myapp-no-padding-dialog',
       data: { componentName: "label" }
     });

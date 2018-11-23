@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {CollaboratorDialogComponent} from '../collaborator-dialog/collaborator-dialog.component';
+import { MatDialog } from '@angular/material';
+
 
 @Component({
   selector: 'app-collaborator-icon',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollaboratorIconComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
-  ngOnInit() {
+  ngOnInit() { 
   }
 
+  onCollaborator(): void {
+    const dialogRef = this.dialog.open(CollaboratorDialogComponent, {
+      width: '600px',
+      panelClass: 'myapp-no-padding-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+     
+    });
+  }
 }

@@ -8,6 +8,9 @@ export class DataSharingService {
   private messageSource = new Subject<string>();
   currentMessage = this.messageSource.asObservable();
 
+  private errorSource = new Subject<string>();
+  errorMessage = this.errorSource.asObservable();
+
   private eventEmit = new Subject<boolean>();
   eventEmitted = this.eventEmit.asObservable();
 
@@ -20,6 +23,10 @@ export class DataSharingService {
   constructor() { }
   changeMessage(message: string) {
     this.messageSource.next(message) 
+  }
+
+  errorChangeMessage(message: string) {
+    this.errorSource.next(message) 
   }
   eventTrigger(message: boolean) {
     this.eventEmit.next(message)

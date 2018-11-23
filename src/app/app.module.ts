@@ -71,6 +71,7 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
 import { InterceptService} from './core/services/interceptor/interceptor.service';
 import { ErrorService} from './core/services/error/error.service';
 import { ErrorComponent } from './components/error/error.component';
+import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
 
 
 
@@ -103,11 +104,13 @@ import { ErrorComponent } from './components/error/error.component';
     DeleteLabelComponent,
     ImageCropDialogComponent,
     ErrorComponent,
+    CollaboratorDialogComponent,
   ],
   entryComponents : [DialogComponent,
                     LabelDialogComponent,
                     DeleteLabelComponent,
-                    ImageCropDialogComponent],
+                    ImageCropDialogComponent,
+                    CollaboratorDialogComponent],
   imports: [
     BrowserModule,
     FlexLayoutModule,
