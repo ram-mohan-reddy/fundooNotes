@@ -20,6 +20,7 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { HttpService } from '../../core/services/httpService/http.service';
+import {CollaboratorDialogComponent} from '../collaborator-dialog/collaborator-dialog.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 /**A componenet can be reused throughout the application & even in other applications */
@@ -104,7 +105,7 @@ unArchiveEventClicked(event) {
     .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
   openDialog(notes): void {
     const dialogRef = this.dialog.open(DialogComponent, {
@@ -135,7 +136,7 @@ unArchiveEventClicked(event) {
       .subscribe(data => {
           this.notesEditRequest.emit(true);
         });
-      error => LoggerService.log('Error :' + error);
+      // error => LoggerService.log('Error :' + error);
     });
 
     dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
@@ -145,7 +146,7 @@ unArchiveEventClicked(event) {
         .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
-        error => LoggerService.log('Error :' + error);
+        // error => LoggerService.log('Error :' + error);
       }
       else {
         this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/add', data.newList)
@@ -153,7 +154,7 @@ unArchiveEventClicked(event) {
         .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
-        error => LoggerService.log('Error :' + error);
+        // error => LoggerService.log('Error :' + error);
       }
 
 
@@ -166,7 +167,7 @@ unArchiveEventClicked(event) {
           .subscribe(data => {
               this.notesEditRequest.emit(true);
             });
-          error => LoggerService.log('Error :' + error);
+          // error => LoggerService.log('Error :' + error);
         }
       }
     });
@@ -180,7 +181,7 @@ unArchiveEventClicked(event) {
     }
     else {
       return false;
-    }
+    } 
   }
 
   deleteRemainder(noteId) {
@@ -192,7 +193,7 @@ unArchiveEventClicked(event) {
     .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   updateChecklist(list, index) {
@@ -210,7 +211,7 @@ unArchiveEventClicked(event) {
     .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   pinNotes(note) {
@@ -223,7 +224,7 @@ unArchiveEventClicked(event) {
       .subscribe(data => {
         this.notesEditRequest.emit(true);
       }); 
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   unPinNotes(note) {
@@ -236,7 +237,28 @@ unArchiveEventClicked(event) {
       .subscribe(data => {
         this.notesEditRequest.emit(true);
       }); 
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
+  }
+
+  onCollaborator(notesDetails): void {
+    const dialogRef = this.dialog.open(CollaboratorDialogComponent, {
+      width: '600px',
+      panelClass: 'myapp-no-padding-dialog',
+      data: { note: notesDetails }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+     if (result != undefined) {
+       for (let index = 0; index < result.length; index++) {
+        console.log(result[index]);
+        this.notesService.notesPostService('api/notes/'+ notesDetails.id+'/AddcollaboratorsNotes',result[index])
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          console.log(data);
+        });
+       } 
+     }
+    });
   }
 
   ngOnDestroy() {

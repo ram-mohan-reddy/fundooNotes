@@ -77,7 +77,7 @@
                               <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
                           </div>
                             <div *ngIf="!compareDate(reminder)">
-                              <mat-chip [matMenuTriggerFor]="edit.menu">
+                              <mat-chip [matMenuTriggerFor]="edit.menu"> 
                                 {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
                                 <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
                               </div>
@@ -86,16 +86,25 @@
                       </div>
                     </mat-chip-list> 
                   </div>
+                  <div fxLayout='row wrap' fxLayoutGap='5px' style="margin-top:10px">
+                    <div *ngFor='let collaborator of index.collaborators'  >
+                      <button (click)='onCollaborator(index)' (click)="$event.stopPropagation();" class="added-person" 
+                        mat-mini-fab style="margin-bottom:5px" > 
+                        {{collaborator.firstName | titlecase | slice:0:1}}
+                      </button>
+                    </div>
+                  </div>
+                 
                  
                 </div>  
               </mat-card-content> 
-              <mat-card-actions class="icons-collection"> 
+              <mat-card-actions class="icons-collection">  
                 <div fxLayout='row'  fxLayoutAlign='space-between' >
                   <div *ngIf='componentName != "trash"' class="icons" >
                     <app-remind-icon (reminderEventClicked)="childEventClicked($event)" [notesDetails]="index"></app-remind-icon>
                   </div>
                   <div *ngIf='componentName != "trash"' class="icons"> 
-                    <app-collaborator-icon></app-collaborator-icon> 
+                    <app-collaborator-icon [notesDetails]="index"></app-collaborator-icon> 
                   </div>
                   <div *ngIf='componentName != "trash"' class="icons">
                     <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>

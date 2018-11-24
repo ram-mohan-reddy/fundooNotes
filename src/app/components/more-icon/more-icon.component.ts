@@ -56,7 +56,7 @@ export class MoreIconComponent implements OnInit, OnDestroy{
       .subscribe(data => {
       this.eventClicked.emit(this.event);   
     });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   } 
 
 
@@ -78,7 +78,7 @@ export class MoreIconComponent implements OnInit, OnDestroy{
         .subscribe(data => {
           this.eventClicked.emit(this.event);   
         });
-        error => LoggerService.log('Error :' + error);
+        // error => LoggerService.log('Error :' + error);
         
       }
     });
@@ -86,10 +86,10 @@ export class MoreIconComponent implements OnInit, OnDestroy{
 
   changeMenu(){
     if (this.labelMenu) { 
-      this.labelMenu = !this.labelMenu
+      this.labelMenu = false
     }
     else {
-      this.labelMenu = !this.labelMenu
+      this.labelMenu = true
     }
   } 
 
@@ -104,7 +104,7 @@ export class MoreIconComponent implements OnInit, OnDestroy{
           this.getLabel();
           this.data.eventTrigger(true)
         });
-      error => LoggerService.log('Error :' + error);
+      // error => LoggerService.log('Error :' + error);
       }
     } 
   }
@@ -133,7 +133,7 @@ onClick(value): void {
        }, 1000)
        this.labelAdd.emit(value)
     });
-  error => LoggerService.log('Error :' + error);
+  // error => LoggerService.log('Error :' + error);
   }
   else {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/remove', {})
@@ -144,7 +144,7 @@ onClick(value): void {
        }, 1000)
        this.labelAdd.emit(value)
     });
-  error => LoggerService.log('Error :' + error);
+  // error => LoggerService.log('Error :' + error);
   }
   }
   

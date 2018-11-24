@@ -8,6 +8,7 @@ import { LoggerService } from '../../core/services/loggerService/logger.service'
 import { Label } from '../../core/models/notes';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs'; 
+import { GetNotesService } from '../../core/services/notes/get-notes.service';
 @Component({
   selector: 'app-label-dialog',
   templateUrl: './label-dialog.component.html',
@@ -17,7 +18,7 @@ export class LabelDialogComponent implements OnInit, OnDestroy {
   changeText: boolean = false;
   constructor(public dialogRef: MatDialogRef<LabelDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private userService: HttpService,
-    private dataService: DataSharingService, public dialog: MatDialog) { }
+    private notesService: GetNotesService, private dataService: DataSharingService, public dialog: MatDialog) { }
 
   private labelCollection: Label[] = [];
   private newLabelList: Label[] = [];
@@ -87,10 +88,10 @@ export class LabelDialogComponent implements OnInit, OnDestroy {
       data: { componentName: "label" }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => { 
       if (result) {
         this.newLabelList = [];
-        this.userService.deleteLabel("api/noteLabels/" + id + '/deleteNoteLabel')
+        this.notesService.deleteService("api/noteLabels/" + id + '/deleteNoteLabel')
           .pipe(takeUntil(this.destroy$))
           .subscribe(data => {
             for (let index = 0; index < this.labelCollection.length; index++) {
@@ -102,7 +103,6 @@ export class LabelDialogComponent implements OnInit, OnDestroy {
             this.onAdd.emit(true);
             this.dataService.eventTrigger(true)
           });
-        error => LoggerService.log('Error :' + error);
       }
     });
   }

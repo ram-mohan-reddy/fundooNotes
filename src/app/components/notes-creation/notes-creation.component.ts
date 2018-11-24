@@ -179,7 +179,7 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
         this.selectLabelArray = [];
         this.labelArray = [];
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
     this.selectLabelArray = [];
     this.labelArray = [];
   }
@@ -209,13 +209,13 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
 
   changeMenu() {
     if (this.labelMenu) {
-      this.labelMenu = !this.labelMenu
+      this.labelMenu = false
     }
     else {
-      this.labelMenu = !this.labelMenu
+      this.labelMenu = true
     }
   }
-
+ 
   cancelNoteLabel(labelId) {
     const index: number = this.selectLabelArray.indexOf(labelId);
     if (index !== -1) {
@@ -250,7 +250,7 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
             this.getLabel();
             this.data.eventTrigger(true)
           });
-        error => LoggerService.log('Error :' + error);
+        // error => LoggerService.log('Error :' + error);
       }
     }
   }
@@ -289,7 +289,7 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
           }
         }
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   strike(index) {

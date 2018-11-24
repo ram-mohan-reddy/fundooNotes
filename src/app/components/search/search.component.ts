@@ -22,11 +22,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.dataService.currentMessage.subscribe(message => {
       this.searchText = message;
       this.notesService.getNotes()
-        .pipe(takeUntil(this.destroy$))
         .subscribe((data: Notes[]) => {
           this.notesCollection(data)
         });
-      error => LoggerService.log('Error :' + error);
+      // error => LoggerService.log('Error :' + error);
     })
   }
 
@@ -35,12 +34,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   notesCollection(data) {
     this.note = data['data'].data;
     this.list = [];
-    for (let index = 0; index < this.note.length; index++) {
+    for (let index = this.note.length-1; index >=0; index--) {
       if (this.note[index].isDeleted == false) {
         this.list.push(this.note[index])
       }
     }
-    this.totalNotes = this.list.reverse();
+    this.totalNotes = this.list;
   }
   ngOnDestroy() {
     this.destroy$.next(true);

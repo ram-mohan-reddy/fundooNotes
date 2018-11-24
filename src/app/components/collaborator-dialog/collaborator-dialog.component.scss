@@ -34,7 +34,12 @@
 }
 
 .add-person {
-    @include background-color(#f0f8ff);
+    @include background-color(#eef2f5);
+}
+
+.added-person {
+    @include background-color(#b5dcff);
+    color:black
 }
 
 .icon {

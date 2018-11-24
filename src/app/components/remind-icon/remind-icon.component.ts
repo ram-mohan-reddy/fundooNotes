@@ -191,15 +191,15 @@ export class RemindIconComponent implements OnInit, OnDestroy {
         this.reminderEventClicked.emit(true);
         this.editReminderEventClicked.emit(remainder.reminder);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
 
   }
   changeMenu() {
     if (this.reminderMenu) {
-      this.reminderMenu = !this.reminderMenu
+      this.reminderMenu = false
     }
     else {
-      this.reminderMenu = !this.reminderMenu
+      this.reminderMenu = true
     }
   }
 

@@ -52,7 +52,7 @@ export class LabelComponent implements OnInit, OnDestroy {
       this.note = data['data'].data;
       this.notesCollection(this.note)
     });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   notesAddRequest(event) {
@@ -70,7 +70,7 @@ export class LabelComponent implements OnInit, OnDestroy {
   notesCollection(data) {
     this.list = [];
     this.totalNotes = [];
-    for (let index = 0; index < data.length; index++) {
+    for (let index = data.length-1; index >= 0; index--) {
       if (data[index].isDeleted == false && data[index].isPined == false) {
         for (let labelIndex = 0; labelIndex < data[index].noteLabels.length; labelIndex++) {
           if (data[index].noteLabels[labelIndex].label == this.label && data[index].noteLabels[labelIndex].isDeleted == false) {
@@ -79,9 +79,9 @@ export class LabelComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this.totalNotes = this.list.reverse();
+    this.totalNotes = this.list;
     this.list = [];
-    for (let index = 0; index < data.length; index++) {
+    for (let index = data.length-1; index >= 0; index--) {
       if (data[index].isDeleted == false && data[index].isPined == true) {
         for (let labelIndex = 0; labelIndex < data[index].noteLabels.length; labelIndex++) {
           if (data[index].noteLabels[labelIndex].label == this.label && data[index].noteLabels[labelIndex].isDeleted == false) {
@@ -91,7 +91,7 @@ export class LabelComponent implements OnInit, OnDestroy {
       }
 
     }
-    this.pinedNotes = this.list.reverse();
+    this.pinedNotes = this.list;
   }
 
   ngOnDestroy() {

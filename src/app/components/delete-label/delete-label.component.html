@@ -8,9 +8,18 @@
   <p *ngIf = 'data.componentName == "trash"'> 
       Delete note forever? 
   </p>
+
+  <p *ngIf = 'data.componentName == "collaboratorDialog"'> 
+    Discard changes? Your changes won’t be saved.
+  </p>
    
 </div>
-<div fxLaout='row' fxLayoutAlign='space-between'>
+<div *ngIf = 'data.componentName == "collaboratorDialog"' fxLaout='row' fxLayoutAlign='space-between'>
+  <button class="actions" mat-button (click)="onNoClick()">Cancel</button>
+  <button class="actions" [mat-dialog-close]="true" mat-button  cdkFocusInitial>Discard</button>
+</div>
+
+<div *ngIf = 'data.componentName != "collaboratorDialog"' fxLaout='row' fxLayoutAlign='space-between'>
   <button class="actions" mat-button (click)="onNoClick()">No Thanks</button>
   <button class="actions" [mat-dialog-close]="true" mat-button  cdkFocusInitial>Ok</button>
 </div>
