@@ -1,32 +1,45 @@
-<button  mat-icon-button (click)='changeMenu()' matTooltip="more" [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button> 
-
-<mat-menu #appMenu="matMenu" [overlapTrigger]="false">   
+<button mat-icon-button (click)='changeMenu()' matTooltip="more" 
+    [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #appMenu="matMenu" [overlapTrigger]="false">
     <div>
-        <button mat-menu-item *ngIf='!labelMenu  && componentName != "trash"' (click)='deleteCard(true)' style="width:100% ; padding: 5px">Delete Note</button>
-        <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' (click)='deleteLabelConfirmation()' style="width:100% ; padding: 5px">Delete Forever</button>
-        <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' (click)='deleteCard(false)' style="width:100% ; padding: 5px">Restore</button>
-        <button mat-menu-item *ngIf='!labelMenu && componentName != "trash"' (click)="$event.stopPropagation();" (click)='changeMenu()' (click)='getLabel()'
-            style="width:100% ; padding: 5px">Add label</button>
+        <button mat-menu-item *ngIf='!labelMenu  && componentName != "trash"' 
+            (click)='deleteCard(true)' class="options">
+            Delete note
+        </button>
+        <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' 
+            (click)='deleteLabelConfirmation()' class="options">
+            Delete Forever
+        </button>
+        <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' 
+            (click)='deleteCard(false)' class="options">
+            Restore
+        </button>
+        <button mat-menu-item *ngIf='!labelMenu && componentName != "trash"' 
+            (click)="$event.stopPropagation();" (click)='changeMenu()'
+            (click)='getLabel()' class="options">
+            Add label 
+        </button>
         <div *ngIf='labelMenu'>
-            <div style="width:250px; padding:10px; font-size:14px">Label note</div>
+            <div class="label-menu">Label note</div>
             <div>
-                <div (click)="$event.stopPropagation();" (click)='addLabelName()' style="cursor:pointer" fxFlex=10>
+                <div (click)="$event.stopPropagation();" (click)='addLabelName()' 
+                    class="mouse-cursor" fxFlex=10>
                     <mat-icon>add</mat-icon>
                 </div>
- 
-                <input autofocus style="outline:none; border:none" [(ngModel)]='newLabelName' (click)="$event.stopPropagation();" placeholder='Enter label name'
-                    type="text">
+                <input autofocus class="input-label" [(ngModel)]='newLabelName'
+                    (click)="$event.stopPropagation();" 
+                    placeholder='Enter label name' type="text">
             </div>
-
-            <label (click)="$event.stopPropagation();" fxLayout='column' *ngFor="let option of myArray | search : newLabelName">
-                <div (click)="$event.stopPropagation();" style="font-size:14px;padding-top: 10px">
-                    <input (click)="$event.stopPropagation();" (click)='onClick(option)' type="checkbox" 
-                    [checked]='isSelected(option)'  
-                    />{{option.label}}
+            <label (click)="$event.stopPropagation();" fxLayout='column'
+                *ngFor="let option of myArray | search : newLabelName">
+                <div fxLayout='row' (click)="$event.stopPropagation();" class="label-array">
+                    <input  (click)="$event.stopPropagation();" (click)='onClick(option)' 
+                        type="checkbox" [checked]='isSelected(option)' />
+                    <div fxFlex=80 class="label-display">{{option.label}}</div>
                 </div>
-                
-            </label> 
+            </label>
         </div>
     </div>
-
 </mat-menu>

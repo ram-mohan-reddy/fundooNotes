@@ -1,60 +1,102 @@
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+
 [contenteditable=true]:empty:before{
-    content: attr(placeholder);
-    display: block;
-   
-  }
+  content: attr(placeholder);
+  display: block;
+} 
   
-  div[contenteditable=true] {
-    outline: none;
-  }
+div[contenteditable=true] { 
+  @include out-line;
+}
   
-  .icons {
-    opacity: 0.5;
-   
+.icons {
+  @include opacity(0.5);
 }
 .icons:hover {
-    opacity: 1.0;    
+  @include opacity(1.0);   
 }
 
 .note-card {
-  width:600px; 
-  padding: 0; 
+  width:600px;  
+  @include padding(0);
   border-radius: 10px
 }
 
 .note-card-edit {
   width:600px;
-  padding:5;
+  @include padding(5);
   border-radius: 10px
 }
 
 .label-menu {
-  font-size:14px;
+  @include font(#000000,14px,(arial,sans-serif));
   padding-top: 10px
 }
 
 .label-create {
   padding-top:5px;
-  font-size:12px;
-  white-space: nowrap;
-  overflow: hidden !important;
+  @include font(#000000,12px,(arial,sans-serif));
+  @include word-overflow;
 }
 
 .label-note {
   width:250px; 
-  padding:10px; 
-  font-size:14px
+  @include padding(10px); 
+  @include font(#000000,14px,(arial,sans-serif));
 }
 
-.strike {   
-  outline:none;
-  border:none;
+.strike {    
+  @include out-line;
   width:520px;
   text-decoration: line-through 
 }
 
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color:#a6a6a6 !important; /* Red background for example */
+  background-color:#a6a6a6 !important; 
 }
 
+.container {
+  margin-top:30px
+}
 
+.content {
+  margin-left:15px
+}
+
+.take-note {
+  margin-top:12px
+}
+
+.description {
+  margin-top:20px
+}
+
+.check-box {
+  margin-right:10px
+}
+
+.check-list-input {
+  @include out-line;
+  width:520px
+}
+
+.list-input {
+  @include out-line;
+}
+
+.remove-reminder {
+  margin-top:5px
+}
+
+.label-button {
+  height: 50px;
+}
+
+.mouse-pointer {
+  cursor:pointer
+}
+
+.label-display {
+  word-wrap: break-word;
+}

@@ -1,0 +1,31 @@
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+.options {
+    width:100% ;
+    @include padding(5px);
+}
+
+.label-menu {
+    width:250px; 
+    @include padding(10px);
+    @include font(#000000,14px,(arial,sans-serif));
+}
+
+.mouse-cursor {
+    cursor:pointer 
+}
+
+.input-label {
+    outline:none; 
+    border:none 
+}
+
+.label-array {
+    @include font(#000000,14px,(arial,sans-serif));
+    padding-top: 10px;
+   
+}
+
+.label-display {
+    word-wrap: break-word;
+}

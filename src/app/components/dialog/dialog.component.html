@@ -1,112 +1,189 @@
-<mat-card fxFlex [ngStyle] = "{'background-color': backGroundColor }" style=" width:50%; ;position: relative;padding: 5;border-radius: 10px">
+<mat-card fxFlex [ngStyle]="{'background-color': backGroundColor }" class="container">
   <mat-card-content>
     <div fxLayout='row' fxLayout.xs='row'>
-      <div fxFlex=98 style="font-weight: bold" placeholder="Title" contenteditable="true" (input)="notesEditContent.title=$event.target.innerText">{{data.notesData.title}}</div>
-      <div fxFlex class="icons" matTooltip="Pin note"><img src="../../../assets/images/pin.svg"></div>
-    </div>
-    <div cdkFocusInitial *ngIf='show'  placeholder="Take a note..." style="margin-top:20px" contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">{{data.notesData.description}}</div>
-    <div *ngFor='let list of listArray; let index = index'>
-        <div *ngIf='list.status == "open" && list.isDeleted == false'>
-            <mat-checkbox style="margin-right:10px" (click)="$event.stopPropagation();" (click)='updateChecklist(list)'> </mat-checkbox>
-            <input [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="setFocus()" (keyup.enter)="onEnter(list)" class="un-strike" cdkFocusInitial type="text" [(ngModel)]='list.itemName'>
-            <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
-          </div>
+      <div fxFlex=98 class="title" placeholder="Title" contenteditable="true" 
+        (input)="notesEditContent.title=$event.target.innerText">{{data.notesData.title}}
       </div>
-      <div *ngIf='!show'>   
-        <hr>
-        <div>
-          <div fxFlex=5><mat-icon>add</mat-icon></div> 
-          <input #myListInput [ngStyle]="{'background-color': backGroundColor}" type="text" style=" outline:none; border:none;" (keyup.enter)="onKey()" placeholder="List item" [(ngModel)]='listName'>
+      <div fxFlex class="icons" matTooltip="Pin note">
+        <img src="../../../assets/images/pin.svg">
+      </div>
+    </div>
+    <div cdkFocusInitial *ngIf='show' class="description" placeholder="Take a note..." 
+      contenteditable="true" (input)="notesEditContent.description=$event.target.innerText">
+      {{data.notesData.description}}
+    </div>
+    <div *ngFor='let list of listArray; let index = index'>
+      <div *ngIf='list.status == "open" && list.isDeleted == false'>
+        <mat-checkbox class='check-list' (click)="$event.stopPropagation();" 
+          (click)='updateChecklist(list)'>
+        </mat-checkbox>
+        <input [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="setFocus()" 
+          (keyup.enter)="onEnter(list)" class="un-strike" cdkFocusInitial type="text" 
+          [(ngModel)]='list.itemName'>
+        <button mat-icon-button type="submit" (click)='removeList(index,list)'>
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div *ngIf='!show'>
+      <hr>
+      <div>
+        <div fxFlex=5>
+          <mat-icon>add</mat-icon>
         </div>
-          <hr>
-        </div>
-      <div *ngFor='let list of listArray;let index = index'>
-         <div *ngIf='list.status == "close" && list.isDeleted == false '>
-            <mat-checkbox style="margin-right:10px" cdkFocusInitial (click)="$event.stopPropagation();" (click)='updateChecklist(list)' [checked]='true'> </mat-checkbox>
-            <input (keyup.enter)="setFocus()"  [ngStyle]="{'background-color': backGroundColor }" (keyup.enter)="onEnter(list)" cdkFocusInitial type="text" class="strike" [(ngModel)]='list.itemName'>
-            <button mat-icon-button type="submit" (click)='removeList(index,list)'><mat-icon>clear</mat-icon></button> 
-      </div> 
-        </div>
-    <div style="margin-top:10px">
+        <input #myListInput [ngStyle]="{'background-color': backGroundColor}" type="text" 
+        class="labels" (keyup.enter)="onKey()" placeholder="List item" 
+        [(ngModel)]='listName'>
+      </div>
+      <hr>
+    </div>
+    <div *ngFor='let list of listArray;let index = index'>
+      <div *ngIf='list.status == "close" && list.isDeleted == false '>
+        <mat-checkbox class='check-list' cdkFocusInitial (click)="$event.stopPropagation();" 
+          (click)='updateChecklist(list)' [checked]='true'>
+        </mat-checkbox>
+        <input (keyup.enter)="setFocus()" [ngStyle]="{'background-color': backGroundColor }" 
+          (keyup.enter)="onEnter(list)" cdkFocusInitial
+          type="text" class="strike" [(ngModel)]='list.itemName'>
+        <button mat-icon-button type="submit" (click)='removeList(index,list)'>
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="features">
       <mat-chip-list>
         <div *ngFor='let label of labelListArray'>
           <mat-chip *ngIf='label.isDeleted == false'>
-              <span style="border:none;outline:none" (click)='onLabelClick(label.label)' routerLink="/home/labels/{{label.label}}">{{label.label}}</span>
-              <mat-icon (click)='removeLabel(label)' matChipRemove>cancel</mat-icon></mat-chip>
-       
-          </div>
+            <span class="labels" (click)='onLabelClick(label.label)' 
+              routerLink="/home/labels/{{label.label}}">{{label.label}}
+            </span>
+            <mat-icon (click)='removeLabel(label)' matChipRemove>
+              cancel
+            </mat-icon>
+          </mat-chip>
+        </div>
       </mat-chip-list>
-        <mat-chip-list>
-            <div *ngFor='let reminder of reminderArray'>
-              <div 
-              *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
-                <div *ngIf="compareDate(reminder)">
-                    <mat-chip [matMenuTriggerFor]="edit.menu">
-                      <del>Today, {{reminder | date:"mediumTime"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>cancel</mat-icon></span>
-                      <app-remind-icon #edit="menuInOtherComponent" (editReminderEventClicked)="reminderEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="data.notesData"></app-remind-icon></mat-chip>
-                  </div>
-                    <div *ngIf="!compareDate(reminder)">
-                      <mat-chip [matMenuTriggerFor]="edit.menu">
-                          Today, {{reminder | date:"mediumTime"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>cancel</mat-icon></span>
-                        <app-remind-icon #edit="menuInOtherComponent" (editReminderEventClicked)="reminderEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="data.notesData"></app-remind-icon></mat-chip>
-                      </div>
-              </div>
-
-              <div 
-              *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
+      <mat-chip-list>
+        <div *ngFor='let reminder of reminderArray'>
+          <div *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')">
+            <div *ngIf="compareDate(reminder)">
               <mat-chip [matMenuTriggerFor]="edit.menu">
-                  Tomorrow, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>cancel</mat-icon></span>
-                  <app-remind-icon #edit="menuInOtherComponent" (editReminderEventClicked)="reminderEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="data.notesData"></app-remind-icon></mat-chip>
-              </div>
-
-              <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
-                <div *ngIf="compareDate(reminder)">
-                  <mat-chip [matMenuTriggerFor]="edit.menu">
-                    <del>{{reminder | date:"medium"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>cancel</mat-icon></span>
-                    <app-remind-icon #edit="menuInOtherComponent" (editReminderEventClicked)="reminderEventClicked($event)"[hideIcon]='reminderEdit' [notesDetails]="data.notesData"></app-remind-icon></mat-chip>
-                </div>
-                  <div *ngIf="!compareDate(reminder)">
-                    <mat-chip [matMenuTriggerFor]="edit.menu">
-                      {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>cancel</mat-icon></span>
-                      <app-remind-icon #edit="menuInOtherComponent" (editReminderEventClicked)="reminderEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="data.notesData"></app-remind-icon></mat-chip>
-                    </div>
-              </div>
-              
+                <del>Today, {{reminder | date:"mediumTime"}}</del> 
+                  <span class="reminder">
+                    <mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>
+                      cancel
+                    </mat-icon>
+                  </span>
+                <app-remind-icon #edit="menuInOtherComponent" 
+                  (editReminderEventClicked)="reminderEventClicked($event)" 
+                  [hideIcon]='reminderEdit'
+                  [notesDetails]="data.notesData">
+                </app-remind-icon>
+              </mat-chip>
             </div>
-          </mat-chip-list> 
+            <div *ngIf="!compareDate(reminder)">
+              <mat-chip [matMenuTriggerFor]="edit.menu">
+                Today, {{reminder | date:"mediumTime"}} 
+                <span class="reminder">
+                  <mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>
+                    cancel
+                  </mat-icon>
+                </span>
+                <app-remind-icon #edit="menuInOtherComponent" 
+                  (editReminderEventClicked)="reminderEventClicked($event)" 
+                  [hideIcon]='reminderEdit'
+                  [notesDetails]="data.notesData">
+                </app-remind-icon>
+              </mat-chip>
+            </div>
+          </div>
+          <div *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')">
+            <mat-chip [matMenuTriggerFor]="edit.menu">
+              Tomorrow, {{reminder | date:"mediumTime"}}
+              <span class="reminder">
+                <mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>
+                  cancel
+                </mat-icon>
+              </span>
+              <app-remind-icon #edit="menuInOtherComponent" 
+                (editReminderEventClicked)="reminderEventClicked($event)" 
+                [hideIcon]='reminderEdit'
+                [notesDetails]="data.notesData">
+              </app-remind-icon>
+            </mat-chip>
+          </div>
+          <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
+            <div *ngIf="compareDate(reminder)">
+              <mat-chip [matMenuTriggerFor]="edit.menu">
+                <del>{{reminder | date:"medium"}}</del> 
+                <span class="reminder">
+                  <mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>
+                    cancel
+                  </mat-icon>
+                </span>
+                <app-remind-icon #edit="menuInOtherComponent" 
+                  (editReminderEventClicked)="reminderEventClicked($event)" 
+                  [hideIcon]='reminderEdit'
+                  [notesDetails]="data.notesData">
+                </app-remind-icon>
+              </mat-chip>
+            </div>
+            <div *ngIf="!compareDate(reminder)">
+              <mat-chip [matMenuTriggerFor]="edit.menu">
+                {{reminder | date:"medium"}} 
+                <span class="reminder">
+                  <mat-icon matChipRemove (click)='deleteRemainder(data.notesData.id)'>
+                    cancel
+                  </mat-icon>
+                </span>
+                <app-remind-icon #edit="menuInOtherComponent" 
+                  (editReminderEventClicked)="reminderEventClicked($event)" 
+                  [hideIcon]='reminderEdit'
+                  [notesDetails]="data.notesData">
+                </app-remind-icon>
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </mat-chip-list>
     </div>
-    <div fxLayoutAlign='end'> Edited {{data.notesData.modifiedDate | date:"mediumDate"}}</div>
-  </mat-card-content> 
+    <div fxLayoutAlign='end'> 
+      Edited {{data.notesData.modifiedDate | date:"mediumDate"}}
+    </div>
+  </mat-card-content>
   <mat-card-actions>
     <div fxLayout='column'>
-<div  fxLayout='row'  fxLayoutAlign='space-between'>
-      <div  class="icons">
-        <app-remind-icon (editReminderEventClicked)="reminderEventClicked($event)" [notesDetails]="data.notesData"></app-remind-icon> 
+      <div fxLayout='row' fxLayoutAlign='space-between'>
+        <div class="icons">
+          <app-remind-icon (editReminderEventClicked)="reminderEventClicked($event)" 
+            [notesDetails]="data.notesData">
+          </app-remind-icon>
+        </div>
+        <div class="icons">
+          <app-collaborator-icon></app-collaborator-icon>
+        </div>
+        <div class="icons">
+          <app-color-icon (colorCodeEvent)="colorEventClicked($event)" 
+            [notesDetails]="data.notesData">
+          </app-color-icon>
+        </div>
+        <div class="icons">
+          <app-image-icon></app-image-icon>
+        </div>
+        <div class="icons">
+          <app-archive-icon (archiveEvent)="eventClicked($event)" 
+            [notesDetails]="data.notesData">
+          </app-archive-icon>
+        </div>
+        <div class="icons">
+          <app-more-icon (eventClicked)="eventClicked($event)" 
+            (labelAdd)="childEventClicked($event)" [notesDetails]="data.notesData">
+          </app-more-icon>
+        </div>
       </div>
-      <div  class="icons">
-        <app-collaborator-icon></app-collaborator-icon>
-      </div>
-      <div  class="icons">
-        <app-color-icon (colorCodeEvent)="colorEventClicked($event)" [notesDetails]="data.notesData"></app-color-icon>
-      </div>
-      <div  class="icons">
-        <app-image-icon></app-image-icon> 
-      </div>
-      <div class="icons">
-        <app-archive-icon (archiveEvent)="eventClicked($event)" [notesDetails]="data.notesData"></app-archive-icon>
-      </div>
-      <div  class="icons">
-        <app-more-icon (eventClicked)="eventClicked($event)" (labelAdd)="childEventClicked($event)" [notesDetails]="data.notesData"></app-more-icon>
-      </div>
-    </div>
-    <div  fxLayoutAlign="end" class="icons">
+      <div fxLayoutAlign="end" class="icons">
         <button mat-button [mat-dialog-close]="notesEditContent">Close</button>
-      </div> 
-   
+      </div>
     </div>
-    
-     
   </mat-card-actions>
 </mat-card>
-
-

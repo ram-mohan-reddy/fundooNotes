@@ -1,10 +1,10 @@
-<div  fxLayout='row' style="margin-top:30px ">
-  <div fxFlex=10 fxFlex.xs=0>
+<div  fxLayout='row' class="container">
+  <div fxFlex=10 fxFlex.xs=0>  
   </div> 
   <div fxFlex fxLayoutAlign='center' fxFlex.xs=100>
     <mat-card *ngIf="show" class="note-card">
-      <mat-card-content fxLayout='row'  fxLayout.xs='row'  style="margin-left:15px">
-        <div fxFlex (click)="open()" fxFlex style="margin-top:12px">
+      <mat-card-content fxLayout='row'  fxLayout.xs='row' class="content">
+        <div fxFlex (click)="open()" fxFlex class="take-note">
           Take a note...
         </div> 
         <div fxFlex fxLayout='row' fxLayout.xs='row' fxLayoutGap.xs="10px" 
@@ -20,84 +20,139 @@
       <mat-card-content>
         <div fxLayout='row' fxLayout.xs='row'>
           <div fxFlex=98 contenteditable="true"
-           (input)="notesContent.title=$event.target.innerText" placeholder="Title"> </div>
+           (input)="notesContent.title=$event.target.innerText" placeholder="Title"> 
+          </div>
           <div fxFlex class="icons" matTooltip="Pin note">
-            <img src="../../../assets/images/pin.svg"></div>
+            <img src="../../../assets/images/pin.svg">
+          </div>
         </div>
-        <div *ngIf="!checkList" style="margin-top:20px" contenteditable="true" 
+        <div *ngIf="!checkList" class="description" contenteditable="true" 
          (input)="notesContent.description=$event.target.innerText" 
           placeholder="Take a note..."></div>
-        <div *ngIf="checkList"  style="margin-top:20px">
+        <div *ngIf="checkList" class="description">
           <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
             <div *ngIf='name.isDeleted == false'>
-            <mat-checkbox style="margin-right:10px" (click)='strike(index)'  (click)="$event.stopPropagation();"> </mat-checkbox>
-            <input [ngStyle]="{'background-color': colorCode }" (keyup.enter)="setFocus()" autofocus type="text" style="outline:none;border:none;width:520px" [(ngModel)]='listArray[index].listName'>
-            <button  mat-icon-button type="submit" (click)='removeList(index)' ><mat-icon>clear</mat-icon></button> 
-          </div>
+              <mat-checkbox class="check-box" (click)='strike(index)'  
+                (click)="$event.stopPropagation();"> 
+              </mat-checkbox>
+              <input [ngStyle]="{'background-color': colorCode }" (keyup.enter)="setFocus()" 
+                autofocus type="text" class="check-list-input" 
+                [(ngModel)]='listArray[index].listName'>
+              <button  mat-icon-button type="submit" (click)='removeList(index)'>
+                <mat-icon>
+                  clear
+                </mat-icon>
+              </button> 
+            </div>
           </div>
           <hr>
           <div> 
             <div fxFlex=5><mat-icon>add</mat-icon></div> 
-            <input #myListInput [ngStyle]="{'background-color': colorCode }" type="text" style=" outline:none; border:none;" (keyup.enter)="onKey()" placeholder="List item" [(ngModel)]='listName'>
-          
+            <input #myListInput [ngStyle]="{'background-color': colorCode }" type="text" 
+              class="list-input" (keyup.enter)="onKey()" placeholder="List item" 
+              [(ngModel)]='listName'>
           </div>
-        <hr>
-        <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
-        <div *ngIf='name.isDeleted == true'>
-          <mat-checkbox class="primary" style="margin-right:10px" [checked]='name.isChecked' (click)='strike(index)' (click)="$event.stopPropagation();"></mat-checkbox>
-          <input [ngStyle]="{'background-color': colorCode }" (keyup.enter)="setFocus()" autofocus type="text" class="strike" [(ngModel)]='listArray[index].listName'>
-          <button mat-icon-button type="submit" (click)='removeList(index)'><mat-icon>clear</mat-icon></button> 
-        </div>
-      </div>
-          </div> 
-         
-        <div style="padding-top:20px">
+          <hr>
+          <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">
+            <div *ngIf='name.isDeleted == true'>
+              <mat-checkbox class="check-box" [checked]='name.isChecked' 
+                (click)='strike(index)' (click)="$event.stopPropagation();">
+              </mat-checkbox>
+              <input [ngStyle]="{'background-color': colorCode }" (keyup.enter)="setFocus()" 
+                autofocus type="text" class="strike" [(ngModel)]='listArray[index].listName'>
+              <button mat-icon-button type="submit" (click)='removeList(index)'>
+                <mat-icon>clear</mat-icon>
+              </button> 
+            </div>
+          </div>
+        </div> 
+        <div class="description">
             <mat-chip-list>
                 <mat-chip *ngFor = 'let index of selectLabelArray'>
-                  <span style="border:none;outline:none" (click)='onLabelClick(index)' routerLink="/home/labels/{{index}}">{{index}}</span>
-                  <mat-icon matChipRemove
-                  (click)='cancelNoteLabel(index)'>cancel</mat-icon></mat-chip>
+                  <span class="list-input" (click)='onLabelClick(index)' 
+                    routerLink="/home/labels/{{index}}">{{index}}
+                  </span>
+                  <mat-icon matChipRemove (click)='cancelNoteLabel(index)'>
+                    cancel
+                  </mat-icon>
+                </mat-chip>
               </mat-chip-list>
         </div>
-
-        <div style="padding-top:20px">
+        <div class="description">
             <mat-chip-list>
                   <div *ngFor = 'let reminder of selectRemainderArray'>
                     <div *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')">
                       <div *ngIf="compareDate(reminder)">
                       <mat-chip [matMenuTriggerFor]="edit.menu">
-                       <del>Today, {{reminder | date:"mediumTime"}}</del><span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
-                        <app-remind-icon #edit="menuInOtherComponent" [hideIcon]='reminderEdit' [notesDetails]='componentName' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon>
+                        <del>Today, {{reminder | date:"mediumTime"}}</del>
+                        <span class="remove-reminder">
+                          <mat-icon matChipRemove (click)='cancelRemainder()'>
+                            cancel
+                          </mat-icon>
+                        </span>
+                        <app-remind-icon #edit="menuInOtherComponent" 
+                          [hideIcon]='reminderEdit' [notesDetails]='componentName' 
+                          (reminderArrayEvent)="reminderEventClicked($event)">
+                        </app-remind-icon>
                       </mat-chip>
                       </div>
                       <div *ngIf="!compareDate(reminder)">
                           <mat-chip [matMenuTriggerFor]="edit.menu">
-                              Today, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
-                            <app-remind-icon #edit="menuInOtherComponent" [hideIcon]='reminderEdit' [notesDetails]='componentName' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon>
+                              Today, {{reminder | date:"mediumTime"}}
+                              <span class="remove-reminder">
+                                <mat-icon matChipRemove (click)='cancelRemainder()'>
+                                  cancel
+                                </mat-icon>
+                              </span>
+                            <app-remind-icon #edit="menuInOtherComponent" 
+                              [hideIcon]='reminderEdit' [notesDetails]='componentName' 
+                              (reminderArrayEvent)="reminderEventClicked($event)">
+                            </app-remind-icon>
                           </mat-chip>
-                          </div>
+                        </div>
                     </div>
-
                     <div *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')">
                       <mat-chip [matMenuTriggerFor]="edit.menu">
-                        Tomorrow, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
-                        <app-remind-icon #edit="menuInOtherComponent" [hideIcon]='reminderEdit' [notesDetails]='componentName' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon>
+                        Tomorrow, {{reminder | date:"mediumTime"}}
+                        <span class="remove-reminder">
+                          <mat-icon matChipRemove (click)='cancelRemainder()'>
+                            cancel
+                          </mat-icon>
+                        </span>
+                        <app-remind-icon #edit="menuInOtherComponent" [hideIcon]='reminderEdit' 
+                          [notesDetails]='componentName' 
+                          (reminderArrayEvent)="reminderEventClicked($event)">
+                        </app-remind-icon>
                       </mat-chip>
                     
                     </div>
                     <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
                       <div *ngIf="compareDate(reminder)">
                         <mat-chip [matMenuTriggerFor]="edit.menu">
-                          <del>{{reminder | date:"medium"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
-                          <app-remind-icon #edit="menuInOtherComponent" [hideIcon]='reminderEdit' [notesDetails]='componentName' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon></mat-chip>
-
+                          <del>{{reminder | date:"medium"}}</del> 
+                            <span class="remove-reminder">
+                              <mat-icon matChipRemove (click)='cancelRemainder()'>
+                                cancel
+                              </mat-icon>
+                            </span>
+                          <app-remind-icon #edit="menuInOtherComponent" [hideIcon]='reminderEdit' 
+                            [notesDetails]='componentName' 
+                            (reminderArrayEvent)="reminderEventClicked($event)">
+                          </app-remind-icon></mat-chip>
                         </div>
                         <div *ngIf="!compareDate(reminder)">
                           <mat-chip [matMenuTriggerFor]="edit.menu">
-                            {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='cancelRemainder()'>cancel</mat-icon></span>
-                            <app-remind-icon #edit="menuInOtherComponent" [hideIcon]='reminderEdit' [notesDetails]='componentName' (reminderArrayEvent)="reminderEventClicked($event)"></app-remind-icon>
+                            {{reminder | date:"medium"}} 
+                            <span class="remove-reminder">
+                              <mat-icon matChipRemove (click)='cancelRemainder()'>
+                                cancel
+                              </mat-icon>
+                            </span>
+                            <app-remind-icon #edit="menuInOtherComponent" 
+                              [hideIcon]='reminderEdit' [notesDetails]='componentName' 
+                              (reminderArrayEvent)="reminderEventClicked($event)">
+                            </app-remind-icon>
                           </mat-chip>
-                        
                         </div>
                     </div>
                   </div>
@@ -130,29 +185,30 @@
               <button  mat-icon-button (click)='changeMenu()' matTooltip="more" 
                 [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon>
               </button> 
-
               <mat-menu  #appMenu="matMenu" [overlapTrigger]="false"> 
               <button mat-menu-item *ngIf='!labelMenu' (click)="$event.stopPropagation();" 
-                (click)='changeMenu()' style="height: 50px;">Add label
+                (click)='changeMenu()' class="label-button">Add label
               </button> 
-                <div  *ngIf='labelMenu'>
+                <div  *ngIf='labelMenu'> 
                   <div class="label-note">Label note</div>
                   <div>
                       <div (click)="$event.stopPropagation();" (click)='addLabelName()' 
-                        style="cursor:pointer" fxFlex=10><mat-icon>add</mat-icon>
+                        class="mouse-pointer" fxFlex=10><mat-icon>add</mat-icon>
                       </div>
                       <div (click)="$event.stopPropagation();" class="label-create" 
-                        contenteditable="true" cdkFocusInitial placeholder='Enter label name'  
+                        contenteditable="true" cdkFocusInitial 
+                        placeholder='Enter label name'  
                         onkeypress="return (this.innerText.length <= 75)" 
                         (input)="newLabelName=$event.target.innerText">
                       </div> 
                   </div>
                    <label fxLayout = 'column' *ngFor="let option of myArray | search : newLabelName">
-                     <div class="label-menu">
+                     <div fxLayout='row' class="label-menu">
                          <input (click)="$event.stopPropagation();" (click)='onClick(option)' 
                           type="checkbox"
                          [(checklist)]="list"
-                         [checklistValue]="option" >{{option.label}}
+                         [checklistValue]="option" >
+                         <div fxFlex=80 class="label-display">{{option.label}}</div>
                      </div>   
                      </label> 
                 </div>             

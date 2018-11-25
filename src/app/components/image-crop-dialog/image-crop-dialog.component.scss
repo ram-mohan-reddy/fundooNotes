@@ -1,0 +1,21 @@
+
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+
+.input-button {
+    display: none;
+}
+
+.image-cropper {
+    height:250px; 
+    margin-top: 20px
+}
+
+.cropped-image {
+    height:50%
+}
+
+.actions{
+    float:right;
+    margin:10px
+}

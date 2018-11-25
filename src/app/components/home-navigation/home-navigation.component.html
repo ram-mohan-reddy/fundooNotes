@@ -1,8 +1,8 @@
 <mat-toolbar class="tool-bar" fxLayout='row' fxLayout.xs="row" fxLayoutGap='20' fxLayoutGap.xs="20" fxLayout.sm="row"
-fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
+fxLayout.md="row" fxLayoutGap.sm='5' fxLayoutGap.md='10' fxLayout.lg="row">
   <div fxFlex=5>
       <button matTooltip="Main menu" type="button" aria-label="Toggle sidenav" 
-      mat-icon-button (click)="drawer.toggle()">
+      mat-icon-button (click)="drawer.toggle()"> 
       <mat-icon class="icons" aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
   </div> 
@@ -16,13 +16,25 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
             name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" type='text'>
         <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button> 
       </mat-card>
-  </div>
-  <div fxFlex.xs fxFlex=20>
+  </div> 
+ 
+  <!-- <div fxHide fxShow.xs = "true" fxFlex *ngIf='smallView'>
+      <mat-card   fxLayout='row' fxLayoutGap='10px' fxLayout.xs='row' class="search-box">
+          <div  fxFlex=7>
+              <button  mat-icon-button type="submit"><mat-icon>arrow_back</mat-icon></button>
+          </div>
+          <input placeholder="Search" fxFlex [(ngModel)]="searchText" 
+              name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" type='text'>
+          <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button> 
+        </mat-card>
+  </div> -->
+
+  <div fxFlex.xs fxFlex.sm fxFlex=20>
     <div  fxFlex>
     </div> 
-    <div fxFlex fxLayoutAlign='end'>
+    <div fxFlex  fxLayoutAlign='end'>
         <div fxHide fxShow.xs = "true">
-            <button  mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
+            <button (click)='onSmallScreen()' mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
         </div>
         <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button 
           routerLink="/home"><mat-icon>refresh</mat-icon></button>
@@ -41,8 +53,8 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
             <div class="padding-container" fxLayout='row' >
               <div fxLayout='row' fxFlex=35 fxlayoutAlign='space-between'>
                 <button (click)="$event.stopPropagation();" class="display-image" *ngIf='savedUrl == ""'  mat-mini-fab>
-                <div style="margin-top:20px">
-                    {{userName | titlecase | slice:0:1}}
+                <div class="display-name">
+                    {{userName | titlecase | slice:0:1}} 
                 </div> 
                 <div class="change-button" (click)="selectImage.click()">
                   Change
@@ -71,7 +83,7 @@ fxLayout.md="row" fxLayoutGap.md='10' fxLayout.lg="row">
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-     <mat-nav-list>
+     <mat-nav-list class="side-nav-list">
       <a mat-list-item (click)='changeIdentity("fundooNotes")' class="links" routerLink="/home/notes">
         <img src="../../../assets/images/notes.svg"><span class="child-links">Notes</span></a>
       <a mat-list-item (click)='changeIdentity("Reminders")' routerLink="/home/reminders">

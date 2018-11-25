@@ -14,17 +14,22 @@
     background-color:$color
 }
 
-@mixin padding($value) {
-    padding:$value
+@mixin padding($value) { 
+    padding:$value 
 }
 
 @mixin word-overflow {
     white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden !important;
+    text-overflow: ellipsis;
+    overflow: hidden !important;
 }
 
 @mixin opacity($value) {
     opacity:$value
+}
+
+@mixin out-line {
+    outline:none;
+    border:none;
 }
 

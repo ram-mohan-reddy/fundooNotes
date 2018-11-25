@@ -54,6 +54,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
   private selectedFile: File;
   private selectedFileName: string;
   private notesView: boolean = true;
+  private smallView: boolean = false;
   private server_url = environment.baseUrl;
   private labelData = {
     "label": "string",
@@ -208,8 +209,12 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
     this.dataService.listEventTrigger(true);
   }
 
+  onSmallScreen() {
+    this.smallView = true;
+  }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  } 
+  }
 }

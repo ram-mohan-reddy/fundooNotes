@@ -17,6 +17,25 @@
   @include background-color($light-grey);
 }
 
+@media all and (max-width: 600px) and (min-width: 320px) {
+  .sidenav {
+    width: 250px;
+    margin-top: 0px;
+    box-shadow: none;
+    @include background-color($light-grey);
+  }
+}
+
+.side-nav-list {
+  padding-top: 0px;
+} 
+
+@media all and (max-width: 600px) and (min-width: 320px) {
+  .side-nav-list {
+    padding-top: 50px;
+  }
+}
+
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
@@ -131,6 +150,10 @@
 
 .padding-container {
   @include padding(10px);
+}
+
+.display-name {
+  margin-top:20px
 }
 
 

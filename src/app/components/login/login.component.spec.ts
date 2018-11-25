@@ -22,9 +22,9 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create', () => { 
-    expect(component).toBeTruthy();
-  });
+  // it('should create', () => { 
+  //   expect(component).toBeTruthy();
+  // });
 
   it('login', () => { 
     expect(component.userLogin.email).not.toBeNull();
