@@ -213,6 +213,10 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
     this.smallView = true;
   }
 
+  onBackClick() {
+    this.smallView = false;
+  }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

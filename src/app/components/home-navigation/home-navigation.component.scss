@@ -71,7 +71,7 @@
     @include background-color(#fff7e6);
     border-radius: 0 25px 25px 0;
   }
-  @include background-color($light-grey);
+  // @include background-color($light-grey);
   border-radius: 0 25px 25px 0;
 }
 
@@ -154,6 +154,19 @@
 
 .display-name {
   margin-top:20px
+}
+
+.active-list-item {
+  background-color: rgb(252, 227, 174) !important; /* Note: You could also use a custom theme */
+}
+
+::ng-deep.mat-drawer-backdrop.mat-drawer-shown {
+  background-color:rgba(0,0,0,.1);;
+}
+
+::ng-deep.mat-drawer-container {
+  // background-color: #fafafa;
+  color: rgba(0,0,0,.1);
 }
 
 

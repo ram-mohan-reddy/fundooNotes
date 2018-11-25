@@ -1,12 +1,12 @@
 <mat-toolbar class="tool-bar" fxLayout='row' fxLayout.xs="row" fxLayoutGap='20' fxLayoutGap.xs="20" fxLayout.sm="row"
 fxLayout.md="row" fxLayoutGap.sm='5' fxLayoutGap.md='10' fxLayout.lg="row">
-  <div fxFlex=5>
+  <div *ngIf='!smallView' fxFlex=5>
       <button matTooltip="Main menu" type="button" aria-label="Toggle sidenav" 
       mat-icon-button (click)="drawer.toggle()"> 
       <mat-icon class="icons" aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
   </div> 
-  <div fxFlex fxLayout='row' fxHide.xs = "true" fxLayoutGap='10px'>
+  <div fxFlex *ngIf='!smallView' fxLayout='row' fxHide.xs = "true" fxLayoutGap='10px'>
       <span class='identity' fxShow fxHide.xs = "true"  >{{identify}}</span>
       <mat-card fxShow fxHide.xs = "true" fxFlex fxLayout='row' fxLayoutGap='10px' fxLayout.xs='row' class="search-box">
         <div  fxFlex=7>
@@ -18,22 +18,26 @@ fxLayout.md="row" fxLayoutGap.sm='5' fxLayoutGap.md='10' fxLayout.lg="row">
       </mat-card>
   </div> 
  
-  <!-- <div fxHide fxShow.xs = "true" fxFlex *ngIf='smallView'>
-      <mat-card   fxLayout='row' fxLayoutGap='10px' fxLayout.xs='row' class="search-box">
-          <div  fxFlex=7>
-              <button  mat-icon-button type="submit"><mat-icon>arrow_back</mat-icon></button>
+  <div fxHide fxFlex=70 fxShow.xs = "true"  *ngIf='smallView'>
+      <mat-card   fxLayout='row' fxLayoutGap='20px' fxLayout.xs='row' class="search-box">
+          <div  fxFlex=10> 
+              <button (click)='onBackClick()'  mat-icon-button type="submit"><mat-icon>arrow_back</mat-icon></button>
           </div>
           <input placeholder="Search" fxFlex [(ngModel)]="searchText" 
               name="search" (click)='naviagteSearch()' (keydown)="dataTransfer()" type='text'>
-          <button fxFlex=10 mat-icon-button type="submit"><mat-icon>clear</mat-icon></button> 
+          <div fxFlex=20>
+            <button  mat-icon-button type="submit">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </div>  
         </mat-card>
-  </div> -->
+  </div>
 
   <div fxFlex.xs fxFlex.sm fxFlex=20>
     <div  fxFlex>
     </div> 
-    <div fxFlex  fxLayoutAlign='end'>
-        <div fxHide fxShow.xs = "true">
+    <div fxFlex fxFlex.xs fxFlex.sm fxLayoutAlign='end'>
+        <div *ngIf='!smallView' fxHide fxShow.xs = "true">
             <button (click)='onSmallScreen()' mat-icon-button type="submit"><mat-icon>search</mat-icon></button>
         </div>
         <button class="icons" matTooltip="Refresh" fxFlex mat-icon-button 
@@ -42,12 +46,12 @@ fxLayout.md="row" fxLayoutGap.sm='5' fxLayoutGap.md='10' fxLayout.lg="row">
           fxFlex mat-icon-button><mat-icon>view_stream</mat-icon></button>
         <button class="icons" fxHide.xs = "true" *ngIf='!notesView' (click)='changeView()' matTooltip="Grid view" 
           fxFlex mat-icon-button><mat-icon>grid_on</mat-icon></button>
-        <button class="icons" matTooltip="Notification" fxFlex mat-icon-button>
-          <mat-icon>notifications_none</mat-icon></button>
-        <button *ngIf='savedUrl == ""' matTooltip="Fundoo account : {{userName}}" fxFlex 
-          mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
-        <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
-          matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
+        <div>
+            <button *ngIf='savedUrl == ""' matTooltip="Fundoo account : {{userName}}" fxFlex 
+            mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu">{{userName | titlecase | slice:0:1}}</button>
+          <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
+            matTooltip="Fundoo account : {{userName}}" fxFlex mat-mini-fab class='drop-down' [matMenuTriggerFor]="appMenu"></button>
+        </div>
         <mat-menu class="notifications-dropdown" #appMenu="matMenu" [overlapTrigger]="false">
           <ng-template matMenuContent>
             <div class="padding-container" fxLayout='row' >
@@ -84,21 +88,22 @@ fxLayout.md="row" fxLayoutGap.sm='5' fxLayoutGap.md='10' fxLayout.lg="row">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
      <mat-nav-list class="side-nav-list">
-      <a mat-list-item (click)='changeIdentity("fundooNotes")' class="links" routerLink="/home/notes">
+      <a mat-list-item (click)='changeIdentity("fundooNotes")' class="links" routerLink="/home/notes" routerLinkActive="active-list-item">
         <img src="../../../assets/images/notes.svg"><span class="child-links">Notes</span></a>
-      <a mat-list-item (click)='changeIdentity("Reminders")' routerLink="/home/reminders">
+      <a mat-list-item (click)='changeIdentity("Reminders")' routerLink="/home/reminders" routerLinkActive="active-list-item">
         <img src="../../../assets/images/reminders.svg"><span class="child-links">Reminders</span></a>
       <hr>
       <p class="label">LABELS</p>
       <div *ngFor = 'let labels of labelList'>
-        <a mat-list-item (click)='changeIdentity(labels.label)' routerLink="/home/labels/{{labels.label}}">
+        <a mat-list-item (click)='changeIdentity(labels.label)' routerLink="/home/labels/{{labels.label}}" routerLinkActive="active-list-item">
           <mat-icon>label_outline</mat-icon><span class="child-links">{{labels.label}}</span></a>
       </div>
       <a mat-list-item (click)='createLabel()'><mat-icon>edit</mat-icon><span class="child-links">Edit labels</span></a>
       <hr> 
-      <a (click)='changeIdentity("Archive")' mat-list-item routerLink="/home/archive"><img src="../../../assets/images/archives.svg">
+      <a (click)='changeIdentity("Archive")' mat-list-item routerLink="/home/archive" routerLinkActive="active-list-item">
+        <img src="../../../assets/images/archives.svg">
         <span class="child-links">Archive</span></a>
-      <a (click)='changeIdentity("Trash")' mat-list-item routerLink="/home/trash">
+      <a (click)='changeIdentity("Trash")' mat-list-item routerLink="/home/trash" routerLinkActive="active-list-item">
         <mat-icon>delete</mat-icon><span class="child-links">Trash</span></a>
    </mat-nav-list> 
   </mat-sidenav>
