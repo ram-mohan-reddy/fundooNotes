@@ -28,7 +28,7 @@ export class RemindersComponent implements OnInit, OnDestroy {
       .subscribe((data: Notes[]) => {
         this.notesCollection(data)
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
   notesAddRequest(event) {
     if (event) {
@@ -43,9 +43,9 @@ export class RemindersComponent implements OnInit, OnDestroy {
         this.list.push(this.note[index])
       }
     }
-    this.totalNotes = this.list.reverse();
+    this.totalNotes = this.list;
     this.totalNotes.sort(this.compare);
-    LoggerService.log('Notes : ', this.totalNotes);
+    // LoggerService.log('Notes : ', this.totalNotes);
   }
   compare(first, second) {
     first = new Date(first.reminder);

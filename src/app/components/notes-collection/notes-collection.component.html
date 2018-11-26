@@ -1,15 +1,15 @@
-<div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayout.md='row' style=" margin-top: 40px">
-  <div fxFlex=5 fxFlex.xs=0 fxFlex.sm=0>   
+<div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayoutAlign="space-between" fxLayout.md='row' class="container">
+  <div fxFlex=5  fxFlex.xs=0 fxFlex.sm=0>   
   </div>  
-  <!-- <div fxFlex  fxFlex.xs=100 fxFlex.sm=100> -->
-  <div  fxFlex  fxFlex.xs=100 fxFlex.sm=100 fxLayout.xs='column' fxLayout='row wrap' fxLayoutAlign='center'>
-    <div  style="padding:10px" *ngFor='let index of notesListArray | search:searchText'>
-          <mat-card [ngStyle]="{'background-color': index.color }" 
+  <div  fxFlex  fxFlex.xs=100 fxFlex.sm=100 fxLayout.xs='column' fxLayout='row wrap' 
+    fxLayoutAlign='start'>
+    <div class="notes-collection" *ngFor='let index of notesListArray | search:searchText'>
+          <mat-card [ngStyle]="{'background-color': index.color }"  
           ngStyle.xs="width:90%"
           [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
               <mat-card-content (click)='openDialog(index)'>
                 <div fxLayout='row' fxLayout.xs='row'> 
-                  <div fxFlex=98 style=" font-weight: bold; word-wrap: break-word; margin-left: 10px">
+                  <div fxFlex=98 class="title">
                     {{index.title}} 
                   </div>
                   <div fxFlex (click)="$event.stopPropagation();" *ngIf='!index.isPined' 
@@ -21,20 +21,22 @@
                     <img src="../../../assets/images/unPin.svg">
                   </div>
                 </div> 
-                <p style="word-wrap: break-word; margin-left: 10px">
+                <p class="description">
                   {{index.description}} 
                 </p>
-                <div style="margin-bottom:5px" *ngFor='let list of index.noteCheckLists'>
+                <div class="check-list" *ngFor='let list of index.noteCheckLists'>
                   <div *ngIf='list.status == "open" && list.isDeleted == false'>
-                      <mat-checkbox (click)="$event.stopPropagation();" style="margin-right:10px" (click)='updateChecklist(list,index)'></mat-checkbox>{{list.itemName}}
+                      <mat-checkbox (click)="$event.stopPropagation();" class="list-check-box" 
+                        (click)='updateChecklist(list,index)'>
+                      </mat-checkbox>{{list.itemName}}
                   </div>
                 </div>
               
-                <div style="margin-bottom:5px" *ngFor='let list of index.noteCheckLists'>
+                <div class="check-list" *ngFor='let list of index.noteCheckLists'>
                    <div  *ngIf='list.status == "close" && list.isDeleted == false'>
-                      <mat-checkbox style="margin-right:10px"
+                      <mat-checkbox class="list-check-box"
                        (click)="$event.stopPropagation();" (click)='updateChecklist(list,index)' [checked]='true'> </mat-checkbox>
-                      <span style="text-decoration: line-through">{{list.itemName}}</span>  
+                      <span class="strike">{{list.itemName}}</span>  
                    </div>
                   </div>
                 <div>
@@ -46,75 +48,133 @@
                       </mat-chip>
                     </div>
                   </mat-chip-list>
-                  <div style="margin-top:10px">
+                  <div class="options">
                     <mat-chip-list>
                       <div *ngFor='let reminder of index.reminder'>
                         <div 
-                        *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
+                        *ngIf="(todayDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')">
                           <div *ngIf="compareDate(reminder)">
                               <mat-chip [matMenuTriggerFor]="edit.menu">
-                                <del>Today, {{reminder | date:"mediumTime"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
-                                <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
+                                <del>Today, {{reminder | date:"mediumTime"}}</del> 
+                                <span class="reminder">
+                                  <mat-icon matChipRemove (click)='deleteRemainder(index.id)'>
+                                    cancel
+                                  </mat-icon>
+                                </span>
+                                <app-remind-icon #edit="menuInOtherComponent" 
+                                  (reminderEventClicked)="childEventClicked($event)" 
+                                  [hideIcon]='reminderEdit' [notesDetails]="index">
+                                </app-remind-icon></mat-chip>
                             </div>
-                              <div *ngIf="!compareDate(reminder)">
-                                <mat-chip [matMenuTriggerFor]="edit.menu">
-                                    Today, {{reminder | date:"mediumTime"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
-                                  <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
-                                </div>
-                        </div>
-
+                            <div *ngIf="!compareDate(reminder)">
+                              <mat-chip [matMenuTriggerFor]="edit.menu">
+                                Today, {{reminder | date:"mediumTime"}} 
+                                <span class="reminder">
+                                  <mat-icon matChipRemove (click)='deleteRemainder(index.id)'>
+                                    cancel
+                                  </mat-icon>
+                                </span>
+                                <app-remind-icon #edit="menuInOtherComponent" 
+                                  (reminderEventClicked)="childEventClicked($event)" 
+                                  [hideIcon]='reminderEdit' [notesDetails]="index">
+                                </app-remind-icon>
+                              </mat-chip>
+                            </div>
+                          </div>
                         <div 
-                        *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
-                        <mat-chip [matMenuTriggerFor]="edit.menu">
-                            Tomorrow, {{reminder | date:"mediumTime"}}<span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
-                            <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
+                          *ngIf="(tomorrowDate | date:'dd/MM/yyyy') == (reminder | date:'dd/MM/yyyy')" >
+                          <mat-chip [matMenuTriggerFor]="edit.menu">
+                            Tomorrow, {{reminder | date:"mediumTime"}}
+                            <span class="reminder">
+                              <mat-icon matChipRemove (click)='deleteRemainder(index.id)'>
+                                cancel
+                              </mat-icon>
+                            </span>
+                            <app-remind-icon #edit="menuInOtherComponent" 
+                              (reminderEventClicked)="childEventClicked($event)" 
+                              [hideIcon]='reminderEdit' [notesDetails]="index">
+                            </app-remind-icon>
+                          </mat-chip>
                         </div>
-
                         <div *ngIf="(todayDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy') && (tomorrowDate | date:'dd/MM/yyyy') != (reminder | date:'dd/MM/yyyy')">
                           <div *ngIf="compareDate(reminder)">
                             <mat-chip [matMenuTriggerFor]="edit.menu">
-                              <del>{{reminder | date:"medium"}}</del> <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
-                              <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
+                              <del>{{reminder | date:"medium"}}</del> 
+                              <span class="reminder">
+                                <mat-icon matChipRemove (click)='deleteRemainder(index.id)'>
+                                  cancel
+                                </mat-icon>
+                              </span>
+                              <app-remind-icon #edit="menuInOtherComponent" 
+                                (reminderEventClicked)="childEventClicked($event)" 
+                                [hideIcon]='reminderEdit' [notesDetails]="index">
+                              </app-remind-icon>
+                            </mat-chip>
                           </div>
                             <div *ngIf="!compareDate(reminder)">
-                              <mat-chip [matMenuTriggerFor]="edit.menu">
-                                {{reminder | date:"medium"}} <span style="margin-top:5px"><mat-icon matChipRemove (click)='deleteRemainder(index.id)'>cancel</mat-icon></span>
-                                <app-remind-icon #edit="menuInOtherComponent" (reminderEventClicked)="childEventClicked($event)" [hideIcon]='reminderEdit' [notesDetails]="index"></app-remind-icon></mat-chip>
-                              </div>
+                              <mat-chip [matMenuTriggerFor]="edit.menu"> 
+                                {{reminder | date:"medium"}} 
+                                <span class="reminder">
+                                  <mat-icon matChipRemove (click)='deleteRemainder(index.id)'>
+                                    cancel
+                                  </mat-icon>
+                                </span>
+                                <app-remind-icon #edit="menuInOtherComponent" 
+                                  (reminderEventClicked)="childEventClicked($event)" 
+                                  [hideIcon]='reminderEdit' [notesDetails]="index">
+                                </app-remind-icon>
+                              </mat-chip>
+                            </div>
                         </div>
-                       
                       </div>
                     </mat-chip-list> 
                   </div>
-                 
+                  <div fxLayout='row wrap' fxLayoutGap='5px' class="options">
+                    <div *ngFor='let collaborator of index.collaborators'  >
+                      <button (click)='onCollaborator(index)' 
+                        (click)="$event.stopPropagation();" class="added-person" 
+                        mat-mini-fab class="check-list"> 
+                        {{collaborator.firstName | titlecase | slice:0:1}}
+                      </button>
+                    </div>
+                  </div>
                 </div>  
               </mat-card-content> 
-              <mat-card-actions class="icons-collection"> 
+              <mat-card-actions class="icons-collection">  
                 <div fxLayout='row'  fxLayoutAlign='space-between' >
                   <div *ngIf='componentName != "trash"' class="icons" >
-                    <app-remind-icon (reminderEventClicked)="childEventClicked($event)" [notesDetails]="index"></app-remind-icon>
+                    <app-remind-icon (reminderEventClicked)="childEventClicked($event)" 
+                      [notesDetails]="index">
+                    </app-remind-icon>
                   </div>
                   <div *ngIf='componentName != "trash"' class="icons"> 
-                    <app-collaborator-icon></app-collaborator-icon> 
+                    <app-collaborator-icon [notesDetails]="index"></app-collaborator-icon> 
                   </div>
                   <div *ngIf='componentName != "trash"' class="icons">
-                    <app-color-icon (colorEvent)="childEventClicked($event)" [notesDetails]="index"></app-color-icon>
+                    <app-color-icon (colorEvent)="childEventClicked($event)" 
+                      [notesDetails]="index">
+                    </app-color-icon>
                   </div>
                   <div *ngIf='componentName != "trash"' class="icons">
                     <app-image-icon></app-image-icon>
                   </div>
                   <div *ngIf='componentName != "trash"' class="icons">
-                    <app-archive-icon (archiveEvent)="archiveEventClicked($event)" (unArchiveEvent)="unArchiveEventClicked($event)" [notesDetails]="index"></app-archive-icon>
+                    <app-archive-icon (archiveEvent)="archiveEventClicked($event)" 
+                      (unArchiveEvent)="unArchiveEventClicked($event)" 
+                      [notesDetails]="index">
+                    </app-archive-icon>
                   </div>
                   <div>
-                    <app-more-icon (eventClicked)="childEventClicked($event)" [componentName]="componentName" [notesDetails]="index"></app-more-icon>
+                    <app-more-icon (eventClicked)="childEventClicked($event)" 
+                      [componentName]="componentName" 
+                      [notesDetails]="index">
+                    </app-more-icon>
                   </div>
                 </div>
               </mat-card-actions> 
             </mat-card>
     </div>
   </div>
-<!-- </div> -->
   <div fxFlex.xs=0 fxFlex.sm=0 fxFlex=5 fxFlex.xs=0>
   </div>
 </div>

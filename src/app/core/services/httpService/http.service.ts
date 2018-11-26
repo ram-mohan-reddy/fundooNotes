@@ -75,8 +75,8 @@ export class HttpService {
   }
 
  
-deleteLabel(url){
-  url = this.server_url + url;
+delete(url){
+  url = this.server_url + url; 
   return this.http.delete(url);
 }
 

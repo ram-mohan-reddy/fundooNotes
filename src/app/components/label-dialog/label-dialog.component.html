@@ -1,54 +1,72 @@
-
-<mat-card fxFlex   style=" width:50%;border-radius: 10px">
-    <mat-card-header >
+<mat-card fxFlex class="container">
+    <mat-card-header>
         <mat-card-title>Edit labels</mat-card-title>
-      </mat-card-header>
- 
-  <mat-card-content class="content-scroll">
-     
-    <div  fxLayout='row' fxLayoutGap = '5px'>
-        <button fxFlex=10 (click)='clearText()' mat-icon-button><mat-icon>clear</mat-icon></button>
-<div fxFlex=80>
-    <div  style="margin-top:10px;white-space: nowrap;
-    /* text-overflow: ellipsis; */
-    overflow: hidden !important;" contenteditable="true" 
-    cdkFocusInitial placeholder="Create new label" [textContent]="labelName"  onkeypress="return (this.innerText.length <= 50)" (input)="labelName=$event.target.innerText"></div> 
-    <hr>
-</div>
-         
-         <button (click)='createNewLabel()' (click)='clearText()' fxFlex=10 mat-icon-button><mat-icon>done</mat-icon></button>
-    </div> 
-    <div style="color:red" fxLayoutAlign='center' >{{message}}</div>
-    <mat-nav-list>
-        <div  *ngFor = 'let labels of labelCollection'>
-            <a (mouseover)="changeText=labels.id"  (mouseout)="changeText=false" mat-list-item >
-                <mat-icon (click)='deleteLabel(labels.id)' *ngIf="changeText == labels.id" >delete</mat-icon>
-                <mat-icon *ngIf="changeText != labels.id">label_outline</mat-icon>
-                <span *ngIf="editShow != labels.id" class="child-links">{{labels.label}}</span>
-                <div fxFlex=80  class="child-links" *ngIf="editShow == labels.id">
-                        <div  style="margin-top:10px;white-space: nowrap;
-                        /* text-overflow: ellipsis; */
-                        overflow: hidden !important;" contenteditable="true" 
-                        cdkFocusInitial  onkeypress="return (this.innerText.length <= 50)" 
-                        (input)="newLabelName=$event.target.innerText">{{labels.label}}</div> 
-                        <hr>
+    </mat-card-header>
+    <mat-card-content class="content-scroll">
+        <div fxLayout='row' fxLayoutGap='5px'>
+            <button fxFlex=10 (click)='clearText()' mat-icon-button>
+                <mat-icon>
+                    clear
+                </mat-icon>
+            </button>
+            <div fxFlex=80>
+                <div class="container-div" contenteditable="true" cdkFocusInitial 
+                    placeholder="Create new label" [textContent]="labelName" 
+                    onkeypress="return (this.innerText.length <= 50)" 
+                    (input)="labelName=$event.target.innerText">
                 </div>
-               <span *ngIf="editShow != labels.id" style="margin-left: auto" (click)='editLabel(labels.id)'><mat-icon>mode_edit</mat-icon></span> 
-               <button fxFlex=10 style="margin-left: auto" *ngIf="editShow == labels.id" (click)='editLabelName(labels.id)' mat-icon-button><mat-icon>done</mat-icon></button>
-            </a>
+                <hr>
+            </div>
+            <button (click)='createNewLabel()' (click)='clearText()' fxFlex=10 
+                mat-icon-button>
+                <mat-icon>
+                    done
+                </mat-icon>
+            </button>
         </div>
-      </mat-nav-list>
- 
-  </mat-card-content>
-  <mat-card-actions > 
-      <hr style="opacity:0.2">
-      <div style="float:right">
-        <button mat-button [mat-dialog-close]="labelName" cdkFocusInitial>Done</button>
-      </div>
-   
-  </mat-card-actions>
-
+        <div class="indicate" fxLayoutAlign='center'>{{message}}</div>
+        <mat-nav-list>
+            <div *ngFor='let labels of labelCollection'>
+                <a (mouseover)="changeText=labels.id" (mouseout)="changeText=false" 
+                    mat-list-item>
+                    <mat-icon (click)='deleteLabel(labels.id)' 
+                        *ngIf="changeText == labels.id">
+                        delete
+                    </mat-icon>
+                    <mat-icon *ngIf="changeText != labels.id">label_outline</mat-icon>
+                    <span *ngIf="editShow != labels.id" class="child-links">
+                        {{labels.label}}
+                    </span>
+                    <div fxFlex=80 class="child-links" *ngIf="editShow == labels.id">
+                        <div class="container-div" contenteditable="true" cdkFocusInitial 
+                            onkeypress="return (this.innerText.length <= 50)"
+                            (input)="newLabelName=$event.target.innerText">
+                            {{labels.label}}
+                        </div>
+                        <hr>
+                    </div>
+                    <span class="icons-show" *ngIf="editShow != labels.id" 
+                        (click)='editLabel(labels.id)'>
+                        <mat-icon>
+                            mode_edit
+                        </mat-icon>
+                    </span>
+                    <button fxFlex=10 class="icons-show" *ngIf="editShow == labels.id"
+                        (click)='editLabelName(labels.id)' mat-icon-button>
+                        <mat-icon>
+                            done
+                        </mat-icon>
+                    </button>
+                </a>
+            </div>
+        </mat-nav-list>
+    </mat-card-content>
+    <mat-card-actions>
+        <hr class="light">
+        <div class="action">
+            <button mat-button [mat-dialog-close]="labelName" cdkFocusInitial>
+                Done
+            </button>
+        </div>
+    </mat-card-actions>
 </mat-card>
-
-
-

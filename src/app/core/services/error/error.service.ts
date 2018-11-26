@@ -20,10 +20,9 @@ export class ErrorService {
         if (!navigator.onLine) {
           // Handle offline error
           try {
-            throw (error.status + ' ' + error.statusText);
+            throw new Error('Server not available');
           }
           catch (e) {
-            console.log(e);
             dataService.errorChangeMessage(e)
           }
         } else {
@@ -32,7 +31,6 @@ export class ErrorService {
             throw (error.status + ' ' + error.statusText);
           }
           catch (e) {
-            console.log(e);
             dataService.errorChangeMessage(e)
           }
         }

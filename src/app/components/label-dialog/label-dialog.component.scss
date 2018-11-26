@@ -1,3 +1,5 @@
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
 ::ng-deep .mat-form-field-underline {
     display: none;
 }
@@ -6,24 +8,47 @@
     content: attr(placeholder);
     display: block; /* For Firefox */
    
-  }
-  
-  div[contenteditable=true] {
-    outline: none;
-  }
+}
 
-  .child-links {
-    margin-left:20px;
-    font-size: 12px;
-    overflow-x: hidden;
-  
-  }
+div[contenteditable=true] {
+  @include out-line;
+}
+
+.child-links {
+  margin-left:20px;
+  font-size: 12px;
+  overflow-x: hidden;
+}
  
-  .content-scroll {
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden;
-   
-  }
+.content-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
-  
+.container {
+  width:50%;
+  border-radius:10px
+}
+
+.container-div {
+  margin-top:10px;
+  white-space: nowrap;
+  overflow: hidden !important;
+}
+
+.indicate {
+  color:$red
+}
+
+.icons-show {
+  margin-left: auto
+}
+
+.light {
+  @include opacity(0.2);
+}
+
+.action {
+  float:right 
+}

@@ -1,4 +1,8 @@
-.mat-card-grid {
+
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+
+.mat-card-grid { 
     /* margin: 10px; */
     width:220px;
     border-radius: 10px
@@ -11,32 +15,78 @@
   }
 
 .icons-collection {
-    opacity: 0;
+    @include opacity(0);
 }
 
 .mat-card-grid:hover .icons-collection {
-    opacity: 1.0;
+    @include opacity(1.0);
 }
 
 
 .icons:hover {
-    opacity: 1.0;    
+    @include opacity(1.0);   
 }
 
 .icons-hide {
-    opacity: 0;
+    @include opacity(0);
 }
 
 .icons-hide:hover {
-    opacity: 1.0;    
+    @include opacity(1.0);   
 }
 
 .labels-chip{
-      white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden !important;
+    @include word-overflow;
 }
 
 .chip {
     max-width: 100px;
 }
+
+.added-person {
+    @include background-color(#f5e4d4);
+    color:black
+}
+
+.container {
+    margin-top: 40px
+}
+
+.title {
+    font-weight: bold; 
+    word-wrap: break-word; 
+    margin-left: 10px
+}
+
+.description {
+    word-wrap: break-word;  
+    margin-left: 10px
+}
+
+.check-list {
+    margin-bottom:5px
+}
+
+.list-check-box {
+    margin-right:10px
+}
+
+.strike {
+    text-decoration: line-through
+}
+
+.options {
+    margin-top:10px
+}
+
+.reminder {
+    margin-top:5px
+}
+ 
+.notes-collection {
+    @include padding(10px); 
+}
+
+// .container-center {
+//     margin-left: 50px
+// }

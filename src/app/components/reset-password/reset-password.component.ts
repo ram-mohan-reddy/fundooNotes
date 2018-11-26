@@ -43,13 +43,15 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         this.message.open('Password updated', 'Success', {
           duration: 5000,
         });
-        error => {
-          LoggerService.log('Error :' + error);
-          this.message.open('Process failed', 'Sorry.!', {
-            duration: 5000,
-          });
-        }
+       
       });
+      // error => {
+      //   if (error) {
+      //     this.message.open('Process failed', 'Sorry.!', {
+      //       duration: 5000,
+      //     });
+      //   }
+      // }
   }
 
   ngOnDestroy() {

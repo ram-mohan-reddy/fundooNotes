@@ -1,25 +1,43 @@
 <div fxLayout='column' fxLayoutGap='10px' class="container">
   <div fxFlex=10 class="header">
-    <span>Collaborators</span>
+    <span>Collaborators</span> 
     <hr>
-  </div>
-  <div fxLayout='row'>
+  </div> 
+  <div fxLayout='row' fxLayoutGap.xs=10px> 
     <div fxFlex=10>
       <button *ngIf='savedUrl == ""' mat-mini-fab>
-        {{userName | titlecase | slice:0:1}}
+        {{data.note.user.firstName | titlecase | slice:0:1}}
       </button>
       <button mat-card-avatar *ngIf='savedUrl != ""' 
         [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
         mat-mini-fab>
       </button>
     </div>
-    <div fxLayoutGap=0px class="details" fxLayout='column'>
+    <div fxLayoutGap=0px  class="details" fxLayout='column'>
       <span class="display-text-size">
-        {{userName}} (Owner)
+        {{data.note.user.firstName}} {{data.note.user.lastName}} (Owner)
       </span>
       <span class="display-text-size blur">
-        {{email}}
+        {{data.note.user.email}}
       </span>
+    </div> 
+  </div>
+  <div *ngFor='let receiver of collaboratorList' fxLayoutGap.xs=7px fxLayout='row'> 
+    <div fxFlex=10>
+      <button class="added-person" mat-mini-fab>
+        {{receiver.firstName | titlecase | slice:0:1}}
+      </button>
+    </div>
+    <div fxFlex fxLayoutGap=0px  class="details" fxLayout='column'>
+      <span class="display-text-size">
+        {{receiver.firstName}} {{receiver.lastName}}
+      </span>
+      <span class="display-text-size blur">
+        {{receiver.email}}
+      </span>
+    </div>
+    <div fxFlex=10 style="margin-top:5px; cursor: pointer;" fxLayoutAlign='end'>
+      <mat-icon (click)='removePerson(receiver.email)'>clear</mat-icon>
     </div>
   </div>
   <div fxLayout='row'>
@@ -33,23 +51,22 @@
       <input class="share-with"  (click)="$event.stopPropagation();" [matMenuTriggerFor]="userList" (keyup)="onKey($event)" [(ngModel)]='personSearch'
       placeholder="Person or email to share with">
    </div>
-     
         <mat-menu class="notifications-dropdown" #userList="matMenu" [overlapTrigger]="false">
             <div  *ngFor='let index of userArray'>
                 <span class="display-list-size" (click)="getEmail(index.email)" mat-menu-item>{{index.firstName}} {{index.lastName}} &lt;{{index.email}}&gt;</span>
             </div>
         </mat-menu>
-       <div *ngIf='show' style="margin-top:10px" fxFlex=10>
-         <mat-icon>done</mat-icon>
+       <div *ngIf='show' style="margin-top:7px" fxFlex=10>
+         <mat-icon (click)='addPerson(personSearch)' >done</mat-icon>
        </div> 
     </div>
   </div>
 </div>
 <div class="button-action" 
   fxLayoutAlign='end'>
-  <button mat-button>Cancel</button>
-  <button mat-button>Ok</button>
+  <button (click)="onNoClick()" mat-button>Cancel</button>
+  <button (click)="addCollaborator()"  mat-button>Save</button>
 </div>
 
 
-  
+<!-- [mat-dialog-close]="collaboratorList" -->

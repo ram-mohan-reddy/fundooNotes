@@ -1,60 +1,175 @@
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+
 [contenteditable=true]:empty:before{
-    content: attr(placeholder);
-    display: block;
-   
-  }
+  content: attr(placeholder);
+  display: block;
+} 
   
-  div[contenteditable=true] {
-    outline: none;
-  }
+div[contenteditable=true] { 
+  @include out-line;
+}
   
-  .icons {
-    opacity: 0.5;
-   
+.icons {
+  @include opacity(0.5);
 }
 .icons:hover {
-    opacity: 1.0;    
+  @include opacity(1.0);   
 }
 
 .note-card {
-  width:600px; 
-  padding: 0; 
+  width:600px;  
+  @include padding(0);
   border-radius: 10px
 }
 
 .note-card-edit {
   width:600px;
-  padding:5;
+  @include padding(5);
   border-radius: 10px
 }
 
 .label-menu {
-  font-size:14px;
+  @include font(#000000,14px,(arial,sans-serif));
   padding-top: 10px
 }
 
 .label-create {
   padding-top:5px;
-  font-size:12px;
-  white-space: nowrap;
-  overflow: hidden !important;
+  @include font(#000000,12px,(arial,sans-serif));
+  @include word-overflow;
 }
 
 .label-note {
   width:250px; 
-  padding:10px; 
-  font-size:14px
+  @include padding(10px); 
+  @include font(#000000,14px,(arial,sans-serif));
 }
 
-.strike {   
-  outline:none;
-  border:none;
+.strike {    
+  @include out-line;
   width:520px;
   text-decoration: line-through 
 }
 
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color:#a6a6a6 !important; /* Red background for example */
+  background-color:#a6a6a6 !important; 
 }
 
+.container {
+  margin-top:30px
+}
+
+.content {
+  margin-left:15px
+}
+
+.description {
+  margin-top:20px
+}
+
+.check-box {
+  margin-right:10px
+}
+
+.check-list-input {
+  @include out-line;
+  width:520px
+}
+
+.list-input {
+  @include out-line;
+}
+
+.remove-reminder {
+  margin-top:5px
+}
+
+.label-button {
+  height: 50px;
+}
+
+.mouse-pointer {
+  cursor:pointer
+}
+
+.label-display {
+  word-wrap: break-word;
+}
+
+.collaborator-card {
+  @include padding(15px); 
+}
+
+.collaborator-header {
+  @include font(#000000,18px,(arial,sans-serif));
+}
+
+.collaborator-details {
+  @include padding(5px);
+}
+
+.collaborator-display-text-size {
+  @include font(#000000,14px,(arial,sans-serif));
+}
+
+.collaborator-display-list-size {
+  @include font(#000000,12px,(arial,sans-serif));
+  @include padding(5px)
+}
+
+
+.collaborator-blur {
+  opacity:0.5
+}
+
+.collaborator-button-action {
+  @include background-color(#eff1f3);
+  height: 60px;
+  @include padding(10px);
+}
+
+.collaborator-add-person {
+  @include background-color(#eef2f5);
+}
+
+.collaborator-added-person {
+  @include background-color(#b5dcff);
+  color:black
+}
+
+.collaborator-icon {
+  color:grey
+}
+
+.collaborator-share-with {
+  margin-top:10px; 
+  width:480px; 
+  outline: none;
+  border: none
+}
+
+@media all and (max-width: 400px) and (min-width: 320px) {
+  .collaborator-share-with {
+    margin-top:10px; 
+    width: 200px;
+    outline: none;
+    border: none
+  }
+}
+
+@media all and (max-width: 600px) and (min-width: 401px) {
+  .collaborator-share-with {
+    margin-top:10px; 
+    width: 320px;
+    outline: none;
+    border: none
+  }
+}
+
+
+::ng-deep.mat-menu-item {
+    line-height:0px;
+    display: inline;
+} 
 

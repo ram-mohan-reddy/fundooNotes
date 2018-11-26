@@ -54,6 +54,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
   private selectedFile: File;
   private selectedFileName: string;
   private notesView: boolean = true;
+  private smallView: boolean = false;
   private server_url = environment.baseUrl;
   private labelData = {
     "label": "string",
@@ -83,7 +84,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
         localStorage.removeItem('email');
         this.router.navigateByUrl('/login');
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   naviagteSearch() {
@@ -106,7 +107,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
         }
         this.labelList.sort((a, b) => a.label.localeCompare(b.label));
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
   updateLabel(data): void {
     var labelName = data.label
@@ -117,7 +118,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
         this.dataService.changeMessage(labelName)
         this.dataService.eventTrigger(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   createNewLabel(labelData): void {
@@ -126,7 +127,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.getLabel();
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
   createLabel(): void {
     const dialogRef = this.dialog.open(LabelDialogComponent, {
@@ -197,7 +198,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
             localStorage.setItem('imageUrl', data['status'].imageUrl);
             this.url = this.server_url + this.savedUrl;
           });
-        error => LoggerService.log('Error :' + error); 
+        // error => LoggerService.log('Error :' + error); 
       }
 
     });
@@ -208,8 +209,16 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
     this.dataService.listEventTrigger(true);
   }
 
+  onSmallScreen() {
+    this.smallView = true;
+  }
+
+  onBackClick() {
+    this.smallView = false;
+  }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  } 
+  }
 }

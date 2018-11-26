@@ -30,7 +30,7 @@ export class ArchiveIconComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           this.archiveEvent.emit(true);
         });
-      error => LoggerService.log('Error :' + error);
+      // error => LoggerService.log('Error :' + error);
     }
 
     else {
@@ -47,7 +47,7 @@ export class ArchiveIconComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.unArchiveEvent.emit(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   ngOnDestroy() {

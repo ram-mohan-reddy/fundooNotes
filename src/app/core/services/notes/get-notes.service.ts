@@ -28,4 +28,8 @@ export class GetNotesService {
    return this.userService.getNotesList(url)
   }
 
+  deleteService(url) {
+    return this.userService.delete(url)
+  }
+
 }

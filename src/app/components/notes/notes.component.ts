@@ -41,6 +41,7 @@ export class NotesComponent implements OnInit, OnDestroy{
     /**it is a interface */
   /**OnInit is a lifecycle hook that is called after Angular has initialized all data-bound properties of a directive. */
   ngOnInit() { 
+
     this.getNotes();
   }
   notesAddRequest(event) {
@@ -56,7 +57,7 @@ export class NotesComponent implements OnInit, OnDestroy{
       this.note = data['data'].data;
       this.notesCollection(this.note)
     });
-    error =>  LoggerService.log('Error :' + error);
+    // error =>  LoggerService.log('Error :' + error);
   }
   notesCollection(data) {
     this.list = [];

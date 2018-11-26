@@ -27,14 +27,14 @@ export class TrashComponent implements OnInit, OnDestroy {
       .subscribe((data: Notes[]) => {
         this.note = data['data'].data;
         this.list = [];
-        for (let index = 0; index < this.note.length; index++) {
+        for (let index = this.note.length-1; index >= 0 ; index--) {
           if (this.note[index].isDeleted == true) {
             this.list.push(this.note[index])
           }
         }
-        this.totalNotes = this.list.reverse();
+        this.totalNotes = this.list;
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   notesDeleteRequest(event) {

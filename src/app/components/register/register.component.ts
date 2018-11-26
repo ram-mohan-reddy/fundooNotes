@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           console.log(data);
           
           this.newServices= data.data.data;
-         error => LoggerService.log('Error :' + error);
+        //  error => LoggerService.log('Error :' + error);
         });
     }
 

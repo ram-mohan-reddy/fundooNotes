@@ -20,6 +20,7 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { HttpService } from '../../core/services/httpService/http.service';
+import {CollaboratorDialogComponent} from '../collaborator-dialog/collaborator-dialog.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 /**A componenet can be reused throughout the application & even in other applications */
@@ -104,11 +105,12 @@ unArchiveEventClicked(event) {
     .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
   openDialog(notes): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '600px',
+      maxWidth:'auto',
       panelClass: 'myapp-no-padding-dialog',
       data: {
         notesData: notes,
@@ -125,8 +127,12 @@ unArchiveEventClicked(event) {
       this.deleteNoteLabel(data.labelId, data.noteId)
     });
 
-     dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
+    dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
       this.deleteRemainder(data);
+    });
+
+    dialogRef.componentInstance.onCollaboratorRequest.subscribe((data) => {
+      this.onCollaborator(data);
     });
     dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
       var body = ''
@@ -135,7 +141,7 @@ unArchiveEventClicked(event) {
       .subscribe(data => {
           this.notesEditRequest.emit(true);
         });
-      error => LoggerService.log('Error :' + error);
+      // error => LoggerService.log('Error :' + error);
     });
 
     dialogRef.componentInstance.onCheckListUpdate.subscribe((data) => {
@@ -145,7 +151,7 @@ unArchiveEventClicked(event) {
         .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
-        error => LoggerService.log('Error :' + error);
+        // error => LoggerService.log('Error :' + error);
       }
       else {
         this.notesService.notesPostService('api/notes/' + data.noteId + '/checklist/add', data.newList)
@@ -153,7 +159,7 @@ unArchiveEventClicked(event) {
         .subscribe(data => {
             this.notesEditRequest.emit(true);
           });
-        error => LoggerService.log('Error :' + error);
+        // error => LoggerService.log('Error :' + error);
       }
 
 
@@ -166,7 +172,7 @@ unArchiveEventClicked(event) {
           .subscribe(data => {
               this.notesEditRequest.emit(true);
             });
-          error => LoggerService.log('Error :' + error);
+          // error => LoggerService.log('Error :' + error);
         }
       }
     });
@@ -180,7 +186,7 @@ unArchiveEventClicked(event) {
     }
     else {
       return false;
-    }
+    } 
   }
 
   deleteRemainder(noteId) {
@@ -192,7 +198,7 @@ unArchiveEventClicked(event) {
     .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   updateChecklist(list, index) {
@@ -210,7 +216,7 @@ unArchiveEventClicked(event) {
     .subscribe(data => {
         this.notesEditRequest.emit(true);
       });
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   pinNotes(note) {
@@ -223,7 +229,7 @@ unArchiveEventClicked(event) {
       .subscribe(data => {
         this.notesEditRequest.emit(true);
       }); 
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
   }
 
   unPinNotes(note) {
@@ -236,7 +242,28 @@ unArchiveEventClicked(event) {
       .subscribe(data => {
         this.notesEditRequest.emit(true);
       }); 
-    error => LoggerService.log('Error :' + error);
+    // error => LoggerService.log('Error :' + error);
+  }
+
+  onCollaborator(notesDetails): void {
+    const dialogRef = this.dialog.open(CollaboratorDialogComponent, {
+      width: '600px', 
+      maxWidth:'auto',
+      panelClass: 'myapp-no-padding-dialog',
+      data: { note: notesDetails }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+     if (result != undefined) {
+       for (let index = 0; index < result.length; index++) {
+        this.notesService.notesPostService('api/notes/'+ notesDetails.id+'/AddcollaboratorsNotes',result[index])
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.notesEditRequest.emit(true);
+        });
+       } 
+     }
+    });
   }
 
   ngOnDestroy() {

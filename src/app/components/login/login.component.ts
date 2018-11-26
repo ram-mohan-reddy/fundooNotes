@@ -109,7 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy{
         this.message.open('Password resetLink sent to your mail', 'Reset', {
           duration: 5000,
         });
-        error => LoggerService.log('Error :' + error);       
+        // error => LoggerService.log('Error :' + error);       
       });
     }
     else if (this.reset.email == '') {
