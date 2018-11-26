@@ -11,7 +11,7 @@ describe('NotesCreationComponent', () => {
       declarations: [ NotesCreationComponent ]
     })
     .compileComponents();
-  }));
+  })); 
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotesCreationComponent);
@@ -22,4 +22,10 @@ describe('NotesCreationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('title not to be empty', () => {
+    expect(component.title).toBeGreaterThanOrEqual(1);
+  });
+
+  
 });

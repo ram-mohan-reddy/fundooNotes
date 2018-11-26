@@ -16,10 +16,12 @@
 import { Component, OnInit, Output, EventEmitter, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatMenuTrigger } from '@angular/material';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { UserService } from '../../core/services/users/user.service';
 /**A componenet can be reused throughout the application & even in other applications */
 
 @Component({
@@ -36,9 +38,12 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
   /**To be able to use our output we need to import & bind a new instance of the event emitter to it */
 
   constructor(private notesService: GetNotesService, private data: DataSharingService,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar,public userService:UserService) { }
   listArray = [];
   listName: string;
+  title : string = '';
+  description : string = '';
+  showCollaborator:string = '';
   public show: boolean = true;
   public checkList: boolean = false;
   token: string;
@@ -77,7 +82,8 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
     "isArchived": false,
     "isPinned": false,
     "color": "",
-    "reminder": ""
+    "reminder": "",
+    "collaberators":""
   }
 
   noteArchive = {/**body to be passed in hitting the api of archive notes */
@@ -89,10 +95,20 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
   @Output() notesAdded = new EventEmitter<boolean>();
   todayDate: Date = new Date();
   tomorrowDate = new Date();
+  private savedUrl:string='';
+  private server_url = environment.baseUrl;
+  private url:string='';
+  private email:string='';
+  private userName:string='';
+  private personSearch:string='';
   /**OnInit is a lifecycle hook that is called after Angular has initialized all data-bound properties of a directive. */
   ngOnInit() {
     this.getLabel();
     this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
+    this.savedUrl = localStorage.getItem('imageUrl');
+    this.url = this.server_url + this.savedUrl;
+    this.email = localStorage.getItem('email');
+    this.userName = localStorage.getItem('userName');
   }
   /**callback will be invoked &data associated with the event will be given to us via $event property */
   receiveMessage(event) {
@@ -118,15 +134,22 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
   saveNote() {
     if (this.checkList == false) {
       this.notesContent.color = this.colorCode;
+      this.notesContent.title = this.title;
+      this.notesContent.description = this.description;
       if (this.selectLabelArray.length != 0) {
         this.notesContent.labelIdList = JSON.stringify(this.labelArray);
       }
 
+      if (this.collaboratorList.length != 0) {
+        this.notesContent.collaberators = JSON.stringify(this.collaboratorList);
+        
+      }
       if (this.selectedReminder != undefined) {
         this.notesContent.reminder = this.selectedReminder;
       }
       this.labelArray = [];
       this.selectLabelArray = [];
+      this.collaboratorList = [];
       this.colorCode = '#ffffff';
       this.addNote(this.notesContent);
     }
@@ -145,6 +168,8 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
         this.status = "open"
       }
       this.notesContent.color = this.colorCode;
+      this.notesContent.title = this.title;
+      this.notesContent.description = this.description;
       if (this.selectLabelArray.length != 0) {
         this.notesContent.labelIdList = JSON.stringify(this.labelArray);
       }
@@ -250,7 +275,6 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
             this.getLabel();
             this.data.eventTrigger(true)
           });
-        // error => LoggerService.log('Error :' + error);
       }
     }
   }
@@ -265,7 +289,7 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
   reminderEventClicked(event) {
     this.selectRemainderArray = event;
     this.selectedReminder = event[0];
-  }
+  } 
 
   cancelRemainder() {
     this.selectRemainderArray = [];
@@ -273,7 +297,7 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(message: string, action: string) {
-    let snackBarRef = this.snackBar.open(message, action, {
+   this.snackBar.open(message, action, {
       duration: 5000,
     });
   }
@@ -317,6 +341,54 @@ export class NotesCreationComponent implements OnInit, OnDestroy {
     this.listName = '';
   }
 
+  onCollaborator() {
+    this.showCollaborator = 'collaborator'
+  }
+  @ViewChild(MatMenuTrigger) showList: MatMenuTrigger;
+  userArray:any=[];
+  collaboratorList:any=[];
+  onCollaboratorKey() {
+    if (this.personSearch != '') {
+      this.showList.openMenu();
+      this.show = true
+      let search = {
+        'searchWord' : this.personSearch
+      }
+      this.userService.userPostService('searchUserList',search)
+      .subscribe(data => {
+        
+        this.userArray = data['data']['details'];
+      });
+    }
+  }
+
+  getEmail(receiverEmail){ 
+    this.personSearch = receiverEmail;
+  }
+
+  addPerson(receiverEmail) {
+    this.personSearch = '';
+    this.show = !this.show;
+    let index = this.userArray.findIndex(x => x.email== receiverEmail);
+    this.collaboratorList.push(this.userArray[index]);
+    this.userArray = [];
+  }
+
+  removePerson(receiverEmail) {
+    let index = this.collaboratorList.findIndex(x => x.email== receiverEmail);
+    if (index !== -1) {
+      this.collaboratorList.splice(index, 1);
+    }
+  }
+
+  onCancel() {
+    this.showCollaborator = '';
+    this.collaboratorList = [];
+  }
+
+  addCollaborator() {
+    this.showCollaborator = '';
+  }
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

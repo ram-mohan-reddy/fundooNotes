@@ -6,55 +6,53 @@
 }
 
 [contenteditable=true]:empty:before{
-    content: attr(placeholder);
-    display: block; 
-   
-  }  
+  content: attr(placeholder);
+  display: block; 
+}  
   
-  div[contenteditable=true] {
-    @include out-line();
-  }
+div[contenteditable=true] {
+  @include out-line();
+}
   
-  .strike {   
-    @include out-line();
-    width:480px;
-    text-decoration: line-through 
-  }
+.strike {   
+  @include out-line();
+  width:480px;
+  text-decoration: line-through 
+}
  
-  .un-strike {  
-    @include out-line(); 
-    // outline:none;
-    // border:none;
-    width:480px;
-  }
+.un-strike {  
+  @include out-line(); 
+  width:480px;
+}
 
-  .container {
-    width:50%; 
-    position: relative;
-    @include padding(5);
-    border-radius: 10px
-  }
+.container {
+  width:50%; 
+  position: relative;
+  @include padding(5);
+  border-radius: 10px
+}
 
-  .title {
-    font-weight: bold;
-  }
+.title {
+  font-weight: bold;
+}
 
-  .description {
-    margin-top:20px
-  }
+.description {
+  margin-top:20px
+}
 
-  .check-list {
-    margin-right:10px
-  }
+.check-list {
+  margin-right:10px
+}
 
-  .features {
-    margin-top:10px
-  }
+.features {
+  margin-top:10px
+}
 
-  .labels {
-    @include out-line();
-  }
+.labels {
+  @include out-line();
+}
 
-  .reminder {
-    margin-top:5px
-  }
+.reminder {
+  margin-top:5px
+}
+

@@ -2,7 +2,7 @@
 @import 'src/sass/mixin';
 
 .container {
-    @include padding(15px);
+    @include padding(15px); 
 }
 
 .header {
@@ -53,13 +53,11 @@
     border: none
 }
 
-// ::ng-deep.mat-menu-panel.notifications-dropdown {
-//     min-width: 112px;
-//     max-width: 500px;
-//   }
 
 ::ng-deep.mat-menu-item {
     //   height: 20px;
       line-height:0px;
       display: inline;
   } 
+
+ 

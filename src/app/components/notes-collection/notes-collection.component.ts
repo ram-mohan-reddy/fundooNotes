@@ -110,6 +110,7 @@ unArchiveEventClicked(event) {
   openDialog(notes): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '600px',
+      maxWidth:'auto',
       panelClass: 'myapp-no-padding-dialog',
       data: {
         notesData: notes,
@@ -126,8 +127,12 @@ unArchiveEventClicked(event) {
       this.deleteNoteLabel(data.labelId, data.noteId)
     });
 
-     dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
+    dialogRef.componentInstance.onReminderRemove.subscribe((data) => {
       this.deleteRemainder(data);
+    });
+
+    dialogRef.componentInstance.onCollaboratorRequest.subscribe((data) => {
+      this.onCollaborator(data);
     });
     dialogRef.componentInstance.onCheckListDelete.subscribe((data) => {
       var body = ''
@@ -242,7 +247,8 @@ unArchiveEventClicked(event) {
 
   onCollaborator(notesDetails): void {
     const dialogRef = this.dialog.open(CollaboratorDialogComponent, {
-      width: '600px',
+      width: '600px', 
+      maxWidth:'auto',
       panelClass: 'myapp-no-padding-dialog',
       data: { note: notesDetails }
     });
@@ -250,11 +256,10 @@ unArchiveEventClicked(event) {
     dialogRef.afterClosed().subscribe(result => {
      if (result != undefined) {
        for (let index = 0; index < result.length; index++) {
-        console.log(result[index]);
         this.notesService.notesPostService('api/notes/'+ notesDetails.id+'/AddcollaboratorsNotes',result[index])
         .pipe(takeUntil(this.destroy$))
         .subscribe(data => {
-          console.log(data);
+          this.notesEditRequest.emit(true);
         });
        } 
      }

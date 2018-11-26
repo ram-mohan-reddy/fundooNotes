@@ -3,7 +3,7 @@
     <span>Collaborators</span> 
     <hr>
   </div> 
-  <div fxLayout='row'> 
+  <div fxLayout='row' fxLayoutGap.xs=10px> 
     <div fxFlex=10>
       <button *ngIf='savedUrl == ""' mat-mini-fab>
         {{data.note.user.firstName | titlecase | slice:0:1}}
@@ -13,42 +13,22 @@
         mat-mini-fab>
       </button>
     </div>
-    <div fxLayoutGap=0px class="details" fxLayout='column'>
+    <div fxLayoutGap=0px  class="details" fxLayout='column'>
       <span class="display-text-size">
         {{data.note.user.firstName}} {{data.note.user.lastName}} (Owner)
       </span>
       <span class="display-text-size blur">
         {{data.note.user.email}}
       </span>
-    </div>
+    </div> 
   </div>
-
-  <div *ngFor='let collaborated of data.note.collaborators' fxLayout='row'> 
-    <div fxFlex=10>
-      <button class="added-person" mat-mini-fab>
-        {{collaborated.firstName | titlecase | slice:0:1}}
-      </button>
-    </div>
-    <div fxFlex fxLayoutGap=0px class="details" fxLayout='column'>
-      <span class="display-text-size">
-        {{collaborated.firstName}} {{collaborated.lastName}}
-      </span>
-      <span class="display-text-size blur">
-        {{collaborated.email}}
-      </span>
-    </div>
-    <div fxFlex=10 style="margin-top:5px; cursor: pointer;" fxLayoutAlign='end'>
-      <mat-icon (click)='deleteCollaboratorPerson(collaborated)'>clear</mat-icon>
-    </div>
-  </div>
-
-  <div *ngFor='let receiver of collaboratorList' fxLayout='row'> 
+  <div *ngFor='let receiver of collaboratorList' fxLayoutGap.xs=7px fxLayout='row'> 
     <div fxFlex=10>
       <button class="added-person" mat-mini-fab>
         {{receiver.firstName | titlecase | slice:0:1}}
       </button>
     </div>
-    <div fxFlex fxLayoutGap=0px class="details" fxLayout='column'>
+    <div fxFlex fxLayoutGap=0px  class="details" fxLayout='column'>
       <span class="display-text-size">
         {{receiver.firstName}} {{receiver.lastName}}
       </span>

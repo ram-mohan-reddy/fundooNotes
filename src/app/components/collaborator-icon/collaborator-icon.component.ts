@@ -17,7 +17,7 @@ export class CollaboratorIconComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(public dialog: MatDialog,private notesService: GetNotesService) { }
 
-  ngOnInit() { 
+  ngOnInit() {  
   } 
  
   onCollaborator(): void {
@@ -29,7 +29,6 @@ export class CollaboratorIconComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      
      if (result != undefined) {
        for (let index = 0; index < result.length; index++) {
         console.log(result[index]);

@@ -96,3 +96,80 @@ div[contenteditable=true] {
 .label-display {
   word-wrap: break-word;
 }
+
+.collaborator-card {
+  @include padding(15px); 
+}
+
+.collaborator-header {
+  @include font(#000000,18px,(arial,sans-serif));
+}
+
+.collaborator-details {
+  @include padding(5px);
+}
+
+.collaborator-display-text-size {
+  @include font(#000000,14px,(arial,sans-serif));
+}
+
+.collaborator-display-list-size {
+  @include font(#000000,12px,(arial,sans-serif));
+  @include padding(5px)
+}
+
+
+.collaborator-blur {
+  opacity:0.5
+}
+
+.collaborator-button-action {
+  @include background-color(#eff1f3);
+  height: 60px;
+  @include padding(10px);
+}
+
+.collaborator-add-person {
+  @include background-color(#eef2f5);
+}
+
+.collaborator-added-person {
+  @include background-color(#b5dcff);
+  color:black
+}
+
+.collaborator-icon {
+  color:grey
+}
+
+.collaborator-share-with {
+  margin-top:10px; 
+  width:480px; 
+  outline: none;
+  border: none
+}
+
+@media all and (max-width: 400px) and (min-width: 320px) {
+  .collaborator-share-with {
+    margin-top:10px; 
+    width: 200px;
+    outline: none;
+    border: none
+  }
+}
+
+@media all and (max-width: 600px) and (min-width: 401px) {
+  .collaborator-share-with {
+    margin-top:10px; 
+    width: 320px;
+    outline: none;
+    border: none
+  }
+}
+
+
+::ng-deep.mat-menu-item {
+    line-height:0px;
+    display: inline;
+} 
+

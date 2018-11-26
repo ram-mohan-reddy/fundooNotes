@@ -17,6 +17,7 @@ export class DialogComponent implements OnInit {
   listArray = [];  
 
   onReminderRemove = new EventEmitter<any>();
+  onCollaboratorRequest = new EventEmitter<any>();
   labelListArray;
   reminderArray;
   todayDate: Date = new Date();
@@ -151,8 +152,13 @@ this.onDelete.emit(labelDetails);
     if (currentDate > reminderDate) {
       return true;
     }
-    else {
+    else { 
       return false;
     }
+  }
+
+  onCollaborator(noteDetails) {
+    this.onCollaboratorRequest.emit(noteDetails);
+    
   }
 }

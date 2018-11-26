@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatMenuTrigger, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatMenuTrigger, MatDialog, MatSnackBar } from '@angular/material';
 import{environment} from '../../../environments/environment'
 import { UserService } from '../../core/services/users/user.service';
 import { DeleteLabelComponent } from '../delete-label/delete-label.component';
@@ -16,7 +16,7 @@ export class CollaboratorDialogComponent implements OnInit, OnDestroy  {
 
   constructor(public dialogRef: MatDialogRef<CollaboratorDialogComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any, public userService:UserService,
-      private notesService: GetNotesService,public dialog: MatDialog) { 
+      private notesService: GetNotesService,public dialog: MatDialog,public snackBar: MatSnackBar) { 
       dialogRef.disableClose = true;
       dialogRef.backdropClick().subscribe(result => {
        this.discardConfirmation(); 
@@ -33,6 +33,7 @@ export class CollaboratorDialogComponent implements OnInit, OnDestroy  {
   destroy$: Subject<boolean> = new Subject<boolean>();
   
   collaboratorList:any=[];
+  newCollaboratorList:any=[];
   userArray:any=[];
   @ViewChild(MatMenuTrigger) showList: MatMenuTrigger;
   ngOnInit() {
@@ -40,7 +41,7 @@ export class CollaboratorDialogComponent implements OnInit, OnDestroy  {
   this.url = this.server_url + this.savedUrl;
   this.email = localStorage.getItem('email');
   this.userName = localStorage.getItem('userName');
-  console.log(this.data.note);
+  this.collaboratorList  = this.data.note.collaborators;
   }
 
   onKey() {
@@ -63,24 +64,47 @@ getEmail(receiverEmail){
 }
 
 addPerson(receiverEmail) {
-  this.personSearch = '';
+  this.personSearch = ''; 
   this.show = !this.show;
-  let index = this.userArray.findIndex(x => x.email== receiverEmail);
-  console.log(this.userArray[index]);
-  this.collaboratorList.push(this.userArray[index]);
-  this.userArray = [];
+  if (!this.collaboratorList.some((data) => data.email == receiverEmail)) {
+    let index = this.userArray.findIndex(x => x.email== receiverEmail);
+    this.collaboratorList.push(this.userArray[index]);
+    this.newCollaboratorList.push(this.userArray[index])
+    this.userArray = [];
+  }
+
+  else {
+    this.snackBar.open('person already added', 'retry', {
+      duration: 5000,
+    });
+  }
+ 
 }
 
 removePerson(receiverEmail) {
-  console.log('in remove');
   let index = this.collaboratorList.findIndex(x => x.email== receiverEmail);
+  let indexList = this.newCollaboratorList.findIndex(x => x.email== receiverEmail);
+  if (this.collaboratorList[index].userId != undefined) {
+    this.notesService.deleteService("api/notes/" +this.data.note.id+ '/removeCollaboratorsNotes/'+ this.collaboratorList[index].userId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(data => {
+     console.log(data);
+    });
+  }
+   
   if (index !== -1) {
     this.collaboratorList.splice(index, 1);
   }
+
+  if (indexList !== -1) {
+    this.newCollaboratorList.splice(index, 1);
+  }
+  
+
 }
 
 discardConfirmation(): void {
-  if (this.collaboratorList.length != 0) {
+  if (this.newCollaboratorList.length != 0) {
     const dialogRef = this.dialog.open(DeleteLabelComponent, {
       width: '500px',
       panelClass: 'myapp-no-padding-dialog',
@@ -105,28 +129,33 @@ onNoClick(): void {
 }
 
 deleteCollaboratorPerson(details) {
-
   this.notesService.deleteService("api/notes/" +this.data.note.id+ '/removeCollaboratorsNotes/'+ details.userId)
   .pipe(takeUntil(this.destroy$))
   .subscribe(data => {
    console.log(data);
-   
   });
-
 }
 
 addCollaborator() {
   if (this.personSearch != '') {
     console.log(this.personSearch);
-    let index = this.userArray.findIndex(x => x.email== this.personSearch);
-    console.log(this.userArray[index]);
-    this.collaboratorList.push(this.userArray[index]);
-    this.userArray = [];
-    this.dialogRef.close(this.collaboratorList)
+    if (!this.collaboratorList.some((data) => data.email == this.personSearch)) {
+      let index = this.userArray.findIndex(x => x.email== this.personSearch);
+      console.log(this.userArray[index]);
+      this.newCollaboratorList.push(this.userArray[index])
+      this.collaboratorList.push(this.userArray[index]);
+      this.userArray = [];
+      this.dialogRef.close(this.newCollaboratorList)
+    }
+    else {
+      this.personSearch = ''
+      this.snackBar.open('person already added', 'retry', {
+        duration: 5000,
+      });
+    }
   }
-
   else {
-    this.dialogRef.close(this.collaboratorList)
+    this.dialogRef.close(this.newCollaboratorList)
   }
 }
 

@@ -1,8 +1,8 @@
-<div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayout.md='row' class="container">
-  <div fxFlex=5 fxFlex.xs=0 fxFlex.sm=0>   
+<div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayoutAlign="space-between" fxLayout.md='row' class="container">
+  <div fxFlex=5  fxFlex.xs=0 fxFlex.sm=0>   
   </div>  
   <div  fxFlex  fxFlex.xs=100 fxFlex.sm=100 fxLayout.xs='column' fxLayout='row wrap' 
-    fxLayoutAlign='center'>
+    fxLayoutAlign='start'>
     <div class="notes-collection" *ngFor='let index of notesListArray | search:searchText'>
           <mat-card [ngStyle]="{'background-color': index.color }"  
           ngStyle.xs="width:90%"

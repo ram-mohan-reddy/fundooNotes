@@ -1,5 +1,5 @@
 <mat-card fxFlex [ngStyle]="{'background-color': backGroundColor }" class="container">
-  <mat-card-content>
+  <mat-card-content> 
     <div fxLayout='row' fxLayout.xs='row'>
       <div fxFlex=98 class="title" placeholder="Title" contenteditable="true" 
         (input)="notesEditContent.title=$event.target.innerText">{{data.notesData.title}}
@@ -147,8 +147,17 @@
         </div>
       </mat-chip-list>
     </div>
+    <div fxLayout='row wrap' fxLayoutGap='5px' class="reminder">
+      <div *ngFor='let collaborator of data.notesData.collaborators'  >
+        <button (click)='onCollaborator(data.notesData)' 
+          (click)="$event.stopPropagation();" class="added-person" 
+          mat-mini-fab class="check-list"> 
+          {{collaborator.firstName | titlecase | slice:0:1}}
+        </button>
+      </div>
+    </div>
     <div fxLayoutAlign='end'> 
-      Edited {{data.notesData.modifiedDate | date:"mediumDate"}}
+      Created {{data.notesData.modifiedDate | date:"mediumDate"}}
     </div>
   </mat-card-content>
   <mat-card-actions>
