@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
-import {LoggerService} from '../../core/services/loggerService/logger.service';
 import { UserService } from '../../core/services/users/user.service';
 import {Subject} from 'rxjs';
 import{takeUntil} from 'rxjs/operators' 
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   private emptyEmail: string = '';
   emptyPassword = '';
   confirmPassword='';
-  userName = '';
+  // userName = '';
   ngOnInit() { 
     if (localStorage.getItem('token') != null) {
       this.router.navigateByUrl('/home');
@@ -133,3 +132,4 @@ export class LoginComponent implements OnInit, OnDestroy{
     this.destroy$.unsubscribe();
   } 
 }
+ 

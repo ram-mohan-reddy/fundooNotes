@@ -27,7 +27,7 @@
           </div>
         </div>
         <div *ngIf="!checkList" class="description" contenteditable="true" 
-         (input)="description=$event.target.innerText" 
+         (input)="description=$event.target.innerText"
           placeholder="Take a note..."></div>
         <div *ngIf="checkList" class="description">
           <div *ngFor = "let name of listArray ; let index = index;trackBy:trackByIndex;">

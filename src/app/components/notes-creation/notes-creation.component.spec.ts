@@ -23,7 +23,8 @@ describe('NotesCreationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('title not to be empty', () => {
+  it('note added successfully', () => {
+    fixture.componentInstance.saveNote();
     expect(component.title).toBeGreaterThanOrEqual(1);
   });
 

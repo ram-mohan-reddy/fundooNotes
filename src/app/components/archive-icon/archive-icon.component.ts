@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
-import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { Notes } from '../../core/models/notes';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,7 +29,6 @@ export class ArchiveIconComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           this.archiveEvent.emit(true);
         });
-      // error => LoggerService.log('Error :' + error);
     }
 
     else {
@@ -47,11 +45,10 @@ export class ArchiveIconComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.unArchiveEvent.emit(true);
       });
-    // error => LoggerService.log('Error :' + error);
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true);
+    this.destroy$.next(true); 
     this.destroy$.unsubscribe();
   } 
 }

@@ -16,4 +16,9 @@ export class ErrorComponent implements OnInit {
     this.routeParams = this.activatedRoute.snapshot.queryParams;
   }
 
+
+
+
+  
+
 }

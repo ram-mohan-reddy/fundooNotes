@@ -22,4 +22,13 @@ describe('ArchiveIconComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  // it('raises the selected event when clicked', () => {
+    
+  //   const hero: Hero = { id: 42, name: 'Test' };
+  //   comp.hero = hero;
+  
+  //   component.archiveEvent.subscribe(true => expect(true).toBe(true));
+  //   component.archiveRequest();
+  // });
 });

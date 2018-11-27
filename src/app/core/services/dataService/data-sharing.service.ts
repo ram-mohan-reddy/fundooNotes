@@ -33,12 +33,10 @@ export class DataSharingService {
   }
 
   listEventTrigger(message: boolean) {
-    console.log('list event');
     this.listEventEmit.next(message)
   }
 
   changeIdentityEventTrigger(message: string) {
-    console.log('list event');
     this.identityEventEmit.next(message)
   }
 }
