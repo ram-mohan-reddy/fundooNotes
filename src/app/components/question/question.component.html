@@ -1,0 +1,96 @@
+<mat-card style="margin-top:10px" [ngStyle]="{'background-color': color }">
+  <div  fxLayout='row'>
+    <div fxFlex>
+      <mat-card-title>{{title}}</mat-card-title>
+      <mat-card-subtitle>{{description}}</mat-card-subtitle>
+      <div class="check-list" *ngFor='let list of checkList'>
+          <div *ngIf='list.status == "open" && list.isDeleted == false'>
+              <mat-checkbox (click)="$event.stopPropagation();" class="list-check-box" 
+                (click)='updateChecklist(list,index)'>
+              </mat-checkbox>{{list.itemName}}
+          </div>
+        </div>
+      
+        <div class="check-list" *ngFor='let list of checkList'>
+           <div  *ngIf='list.status == "close" && list.isDeleted == false'>
+              <mat-checkbox class="list-check-box"
+               (click)="$event.stopPropagation();" (click)='updateChecklist(list,index)' [checked]='true'> </mat-checkbox>
+              <span><del>{{list.itemName}}</del></span>  
+           </div>
+          </div>
+    </div>
+    <div fxFlex=25 fxLayout='column'>
+      <div fxLayoutAlign='end'>
+          <button mat-button routerLink="/home/notes">Close</button>
+      </div>
+        
+      
+    </div>
+  </div>
+  <hr>
+  <div *ngIf='questionAndAnswers.length != 0'>
+    <div>
+      Question Asked
+    </div>
+    <p style="opacity:0.5">
+      {{questionAsked}}
+    </p>
+  </div>
+  <div *ngIf='questionAndAnswers.length == 0'>
+      <div>
+       No Question Asked
+      </div>
+      <div fxLayout='row'>
+          <div fxFlex=80 (keyup.enter)="onEnter(newQuestion)" contenteditable="true" 
+          [textContent]="newQuestion" (input)="newQuestion=$event.target.innerText"
+           placeholder="Enter a Question?">
+       </div>
+       <div fxFlex fxLayoutAlign='end'>
+          <button mat-button (click)="onEnter(newQuestion)">Save</button>
+       </div>
+      </div>
+     
+    </div> 
+</mat-card>
+<div fxLayout='column' style="margin-top:20px;padding: 10px;">
+  <div *ngIf='questionAndAnswers.length != 0'>
+      <div fxLayout='row'> 
+          <div fxFlex=5>
+            <button *ngIf='savedUrl == ""' mat-mini-fab>
+              {{firstName | titlecase | slice:0:1}}
+            </button>
+            <button mat-card-avatar *ngIf='savedUrl != ""' 
+              [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
+              mat-mini-fab>
+            </button>
+          </div>
+          <div fxLayoutGap=0px  class="details" fxLayout='column'>
+            <span class="display-text-size">
+              {{firstName}} {{lastName}} 
+            </span>
+            <div fxLayout='row'>
+                <div class="display-text">
+                    {{questionAsked}}
+                </div>
+                <div style="padding:2px">
+                  <mat-icon style="color:black">reply</mat-icon>
+                </div>
+                <div style="padding:2px">
+                    <mat-icon style="color:black">thumb_up</mat-icon>
+                </div>
+                <div style="padding:2px">
+                    <mat-icon style="color:black">star_border</mat-icon>
+                </div>
+
+                <div style="padding:2px">
+                    <mat-icon style="color:black">keyboard_arrow_down</mat-icon>
+                </div>
+                <a *ngFor="let item of starList; let i=index " (click)="setStar(i)">  
+                    <i class="large material-icons " [ngClass]="{'icon-yellow':!item,'i.icon-brown':item}">star</i>   
+                   </a>  
+            </div>
+           
+          </div> 
+        </div>
+  </div>
+</div>

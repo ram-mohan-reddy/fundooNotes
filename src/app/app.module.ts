@@ -33,7 +33,8 @@ import {DataSharingService} from './core/services/dataService/data-sharing.servi
 import {GetNotesService} from './core/services/notes/get-notes.service';
 import {AuthService} from './core/services/auth/auth.service';
 import {MessageServiceService} from './core/services/messageService/message-service.service';
-
+import { InterceptService} from './core/services/interceptor/interceptor.service';
+import { ErrorService} from './core/services/error/error.service';
 
 // Guards and Pipes
 import {AuthGuard} from './core/guards/auth.guard';
@@ -62,16 +63,17 @@ import { NotesCollectionComponent } from './components/notes-collection/notes-co
 import { NotesCreationComponent } from './components/notes-creation/notes-creation.component';
 import { LabelComponent } from './components/label/label.component';
 import { SearchComponent } from './components/search/search.component';
-import { DeleteLabelComponent } from './components/delete-label/delete-label.component';
+import { ErrorComponent } from './components/error/error.component';
+import { QuestionComponent } from './components/question/question.component';
+
 
 // Dialog components
 import { DialogComponent } from './components/dialog/dialog.component';
 import { LabelDialogComponent } from './components/label-dialog/label-dialog.component';
 import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
-import { InterceptService} from './core/services/interceptor/interceptor.service';
-import { ErrorService} from './core/services/error/error.service';
-import { ErrorComponent } from './components/error/error.component';
+import { DeleteLabelComponent } from './components/delete-label/delete-label.component';
 import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
+
 
 
 
@@ -105,6 +107,7 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     ImageCropDialogComponent,
     ErrorComponent,
     CollaboratorDialogComponent,
+    QuestionComponent,
   ],
   entryComponents : [DialogComponent,
                     LabelDialogComponent,

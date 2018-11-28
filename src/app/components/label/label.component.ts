@@ -3,7 +3,6 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import { Router } from '@angular/router';
-import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { Notes } from '../../core/models/notes';
 import {Subject} from 'rxjs';
 import{takeUntil} from 'rxjs/operators' 

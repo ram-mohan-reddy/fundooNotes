@@ -3,9 +3,9 @@ import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { DataSharingService } from '../../core/services/dataService/data-sharing.service';
 import {DeleteLabelComponent} from '../delete-label/delete-label.component';
 import { MatDialog} from '@angular/material';
-import { LoggerService } from '../../core/services/loggerService/logger.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-more-icon',
   templateUrl: './more-icon.component.html',
@@ -17,8 +17,9 @@ export class MoreIconComponent implements OnInit, OnDestroy{
   @Output() labelAdd = new EventEmitter<boolean>();
   @Input() notesDetails: any;
   @Input() componentName: any;
-  list = ['frontier']
-  constructor(private notesService : GetNotesService,private data: DataSharingService,public dialog: MatDialog) { }
+  // list = ['frontier']
+  constructor(private notesService : GetNotesService,private data: DataSharingService,
+    public dialog: MatDialog,private route: Router) { }
   note : any;
   labelMenu: boolean = true;
   newLabelName: string;
@@ -56,7 +57,6 @@ export class MoreIconComponent implements OnInit, OnDestroy{
       .subscribe(data => {
       this.eventClicked.emit(this.event);   
     });
-    // error => LoggerService.log('Error :' + error);
   } 
 
 
@@ -78,8 +78,6 @@ export class MoreIconComponent implements OnInit, OnDestroy{
         .subscribe(data => {
           this.eventClicked.emit(this.event);   
         });
-        // error => LoggerService.log('Error :' + error);
-        
       }
     });
 } 
@@ -104,7 +102,6 @@ export class MoreIconComponent implements OnInit, OnDestroy{
           this.getLabel();
           this.data.eventTrigger(true)
         });
-      // error => LoggerService.log('Error :' + error);
       }
     } 
   }
@@ -133,7 +130,6 @@ onClick(value): void {
        }, 1000)
        this.labelAdd.emit(value)
     });
-  // error => LoggerService.log('Error :' + error);
   }
   else {
     this.notesService.notesPostService('api/notes/' + this.notesDetails.id + "/addLabelToNotes/" + value.id + '/remove', {})
@@ -144,8 +140,11 @@ onClick(value): void {
        }, 1000)
        this.labelAdd.emit(value)
     });
-  // error => LoggerService.log('Error :' + error);
   }
+  }
+
+  askQuestion() {
+    this.route.navigate(['home/notes/'+this.notesDetails.id+'/question'])
   }
   
   ngOnDestroy() {

@@ -1,0 +1,37 @@
+
+
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+[contenteditable=true]:empty:before{
+    content: attr(placeholder);
+    display: block;
+    opacity: 0.5;
+  } 
+    
+  div[contenteditable=true] { 
+    @include out-line;
+    margin-top: 10px
+  }
+.list-check-box {
+    margin-right:10px;
+}
+
+.blur {
+  opacity:0.5
+}
+.display-text-size {
+  @include font(#000000,10px,(arial,sans-serif));
+}
+.display-text{
+  @include font(#000000,20px,(arial,sans-serif));
+}
+.details {
+  @include padding(5px);
+}
+
+i.icon-yellow {
+  color:#ffc34d;
+}
+i.icon-brown {
+  color:rgb(207, 200, 200);
+}

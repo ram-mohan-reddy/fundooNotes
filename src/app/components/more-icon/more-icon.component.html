@@ -14,12 +14,17 @@
         </button>
         <button mat-menu-item *ngIf='!labelMenu && componentName == "trash"' 
             (click)='deleteCard(false)' class="options">
-            Restore
+            Restore 
         </button>
         <button mat-menu-item *ngIf='!labelMenu && componentName != "trash"' 
             (click)="$event.stopPropagation();" (click)='changeMenu()'
             (click)='getLabel()' class="options">
             Add label 
+        </button>
+        <button mat-menu-item *ngIf='!labelMenu && componentName != "trash"' 
+            (click)="$event.stopPropagation();"  (click)='askQuestion()'
+            class="options">
+            Ask a question
         </button>
         <div *ngIf='labelMenu'>
             <div class="label-menu">Label note</div>

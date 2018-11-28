@@ -13,6 +13,7 @@ export interface Notes {
     noteLabels: Array<Label>
     userId: string
     noteCheckLists: Array<Checklists>
+    questionAndAnswerNotes:Array<any>
 }
 
 export interface Label {

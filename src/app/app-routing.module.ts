@@ -13,6 +13,7 @@ import { AuthGuard as AuthGuardService } from './core/guards/auth.guard';
 import { LabelComponent } from './components/label/label.component';
 import { SearchComponent } from './components/search/search.component';
 import { ErrorComponent } from './components/error/error.component';
+import { QuestionComponent } from './components/question/question.component';
 
 const routes: Routes = [
  
@@ -31,7 +32,8 @@ const routes: Routes = [
     {path:'archive',component: ArchiveComponent},
     {path:'trash',component: TrashComponent},
     {path:'search',component: SearchComponent},
-    {path:'labels/:id',component: LabelComponent}
+    {path:'labels/:id',component: LabelComponent},
+    {path:'notes/:id/question',component: QuestionComponent}
   ]},
   { path: 'error', component: ErrorComponent },
   {path:'**',component: ErrorComponent, data: { error: 404 }},

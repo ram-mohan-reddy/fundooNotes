@@ -23,6 +23,7 @@ import { HttpService } from '../../core/services/httpService/http.service';
 import {CollaboratorDialogComponent} from '../collaborator-dialog/collaborator-dialog.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 /**A componenet can be reused throughout the application & even in other applications */
 @Component({
   /**A string value which represents the component on browser at execution time */
@@ -42,7 +43,7 @@ export class NotesCollectionComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, private notesService: GetNotesService,
     public dataService: DataSharingService, public snackBar: MatSnackBar,
-    private userService: HttpService) {
+    private userService: HttpService,private route: Router) {
     this.dataService.listEventEmitted.subscribe(message => {
       if (message) {
         this.notesView = !this.notesView;
@@ -68,6 +69,8 @@ export class NotesCollectionComponent implements OnInit, OnDestroy {
 ngOnInit() {
     LoggerService.log('Using logger service: ');
     this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
+    console.log(this.notesListArray);
+    
   }
 /**callback will be invoked &data associated with the event will be given to us via $event property */
 childEventClicked(event) {
@@ -265,7 +268,9 @@ unArchiveEventClicked(event) {
      }
     });
   }
-
+  askQuestion(id) {
+    this.route.navigate(['home/notes/'+id+'/question'])
+  }
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -172,6 +172,15 @@
                   </div>
                 </div>
               </mat-card-actions> 
+                  <div (click)='askQuestion(index.id)' *ngIf='index.questionAndAnswerNotes.length != 0'>
+                      <hr>
+                        <div>
+                          Question Asked
+                        </div>
+                        <div style="opacity:0.5;margin-top:10px">
+                          {{index.questionAndAnswerNotes[0].message}}
+                        </div>
+                      </div>
             </mat-card>
     </div>
   </div>
