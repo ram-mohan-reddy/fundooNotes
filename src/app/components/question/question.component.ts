@@ -20,6 +20,8 @@ export class QuestionComponent implements OnInit {
   newQuestion:string='';
   questionAndAnswers=[];
   questionAsked: string = '';
+  replyAnswer: string ='';
+  showReply:string = '';
   color:string='';
   private savedUrl:string='';
   private url:string='';
@@ -64,16 +66,20 @@ setStar(data:any){
       this.checkList = this.note.noteCheckLists;
       this.questionAndAnswers = this.note.questionAndAnswerNotes;
       if (this.questionAndAnswers.length != 0) {
-        this.questionAsked=this.questionAndAnswers[0].message;
+        this.questionAsked=this.questionAndAnswers[0];
         this.firstName= this.note.questionAndAnswerNotes[0].user.firstName;
         this.lastName= this.note.questionAndAnswerNotes[0].user.lastName;
-        this.savedUrl = this.note.questionAndAnswerNotes[0].user.imageUrl;
+        // this.savedUrl = this.note.questionAndAnswerNotes[0].user.imageUrl;
       }
      
-      this.url = this.server_url + this.savedUrl;
+      // this.url = this.server_url + this.savedUrl;
     });
   }
-
+  imageUrl(question) {
+    this.savedUrl = question.user.imageUrl;
+    this.url = this.server_url + this.savedUrl;
+    return true;
+  }
   onEnter(newQuestion) {
     console.log(newQuestion);
     let data = {
@@ -86,5 +92,37 @@ setStar(data:any){
       console.log(data);
     });
   }
+
+  reply(parentId) {
+    let data = {
+      "message": this.replyAnswer
+    }
+    this.replyAnswer = '';
+    this.questionService.reply(parentId, data)
+      .subscribe(data => {
+        console.log(data);
+      })
+  }
+
+  like(parentId) {
+    let data = {
+      "like": true
+    }
+    this.questionService.like(parentId, data)
+      .subscribe(data => {
+        console.log(data);
+      })
+  }
+
+  rate(parentId) {
+    let data = {
+      "rate":"4"
+    }
+    this.questionService.rate(parentId, data)
+      .subscribe(data => {
+        console.log(data);
+      })
+  }
+
 
 }

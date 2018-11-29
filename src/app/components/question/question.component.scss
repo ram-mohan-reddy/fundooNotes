@@ -21,9 +21,20 @@
 }
 .display-text-size {
   @include font(#000000,10px,(arial,sans-serif));
+  cursor: default;
 }
 .display-text{
   @include font(#000000,20px,(arial,sans-serif));
+  cursor: default;
+}
+
+.display-text-answer{
+  @include font(#000000,15px,(arial,sans-serif));
+  cursor: default;
+}
+
+:host h3 {
+  @include font(#000000,15px,(arial,sans-serif));
 }
 .details {
   @include padding(5px);
@@ -34,4 +45,17 @@ i.icon-yellow {
 }
 i.icon-brown {
   color:rgb(207, 200, 200);
+  @include md-icon-size(15px);
+}
+
+i.icon-brown:hover {
+  color:#ffc34d
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+mat-icon {
+  @include md-icon-size(15px);
 }

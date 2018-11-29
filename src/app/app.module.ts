@@ -39,7 +39,7 @@ import { ErrorService} from './core/services/error/error.service';
 // Guards and Pipes
 import {AuthGuard} from './core/guards/auth.guard';
 import { SearchPipe } from './core/pipes/search.pipe';
-
+import { SafeHtmlPipe } from './core/pipes/safeHtml/safe-html.pipe';
 // Components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -77,6 +77,7 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
 
 
 
+
 @NgModule({
   declarations: [ 
     AppComponent,
@@ -108,6 +109,7 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     ErrorComponent,
     CollaboratorDialogComponent,
     QuestionComponent,
+    SafeHtmlPipe,
   ],
   entryComponents : [DialogComponent,
                     LabelDialogComponent,

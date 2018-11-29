@@ -12,4 +12,19 @@ export class QuestionService {
     let url = 'api/questionAndAnswerNotes/addQuestionAndAnswer'
     return this.userService.postServiceAuthentication(url,data)
   }
+
+  like(id,data){
+    let url = 'api/questionAndAnswerNotes/like/'+id
+    return this.userService.postServiceAuthentication(url,data)
+  }
+
+  rate(id,data){
+    let url = 'api/questionAndAnswerNotes/rate/'+id
+    return this.userService.postServiceAuthentication(url,data)
+  }
+
+  reply(id,data){
+    let url = 'api/questionAndAnswerNotes/reply/'+id
+    return this.userService.postServiceAuthentication(url,data)
+  }
 }
