@@ -29,7 +29,10 @@ export class QuestionComponent implements OnInit {
   private lastName='';
   private server_url = environment.baseUrl;
   starList: boolean[] = [true,true,true,true,true]; 
-
+  private user: string = '';
+  panelOpenState = false;
+  private rate : number;
+  private rateAverage : number;
   ngOnInit() {
    
     this.route.params.subscribe(params => {
@@ -37,23 +40,8 @@ export class QuestionComponent implements OnInit {
         this.getNoteDetails(params.id);
       }
     });
+this.user = localStorage.getItem('userId');
   }
-
-  rating:number;  
-//Create a function which receives the value counting of stars click, 
-//and according to that value we do change the value of that star in list.
-setStar(data:any){
-      this.rating=data+1;                               
-      for(var i=0;i<=4;i++){  
-        if(i<=data){  
-          this.starList[i]=false;  
-        }  
-        else{  
-          this.starList[i]=true;  
-        }  
-     }  
- }  
-
   getNoteDetails(noteId) {
     this.notesService.getLabelData('api/notes/getNotesDetail/'+noteId)
     .subscribe(data => {
@@ -114,14 +102,39 @@ setStar(data:any){
       })
   }
 
-  rate(parentId) {
+  rateQuestion(value,parentId) {
+    console.log(value);
+    console.log(parentId);
     let data = {
-      "rate":"4"
+      "rate": value
     }
     this.questionService.rate(parentId, data)
       .subscribe(data => {
         console.log(data);
       })
+  }
+
+  checkLike(question) {
+
+    for (let index = 0; index < question.like.length; index++) {
+      if (question.like[index].userId == this.user) {
+        return true
+      }
+    }
+    return false
+  }
+
+  checkRate(question) {
+    this.rateAverage = 0;
+    for (let index = 0; index < question.rate.length; index++) {
+      this.rateAverage = (this.rateAverage + question.rate[index].rate)/question.rate.length;
+      if (question.rate[index].userId == this.user) {
+        this.rate = question.rate[index].rate;
+        return true;
+      }
+    }
+    this.rate = 0;
+    return false;
   }
 
 

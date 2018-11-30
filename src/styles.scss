@@ -10,6 +10,8 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
     border-radius: 10px;
 }
 
+@import '~ngx-bar-rating/themes/br-default-theme';
+
 .top1_1 {
   @include logo($sky-blue);
 }

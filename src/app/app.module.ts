@@ -18,9 +18,11 @@ import {MatCardModule,
         MatChipsModule,
         MatDatepickerModule,
         MatCheckboxModule,
-        MatNativeDateModule} from '@angular/material';
+        MatNativeDateModule,
+        MatExpansionModule} from '@angular/material';
 import { ChecklistModule } from 'angular-checklist';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { BarRatingModule } from "ngx-bar-rating";
 import { RouterModule } from '@angular/router';
 import { HttpClientModule,HTTP_INTERCEPTORS} from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -144,7 +146,9 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     MatNativeDateModule,
     ImageCropperModule,
     MatCheckboxModule,
-    HttpClientModule
+    HttpClientModule,
+    MatExpansionModule,
+    BarRatingModule
   ],
   providers: [HttpService,
               AuthService,

@@ -9,8 +9,8 @@
           [ngClass]="{'mat-card-grid':notesView,'mat-card-list':!notesView}">
               <mat-card-content (click)='openDialog(index)'>
                 <div fxLayout='row' fxLayout.xs='row'> 
-                  <div fxFlex=98 class="title">
-                    {{index.title}} 
+                  <div [innerHTML] = 'index.title' fxFlex=98 class="title">
+                     
                   </div>
                   <div fxFlex (click)="$event.stopPropagation();" *ngIf='!index.isPined' 
                    (click)="pinNotes(index)" class="icons-collection" matTooltip="Pin note">
@@ -21,8 +21,8 @@
                     <img src="../../../assets/images/unPin.svg">
                   </div>
                 </div> 
-                <p class="description">
-                  {{index.description}} 
+                <p [innerHTML] = 'index.description' class="description">
+                  
                 </p>
                 <div class="check-list" *ngFor='let list of index.noteCheckLists'>
                   <div *ngIf='list.status == "open" && list.isDeleted == false'>
