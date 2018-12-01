@@ -1,22 +1,26 @@
 <div fxLayout='row' fxLayout.xs='row' fxLayout.sm='row' fxLayoutAlign="space-between" 
-  fxLayout.md='row'>
+  fxLayout.md='row' fxLayout.lg="row">
   <div fxFlex=10 fxFlex.xs=0 fxFlex.sm=0>
   </div>
-  <div fxFlex fxLayout='column' fxLayoutAlign='center' fxFlex.xs=100 fxFlex.sm=100 fxLayout.xs='column'>
-    <mat-card class="card-details" [ngStyle]="{'background-color': color }">
+  <div fxFlex fxLayout='column' fxLayoutAlign='center' fxFlex.xs=100 fxFlex.sm=100 
+    fxLayout.xs='column'>
+    <mat-card class="card-details" [ngStyle]="{'background-color': color }"
+    ngStyle.sm="width:92%;margin:5px">
       <div fxLayout='row'>
         <div fxFlex>
           <mat-card-title [innerHTML]='title'></mat-card-title>
           <mat-card-subtitle [innerHTML]='description'></mat-card-subtitle>
           <div class="check-list" *ngFor='let list of checkList'>
             <div *ngIf='list.status == "open" && list.isDeleted == false'>
-              <mat-checkbox (click)="$event.stopPropagation();" class="list-check-box" (click)='updateChecklist(list,index)'>
+              <mat-checkbox (click)="$event.stopPropagation();" class="list-check-box" 
+                (click)='updateChecklist(list,index)'>
               </mat-checkbox>{{list.itemName}}
             </div>
           </div>
           <div class="check-list" *ngFor='let list of checkList'>
             <div *ngIf='list.status == "close" && list.isDeleted == false'>
-              <mat-checkbox class="list-check-box" (click)="$event.stopPropagation();" (click)='updateChecklist(list,index)' [checked]='true'>
+              <mat-checkbox class="list-check-box" (click)="$event.stopPropagation();" 
+                (click)='updateChecklist(list,index)' [checked]='true'>
               </mat-checkbox>
               <span><del>{{list.itemName}}</del></span>
             </div>
@@ -33,7 +37,7 @@
         <div>
           Question Asked
         </div>
-        <p style="opacity:0.5">
+        <p class="asked-question">
           {{questionAsked.message}}
         </p>
       </div>
@@ -42,7 +46,8 @@
           No Question Asked
         </div>
         <div fxLayout='row'>
-          <div fxFlex=80 (keyup.enter)="onEnter(newQuestion)" contenteditable="true" [textContent]="newQuestion" (input)="newQuestion=$event.target.innerText"
+          <div fxFlex=80 (keyup.enter)="onEnter(newQuestion)" contenteditable="true" 
+            [textContent]="newQuestion" (input)="newQuestion=$event.target.innerText"
             placeholder="Enter a Question?">
           </div>
           <div fxFlex fxLayoutAlign='end'>
@@ -52,260 +57,420 @@
       </div>
     </mat-card>
     <div *ngIf='questionAndAnswers.length != 0' class="question-container">
-      <div fxLayout='column' style="margin-top:20px;padding: 10px;">
+      <div fxLayout='column'>
         <div *ngIf='questionAndAnswers.length != 0'>
-          <div fxLayout='row' fxLayoutGap.xs=25px>
+          <div fxLayout='row' fxLayoutGap.xs=25px fxLayoutGap.sm=20px>
             <div fxFlex=5 *ngIf='imageUrl(questionAsked)'>
               <button *ngIf='savedUrl == ""' mat-mini-fab>
                 {{firstName | titlecase | slice:0:1}}
               </button>
-              <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
+              <button mat-card-avatar *ngIf='savedUrl != ""' 
+                [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
                 mat-mini-fab>
               </button>
             </div>
-            <div fxFlex fxLayoutGap=0px class="details" fxLayout='column'>
-              <span class="display-text-size">
-                {{firstName}} {{lastName}}
-              </span>
-              <div fxLayout='row' fxLayoutGap='10px'>
+            <div fxFlex fxLayoutGap=10px fxLayoutGap.sm='20px' class="details" fxLayout='row' 
+              fxLayout.xs='column'>
+              <div fxLayout='column'>
+                <div fxLayout='row' fxLayoutGap='10px'>
+                  <span class="display-text-size">
+                    {{firstName}} {{lastName}}
+                  </span>
+                  <span class="display-text-size">
+                    {{questionAsked.createdDate | date:'medium'}}
+                  </span>
+                </div>
                 <div class="display-text">
                   {{questionAsked.message}}
                 </div>
-                <div fxFlex=30 fxLayout='row' fxLayoutGap='10px'>
+              </div>
+                <div  fxLayout='row' fxLayoutGap='10px'  fxLayoutGap.xs='0px'>
                   <div class="cursor-pointer">
-                    <mat-icon (click)='showReply= questionAsked.id' style="color:black;margin-top: 20px">reply</mat-icon>
+                    <mat-icon (click)='showReply= questionAsked.id' (click)='replyShow = true' 
+                      class="reply-icon">reply</mat-icon>
                   </div>
-                  <div style="padding:2px" style="color:black;font-size: 12px" class="cursor-pointer">
-                    <div (click)='like(questionAsked.id)' style="margin-top: 20px" *ngIf='!checkLike(questionAsked)'>
-                      <img class="like-icon" src="../../../assets/images/outline-thumb_up-24px.svg">{{questionAsked.like.length}}
+                  <div class="cursor-pointer question">
+                    <div (click)='like(questionAsked.id)' class="like-icon-div"  
+                      *ngIf='!checkLike(questionAsked)'>
+                      <img class="like-icon" src="../../../assets/images/outline-thumb_up-24px.svg">
+                      {{questionAsked.like.length}}
                     </div>
-                    <div style="margin-top: 20px" *ngIf='checkLike(questionAsked)'>
+                    <div class="like-icon-div" *ngIf='checkLike(questionAsked)'>
                       <mat-icon>thumb_up</mat-icon>{{questionAsked.like.length}}
                     </div>
                   </div>
                   <div fxLayout='row' *ngIf='checkRate(questionAsked)'>
-                    <bar-rating (rateChange)="rateQuestion($event,questionAsked.id)" [(rate)]="rate" [max]="5">
+                    <bar-rating (rateChange)="rateQuestion($event,questionAsked.id)" 
+                      [(rate)]="rate" [max]="5">
                     </bar-rating>
-                    <div style="color:black;font-size: 12px;margin-top: 30px">
-                      rating : {{rateAverage}}
+                    <div class="rate-display">
+                       {{rateAverage}}
                     </div>
                   </div>
                   <div fxLayout='row' *ngIf='!checkRate(questionAsked)'>
-                    <bar-rating (rateChange)="rateQuestion($event,questionAsked.id)" [(rate)]="rate" [max]="5"></bar-rating>
-                    <div style="color:black;font-size: 12px;margin-top: 30px">
-                      rating:{{rateAverage}}
+                    <bar-rating (rateChange)="rateQuestion($event,questionAsked.id)" 
+                      [(rate)]="rate" [max]="5">
+                    </bar-rating>
+                    <div class="rate-display">
+                      {{rateAverage}}
                     </div>
                   </div>
-                  <div class="cursor-pointer">
-                    <mat-icon style="color:black;margin-top: 20px">keyboard_arrow_down</mat-icon>
+                  <div fxLayout='row' class="cursor-pointer">
+                    <mat-icon class="reply-icon" *ngIf='showArrow != questionAsked.id' 
+                      (click)='showReplies = questionAsked.id ; showArrow = questionAsked.id'>
+                      keyboard_arrow_down
+                    </mat-icon>
+                    <mat-icon class="reply-icon" *ngIf='showArrow == questionAsked.id' 
+                      (click)='showReplies = " " ; showArrow = " "'>
+                      keyboard_arrow_up
+                    </mat-icon>
+                    <div *ngIf='showArrow != questionAsked.id' class="rate-display">
+                      <div *ngIf='replyCheck(questionAsked) == 1'>
+                          view {{replyCheck(questionAsked)}} reply
+                      </div>
+                      <div *ngIf='replyCheck(questionAsked) > 1'>
+                          view {{replyCheck(questionAsked)}} replies
+                      </div>
+                      <div *ngIf='replyCheck(questionAsked) == 0'>
+                          no replies
+                      </div>
+                    </div>
+                    <div class="rate-display" *ngIf='showArrow == questionAsked.id'>
+                        <div *ngIf='replyCheck(questionAsked) == 1'>
+                            hide  reply
+                        </div>
+                        <div *ngIf='replyCheck(questionAsked) > 1'>
+                            hide replies
+                        </div>
+                    </div>
                   </div>
-                </div>            
-              </div>
-              <div fxLayout='column' *ngIf='showReply == questionAsked.id'>
-                <div contenteditable="true" [textContent]="replyAnswer" style="color:black;width: 880px" (input)="replyAnswer=$event.target.innerText"
-                  placeholder="Write your comment">
-                </div>
-                <div>
-                  <hr>
-                  <div fxLayoutAlign='end'>
-                    <button (click)='reply(questionAsked.id)' mat-raised-button>Reply</button>
-                  </div>
-                </div>
-              </div>
-            </div>            
+                </div>                 
+            </div>
           </div>
+          <div fxLayout='column' *ngIf='showReply == questionAsked.id && replyShow == true'>
+              <div contenteditable="true" [textContent]="replyAnswer" class="reply-input" 
+                (input)="replyAnswer=$event.target.innerText"
+                placeholder="Write your comment">
+              </div>
+              <div>
+                <hr>
+                <div fxLayoutAlign='end'>
+                  <button (click)='reply(questionAsked.id)' (click)='replyShow = false' 
+                    mat-raised-button>
+                    Reply
+                  </button>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
-      <div fxLayout='column' style="margin-top:20px;padding: 10px;">
+      <div fxLayout='column' class="answer-container">
         <div *ngIf='questionAndAnswers.length != 0'>
-          <div style="margin-bottom:10px" *ngFor='let question of questionAndAnswers; let i=index'>
-            <div *ngIf="i != 0 && question.parentId == questionAsked.id">
-              <div fxLayout='row' fxLayoutGap.xs=25px>
+          <div *ngFor='let question of questionAndAnswers; let i=index'>
+            <div *ngIf="i != 0 && question.parentId == questionAsked.id && showReplies == questionAsked.id">
+              <div fxLayout='row' fxLayoutGap.xs=25px fxLayoutGap.sm=20px>
                 <div fxFlex=5 *ngIf='imageUrl(question)'>
                   <button *ngIf='savedUrl == ""' mat-mini-fab>
                     {{question.user.firstName | titlecase | slice:0:1}}
                   </button>
-                  <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
+                  <button mat-card-avatar *ngIf='savedUrl != ""' 
+                    [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
                     mat-mini-fab>
                   </button>
                 </div>
                 <div fxFlex fxLayoutGap=0px class="details" fxLayout='column'>
-                  <span class="display-text-size">
-                    {{question.user.firstName}} {{question.user.lastName}}
-                  </span>
-                  <div fxLayout='column'>
-                    <div [innerHTML]=" question.message | safeHtml" class="display-text-answer">
+                  <div fxLayout='row' fxLayoutGap='10px'>
+                    <span class="display-text-size">
+                      {{question.user.firstName}} {{question.user.lastName}}
+                    </span>
+                    <span class="display-text-size">
+                      {{question.createdDate | date:'medium'}}
+                    </span>
+                  </div>.
+
+                  <div fxLayout='column' fxLayout.sm='column'>
+                    <div [innerHTML]=" question.message | safeHtml"  class="display-text-answer">
                     </div>
-                    <div fxLayout='row' style="margin-top:10px" fxLayoutAlign='end' fxLayoutGap='10px'>
-                      <div style="padding:2px" class="cursor-pointer">
-                        <mat-icon (click)='showReply= question.id' style="color:black">reply</mat-icon>
+                    <div fxLayout='row' class="answer-icons" fxLayoutAlign='end' 
+                      fxLayoutGap='10px' fxLayoutGap.xs='5px'>
+                      <div  class="cursor-pointer answer-reply-icon">
+                        <mat-icon (click)='showReply= question.id' (click)='replyShow = true'>
+                          reply
+                        </mat-icon>
                       </div>
-                      <div style="padding:2px" style="color:black;font-size: 12px" class="cursor-pointer">
+                      <div class="cursor-pointer answer-reply-icon">
                         <div (click)='like(question.id)' *ngIf='!checkLike(question)'>
-                          <img class="like-icon" src="../../../assets/images/outline-thumb_up-24px.svg">{{question.like.length}}
+                          <img class="like-icon" 
+                            src="../../../assets/images/outline-thumb_up-24px.svg">
+                          {{question.like.length}}
                         </div>
                         <div *ngIf='checkLike(question)'>
-                          <mat-icon>thumb_up</mat-icon>{{question.like.length}}
+                          <mat-icon>thumb_up</mat-icon>
+                          {{question.like.length}}
                         </div>
                       </div>                 
                       <div fxLayout='row' *ngIf='checkRate(question)'>
-                        <bar-rating class="rating" (rateChange)="rateQuestion($event,question.id)" [(rate)]="rate" [max]="5">
+                        <bar-rating class="rating" 
+                          (rateChange)="rateQuestion($event,question.id)" 
+                          [(rate)]="rate" [max]="5">
                         </bar-rating>
-                        <div style="color:black;font-size: 12px;margin-top: 10px">
-                          rating : {{rateAverage}}
+                        <div class="answer-rate">
+                          {{rateAverage}}
                         </div>
                       </div>
                       <div fxLayout='row' *ngIf='!checkRate(question)'>
-                        <bar-rating class="rating" (rateChange)="rateQuestion($event,question.id)" [(rate)]="rate" [max]="5"></bar-rating>
-                        <div style="color:black;font-size: 12px;margin-top: 10px">
-                          rating:{{rateAverage}}
+                        <bar-rating class="rating" 
+                          (rateChange)="rateQuestion($event,question.id)" 
+                          [(rate)]="rate" [max]="5">
+                        </bar-rating>
+                        <div class="answer-rate">
+                        {{rateAverage}}
                         </div>
                       </div>
-                      <div style="padding:2px" class="cursor-pointer">
-                        <mat-icon style="color:black">keyboard_arrow_down</mat-icon>
+                      <div fxLayout=row class="question" class="cursor-pointer">
+                        <mat-icon  *ngIf='showArrowAnswers != question.id || replyCheck(question) == 0' 
+                        (click)='showAnswerReplies = question.id ; showArrowAnswers = question.id'>
+                        keyboard_arrow_down
+                      </mat-icon>
+                      <mat-icon  *ngIf='showArrowAnswers == question.id && replyCheck(question) != 0' 
+                        (click)='showAnswerReplies = " " ; showArrowAnswers = " "'>
+                        keyboard_arrow_up
+                      </mat-icon>
+                      <div *ngIf='showArrowAnswers != question.id'>
+                        <div class="answer-rate" *ngIf='replyCheck(question) == 1'>
+                            view {{replyCheck(question)}} reply
+                        </div>
+                        <div class="answer-rate" *ngIf='replyCheck(question) > 1'>
+                            view {{replyCheck(question)}} replies
+                        </div>
+                        <div class="answer-rate" *ngIf='replyCheck(question) == 0'>
+                            no replies
+                        </div>
+                      </div>
+                      <div *ngIf='showArrowAnswers == question.id'>
+                          <div class="answer-rate" *ngIf='replyCheck(question) == 1'>
+                              hide  reply
+                          </div>
+                          <div class="answer-rate" *ngIf='replyCheck(question) > 1'>
+                              hide replies
+                          </div>
+                          <div class="answer-rate" *ngIf='replyCheck(question) == 0'>
+                              no replies
+                          </div>
+                      </div>
                       </div>
                     </div>                 
                   </div>
-                  <div fxLayout='column' *ngIf='showReply == question.id'>
-                    <div contenteditable="true" [textContent]="replyAnswer" style="color:black;width: 880px" (input)="replyAnswer=$event.target.innerText"
+                  <div fxLayout='column' *ngIf='showReply == question.id && replyShow == true'>
+                    <div contenteditable="true" [textContent]="replyAnswer" 
+                      class="reply-input" (input)="replyAnswer=$event.target.innerText"
                       placeholder="Write your comment">
                     </div>
                     <div>
                       <hr>
                       <div fxLayoutAlign='end'>
-                        <button (click)='reply(question.id)' mat-raised-button>Reply</button>
+                        <button (click)='reply(question.id)' (click)='replyShow = false' 
+                          mat-raised-button>
+                          Reply
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div style="margin-left:50px" *ngFor='let questionNested of questionAndAnswers; let j=index'>
-                <div *ngIf="j != 0 && questionNested.parentId == question.id">
-                  <div style="margin-top:20px" fxLayout='row' fxLayoutGap.xs=25px>
+              <div class="answer-reply-container" 
+                *ngFor='let questionNested of questionAndAnswers; let j=index'>
+                <div *ngIf="j != 0 && questionNested.parentId == question.id && showAnswerReplies == question.id">
+                  <div fxLayout='row' fxLayoutGap.xs=25px fxLayoutGap.sm=20px>
                     <div fxFlex=5 *ngIf='imageUrl(questionNested)'>
                       <button *ngIf='savedUrl == ""' mat-mini-fab>
                         {{questionNested.user.firstName | titlecase | slice:0:1}}
                       </button>
-                      <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
+                      <button mat-card-avatar *ngIf='savedUrl != ""' 
+                        [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
                         mat-mini-fab>
                       </button>
                     </div>
                     <div fxFlex fxLayoutGap=0px class="details" fxLayout='column'>
-                      <span class="display-text-size">
-                        {{questionNested.user.firstName}} {{questionNested.user.lastName}}
-                      </span>
+                      <div fxLayout='row' fxLayoutGap='10px'>
+                          <span class="display-text-size">
+                            {{questionNested.user.firstName}} {{questionNested.user.lastName}}
+                          </span>
+                          <span class="display-text-size">
+                            {{questionNested.createdDate | date:'medium'}}
+                          </span>
+                        </div>
                       <div fxLayout='column'>
-                        <div [innerHTML]=" questionNested.message | safeHtml" class="display-text-answer">
+                        <div [innerHTML]=" questionNested.message | safeHtml" 
+                          class="display-text-answer">
                         </div>                    
-                        <div fxLayout='row' style="margin-top:10px" fxLayoutAlign='end' fxLayoutGap='10px'>
-                          <div style="padding:2px" class="cursor-pointer">
-                            <mat-icon (click)='showReply= questionNested.id' style="color:black">reply</mat-icon>
+                        <div fxLayout='row' class="answer-icons" fxLayoutAlign='end' 
+                          fxLayoutGap='10px' fxLayoutGap.xs='0px'>
+                          <div class="answer-reply-icon" class="cursor-pointer">
+                            <mat-icon (click)='showReply= questionNested.id' 
+                              (click)='replyShow = true'>
+                              reply
+                            </mat-icon>
                           </div>
-                          <div style="padding:2px" style="color:black;font-size: 12px" class="cursor-pointer">
-                            <div (click)='like(questionNested.id)' *ngIf='!checkLike(questionNested)'>
-                              <img class="like-icon" src="../../../assets/images/outline-thumb_up-24px.svg">{{questionNested.like.length}}
+                          <div class="cursor-pointer answer-reply-icon">
+                            <div (click)='like(questionNested.id)' 
+                              *ngIf='!checkLike(questionNested)'>
+                              <img class="like-icon" 
+                                src="../../../assets/images/outline-thumb_up-24px.svg">
+                                {{questionNested.like.length}}
                             </div>
                             <div *ngIf='checkLike(questionNested)'>
-                              <mat-icon>thumb_up</mat-icon>{{questionNested.like.length}}
+                              <mat-icon>thumb_up</mat-icon>
+                                {{questionNested.like.length}}
                             </div>
                           </div>                        
                           <div fxLayout='row' *ngIf='checkRate(questionNested)'>
-                            <bar-rating class="rating" (rateChange)="rateQuestion($event,questionNested.id)" [(rate)]="rate" [max]="5">
+                            <bar-rating class="rating" 
+                              (rateChange)="rateQuestion($event,questionNested.id)" 
+                              [(rate)]="rate" [max]="5">
                             </bar-rating>
-                            <div style="color:black;font-size: 12px;margin-top: 10px">
-                              rating : {{rateAverage}}
+                            <div class="answer-rate">
+                               {{rateAverage}}
                             </div>
                           </div>
                           <div fxLayout='row' *ngIf='!checkRate(questionNested)'>
-                            <bar-rating class="rating" (rateChange)="rateQuestion($event,questionNested.id)" [(rate)]="rate" [max]="5"></bar-rating>
-                            <div style="color:black;font-size: 12px;margin-top: 10px">
-                              rating:{{rateAverage}}
+                            <bar-rating class="rating" 
+                              (rateChange)="rateQuestion($event,questionNested.id)" 
+                              [(rate)]="rate" [max]="5">
+                            </bar-rating>
+                            <div class="answer-rate">
+                              {{rateAverage}}
                             </div>
                           </div>
-                          <div style="padding:2px" class="cursor-pointer">
-                            <mat-icon style="color:black">keyboard_arrow_down</mat-icon>
+                          <div fxLayout='row' class="answer-reply-icon" class="cursor-pointer">
+                            <mat-icon  *ngIf='showArrowNestedAnswers != questionNested.id || replyCheck(questionNested) == 0' 
+                            (click)='showNestedReplies = questionNested.id ; showArrowNestedAnswers = questionNested.id'>
+                            keyboard_arrow_down
+                          </mat-icon>
+                          <mat-icon  *ngIf='showArrowNestedAnswers == questionNested.id && replyCheck(questionNested) != 0' 
+                            (click)='showNestedReplies = " " ; showArrowNestedAnswers = " "'>
+                            keyboard_arrow_up
+                          </mat-icon>
+                          <div *ngIf='showArrowNestedAnswers != questionNested.id'>
+                            <div class="answer-rate" *ngIf='replyCheck(questionNested) == 1'>
+                                view {{replyCheck(questionNested)}} reply
+                            </div>
+                            <div class="answer-rate" *ngIf='replyCheck(questionNested) > 1'>
+                                view {{replyCheck(questionNested)}} replies
+                            </div>
+                            <div class="answer-rate" *ngIf='replyCheck(questionNested) == 0'>
+                                no replies
+                            </div>
+                          </div>
+                          <div *ngIf='showArrowNestedAnswers == questionNested.id'>
+                              <div class="answer-rate" *ngIf='replyCheck(questionNested) == 1'>
+                                  hide  reply
+                              </div>
+                              <div class="answer-rate" *ngIf='replyCheck(questionNested) > 1'>
+                                  hide replies
+                              </div>
+                              <div class="answer-rate" *ngIf='replyCheck(questionNested) == 0'>
+                                  no replies
+                              </div>
+                          </div>
                           </div>
                         </div>
                       </div>
-                      <div fxLayout='column' *ngIf='showReply == questionNested.id'>
-                        <div contenteditable="true" [textContent]="replyAnswer" style="color:black;width: 880px" (input)="replyAnswer=$event.target.innerText"
+                      <div fxLayout='column' 
+                        *ngIf='showReply == questionNested.id && replyShow == true'>
+                        <div contenteditable="true" [textContent]="replyAnswer" 
+                          class="reply-input" (input)="replyAnswer=$event.target.innerText"
                           placeholder="Write your comment">
                         </div>
                         <div>
                           <hr>
                           <div fxLayoutAlign='end'>
-                            <button (click)='reply(questionNested.id)' mat-raised-button>Reply</button>
+                            <button (click)='reply(questionNested.id)'
+                              (click)='replyShow = false' mat-raised-button>
+                              Reply
+                            </button>
                           </div>
-
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div style="margin-left:50px" *ngFor='let answersNested of questionAndAnswers; let j=index'>
-                    <div *ngIf="j != 0 && answersNested.parentId == questionNested.id">
-                      <div style="margin-top:20px" fxLayout='row' fxLayoutGap.xs=25px>
+                  <div class="answer-reply-reply-container" 
+                    *ngFor='let answersNested of questionAndAnswers; let j=index'>
+                    <div *ngIf="j != 0 && answersNested.parentId == questionNested.id && showNestedReplies == questionNested.id">
+                      <div  fxLayout='row' fxLayoutGap.xs=25px fxLayoutGap.sm=20px>
                         <div fxFlex=5 *ngIf='imageUrl(answersNested)'>
                           <button *ngIf='savedUrl == ""' mat-mini-fab>
                             {{answersNested.user.firstName | titlecase | slice:0:1}}
                           </button>
-                          <button mat-card-avatar *ngIf='savedUrl != ""' [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
+                          <button mat-card-avatar *ngIf='savedUrl != ""' 
+                            [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
                             mat-mini-fab>
                           </button>
                         </div>
                         <div fxFlex fxLayoutGap=0px class="details" fxLayout='column'>
-                          <span class="display-text-size">
-                            {{answersNested.user.firstName}} {{answersNested.user.lastName}}
-                          </span>
-                          <div fxLayout='column'>
-                            <div [innerHTML]=" answersNested.message | safeHtml" class="display-text-answer">
+                          <div fxLayout='row' fxLayoutGap='10px'>
+                              <span class="display-text-size">
+                                {{answersNested.user.firstName}} {{answersNested.user.lastName}}
+                              </span>
+                              <span class="display-text-size">
+                                {{answersNested.createdDate | date:'medium'}}
+                              </span>
                             </div>
-                            <div fxLayoutAlign='end' style="margin-top:10px" fxLayout='row' fxLayoutGap='10px'>
-                              <div style="padding:2px" class="cursor-pointer">
-                                <mat-icon (click)='showReply= answersNested.id' style="color:black">reply</mat-icon>
-                              </div>
-                              <div style="padding:2px" style="color:black;font-size: 12px" class="cursor-pointer">
+                          <div fxLayout='column'>
+                            <div [innerHTML]=" answersNested.message | safeHtml" 
+                              class="display-text-answer">
+                            </div>
+                            <div fxLayoutAlign='end' class="answer-icons" fxLayout='row' fxLayoutGap='10px' 
+                              fxLayoutGap.xs='0px'>
+                              <div  class="cursor-pointer answer-reply-icon">
                                 <div (click)='like(answersNested.id)' *ngIf='!checkLike(answersNested)'>
-                                  <img class="like-icon" src="../../../assets/images/outline-thumb_up-24px.svg">{{answersNested.like.length}}
+                                  <img class="like-icon" 
+                                    src="../../../assets/images/outline-thumb_up-24px.svg">
+                                    {{answersNested.like.length}}
                                 </div>
                                 <div *ngIf='checkLike(answersNested)'>
                                   <mat-icon>thumb_up</mat-icon>{{answersNested.like.length}}
                                 </div>
                               </div>
                               <div fxLayout='row' *ngIf='checkRate(answersNested)'>
-                                <bar-rating class="rating" (rateChange)="rateQuestion($event,answersNested.id)" [(rate)]="rate" [max]="5">
+                                <bar-rating class="rating" 
+                                  (rateChange)="rateQuestion($event,answersNested.id)" 
+                                  [(rate)]="rate" [max]="5">
                                 </bar-rating>
-                                <div style="color:black;font-size: 12px;margin-top: 10px">
-                                  rating : {{rateAverage}}
+                                <div class="answer-rate">
+                                {{rateAverage}}
                                 </div>
                               </div>
                               <div fxLayout='row' *ngIf='!checkRate(answersNested)'>
-                                <bar-rating class="rating" (rateChange)="rateQuestion($event,answersNested.id)" [(rate)]="rate" [max]="5"></bar-rating>
-                                <div style="color:black;font-size: 12px;margin-top: 10px">
-                                  rating:{{rateAverage}}
+                                <bar-rating class="rating" 
+                                  (rateChange)="rateQuestion($event,answersNested.id)" 
+                                  [(rate)]="rate" [max]="5">
+                                </bar-rating>
+                                <div class="answer-rate">
+                                  {{rateAverage}}
                                 </div>
                               </div>
-                              <div style="padding:2px" class="cursor-pointer">
-                                <mat-icon style="color:black">keyboard_arrow_down</mat-icon>
-                              </div>
-                            </div>
-                           
+                            </div>         
                           </div>
-                          <div fxLayout='column' *ngIf='showReply == answersNested.id'>
-                            <div contenteditable="true" [textContent]="replyAnswer" style="color:black;width: 880px" (input)="replyAnswer=$event.target.innerText"
+                          <div fxLayout='column'
+                            *ngIf='showReply == answersNested.id && replyShow == true'>
+                            <div contenteditable="true" [textContent]="replyAnswer" 
+                              class="reply-input" (input)="replyAnswer=$event.target.innerText"
                               placeholder="Write your comment">
                             </div>
                             <div>
                               <hr>
                               <div fxLayoutAlign='end'>
-                                <button (click)='reply(answersNested.id)' mat-raised-button>Reply</button>
+                                <button (click)='reply(answersNested.id)' 
+                                  (click)='replyShow = false' mat-raised-button>
+                                  Reply
+                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                   
                   </div>
                 </div>
               </div>

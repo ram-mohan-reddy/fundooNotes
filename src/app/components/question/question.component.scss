@@ -1,5 +1,4 @@
 
-
 @import 'src/sass/variable';
 @import 'src/sass/mixin';
 [contenteditable=true]:empty:before{
@@ -28,9 +27,30 @@
   cursor: default;
 }
 
+@media all and (max-width: 600px) and (min-width: 320px) {
+  .display-text{
+    @include font(#000000,15px,(arial,sans-serif));
+    cursor: default;
+  }
+}
+
 .display-text-answer{
   @include font(#000000,15px,(arial,sans-serif));
   cursor: default;
+}
+
+@media all and (max-width: 600px) and (min-width: 320px) {
+  .display-text-answer{
+    @include font(#000000,12px,(arial,sans-serif));
+    cursor: default;
+  }
+}
+
+@media all and (max-width: 600px) and (min-width: 320px) {
+  .display-text-size{
+    @include font(#000000,10px,(arial,sans-serif));
+    cursor: default;
+  }
 }
 
 :host h3 {
@@ -59,6 +79,7 @@ i.icon-brown:hover {
 
 mat-icon {
   @include md-icon-size(15px);
+  color: #000000
 }
 
 .like-icon {
@@ -76,7 +97,27 @@ margin-top: -20px
   width: 900px
 }
 
-@media all and (max-width: 600px) and (min-width: 320px) {
+@media all and (max-width: 599px) and (min-width: 420px) {
+  .card-details {
+    margin:10px;
+    width:89%;
+  }
+}
+
+@media all and (max-width: 419px) and (min-width: 380px) {
+  .card-details {
+    margin-top:10px;
+    width:92%;
+  }
+}
+
+@media all and (max-width: 379px) and (min-width: 351px) {
+  .card-details {
+    margin-top:10px;
+    width:91%;
+  }
+}
+@media all and (max-width: 350px) and (min-width: 320px) {
   .card-details {
     margin-top:10px;
     width:90%;
@@ -84,14 +125,92 @@ margin-top: -20px
 }
 
 .question-container{
-  overflow-y: scroll;
-  width: 950px
+  overflow: auto;
+  margin-top:20px;
+  width: 950px;
 }
 
 @media all and (max-width: 600px) and (min-width: 320px) {
   .question-container{
-    overflow-y: scroll;
+    overflow: auto;
+    margin-top:10px;
+    width: 100%
+  }
+}
+@media all and (max-width: 960px) and (min-width: 601px) {
+  .question-container{
+    overflow: auto;
+    margin-top:10px;
     width: 100%
   }
 }
 
+
+.asked-question {
+  opacity:0.5
+}
+
+.reply-input {
+  width: 800px;
+  color:black
+}
+
+@media all and (max-width: 600px) and (min-width: 320px) {
+  .reply-input {
+    width: 100%;
+  color:black
+  }
+}
+
+@media all and (max-width: 960px) and (min-width: 601px) {
+  .reply-input {
+    width: 100%;
+  color:black
+  }
+}
+
+.reply-icon {
+  color:black;
+  margin-top: 20px
+}
+
+.question{
+  @include padding(2px);
+  @include font(#000000,12px,(arial,sans-serif));
+}
+
+.like-icon-div{
+  margin-top: 20px
+}
+
+.rate-display {
+  @include font(#000000,12px,(arial,sans-serif));
+  margin-top: 22px
+}
+
+.answer-container {
+  margin-top:20px;
+  @include padding(10px);
+}
+
+.answer-icons {
+  margin-top:10px
+}
+
+.answer-reply-icon {
+  @include padding(2px);
+  @include font(#000000,12px,(arial,sans-serif));
+}
+
+.answer-rate {
+  @include font(#000000,12px,(arial,sans-serif));
+  margin-top: 3px
+}
+
+.answer-reply-container {
+  margin-left:30px;
+}
+
+.answer-reply-reply-container{
+  margin-left:20px;
+}
