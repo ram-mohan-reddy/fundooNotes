@@ -87,6 +87,12 @@
     @include padding(10px); 
 }
 
+.question-asked {
+    opacity:0.5;
+    margin-top:10px;
+    @include word-overflow;
+}
+
 // .container-center {
 //     margin-left: 50px
 // }

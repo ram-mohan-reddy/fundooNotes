@@ -156,7 +156,7 @@
         </button>
       </div>
     </div>
-    <div fxLayoutAlign='end'> 
+    <div fxLayoutAlign='end'>  
       Created {{data.notesData.modifiedDate | date:"mediumDate"}}
     </div>
   </mat-card-content>
@@ -169,7 +169,7 @@
           </app-remind-icon>
         </div>
         <div class="icons">
-          <app-collaborator-icon></app-collaborator-icon>
+          <app-collaborator-icon [notesDetails]="data.notesData"></app-collaborator-icon>
         </div>
         <div class="icons">
           <app-color-icon (colorCodeEvent)="colorEventClicked($event)" 

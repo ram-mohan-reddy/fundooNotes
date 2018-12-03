@@ -152,13 +152,12 @@ this.onDelete.emit(labelDetails);
     if (currentDate > reminderDate) {
       return true;
     }
-    else { 
+    else {  
       return false;
     }
   }
 
   onCollaborator(noteDetails) {
     this.onCollaboratorRequest.emit(noteDetails);
-    
   }
 }

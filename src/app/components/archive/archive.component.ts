@@ -13,6 +13,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   private notes: Notes[] = [];
   totalNotes: Notes[] = [];
   private list: Notes[] = [];
+  private spinner:boolean = false;
   constructor(private notesService: GetNotesService) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
   ngOnInit() {
@@ -21,9 +22,11 @@ export class ArchiveComponent implements OnInit, OnDestroy {
 
   /*********************** This function used to get archived notes*********************/ 
   getNotes() {
+    this.spinner =true;
     this.notesService.getNotes()
       .pipe(takeUntil(this.destroy$)) 
       .subscribe((data: Notes[]) => {
+        this.spinner = false;
         this.notes = data['data'].data;
         this.list = [];
         for (let index = this.notes.length-1; index >=0; index--) {
@@ -44,5 +47,5 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  }  
+  }   
 } 

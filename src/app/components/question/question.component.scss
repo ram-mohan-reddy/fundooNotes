@@ -94,7 +94,8 @@ margin-top: -20px
 
 .card-details {
   margin-top:10px;
-  width: 900px
+  width: 900px;
+  overflow: auto;
 }
 
 @media all and (max-width: 599px) and (min-width: 420px) {
@@ -214,3 +215,12 @@ margin-top: -20px
 .answer-reply-reply-container{
   margin-left:20px;
 }
+
+// .notes-description{
+//   max-height:100px;
+//   overflow: auto;
+// }
+
+// .notes-checklist {
+//   overflow: auto;
+// }

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionComponent } from './question.component';
+import { Notes } from '../../core/models/notes';
 
 describe('QuestionComponent', () => {
   let component: QuestionComponent;
@@ -20,7 +21,7 @@ describe('QuestionComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy(); 
   });
 
   it('should return true when there is a like by user', () => {
@@ -66,5 +67,44 @@ describe('QuestionComponent', () => {
     }
     expect(component.checkRate(question)).toBeFalsy();
   });
+
+  it("should call getNotesDetails and assign it to note", async(() => {
+    const response: Notes[]=[];
+    let noteId:string="5c011461019ffc00400b0e75"
+    component.getNoteDetails(noteId);
+    expect(component.note).toEqual(response);
+  }));
+
+  it("should call getNotesDetails and assign it to note in ngOnInIt", async(() => {
+    const response: Notes[] = [];
+    const user:string=localStorage.getItem('userId')
+    component.ngOnInit();
+    expect(component.note).toEqual(response);
+    expect(component.user).toEqual(user);
+  }));
+
+  it('should return true when there is image url', () => {
+  
+    let user = {
+     
+      imageUrl:"images/1543497799459blob"
+    }
+    let question = {
+      user : user
+    }
+    expect(component.checkRate(question)).toBeTruthy();
+  });
+
+
+  it('should return false when there is no image url', () => {
+    let user = {
+      imageUrl:""
+    }
+    let question = {
+      user : user
+    }
+    expect(component.checkRate(question)).toBeFalsy();
+  });
+
 });
 

@@ -18,6 +18,7 @@ export class LabelComponent implements OnInit, OnDestroy {
   totalNotes: Notes[] = [];
   pinedNotes: Notes[] = [];
   label: string = '';
+  private spinner:boolean=false;
   constructor(private notesService: GetNotesService, private route: ActivatedRoute,
     public dataService: DataSharingService, public router: Router) {
     this.route.params.subscribe(params => {
@@ -45,13 +46,14 @@ export class LabelComponent implements OnInit, OnDestroy {
   }
 
   getNotes() {
+    this.spinner=true;
     this.notesService.getNotes()
     .pipe(takeUntil(this.destroy$))
     .subscribe((data: Notes[]) => {
+      this.spinner=false;
       this.note = data['data'].data;
       this.notesCollection(this.note)
     });
-    // error => LoggerService.log('Error :' + error);
   }
 
   notesAddRequest(event) {

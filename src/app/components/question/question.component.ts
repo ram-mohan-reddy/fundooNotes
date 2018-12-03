@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../../core/services/questionService/question.service';
@@ -13,14 +13,17 @@ export class QuestionComponent implements OnInit {
 
   constructor(private notesService: GetNotesService, private route: ActivatedRoute,
     private questionService: QuestionService) { }
+    @ViewChild('addQuestion') newQuestion: ElementRef;
+    @ViewChild('replyQuestion') replyQuestion: ElementRef;
+    
   note: any;
   title: string = '';
   description: string = '';
   checkList = [];
-  newQuestion: string = '';
+  // newQuestion: string = '';
   questionAndAnswers = [];
   questionAsked: string = '';
-  replyAnswer: string = '';
+  // replyAnswer: string = '';
   showReply: string = '';
   color: string = '';
   private savedUrl: string = '';
@@ -28,7 +31,7 @@ export class QuestionComponent implements OnInit {
   private firstName = '';
   private lastName = '';
   private server_url = environment.baseUrl;
-  private user: string = '';
+  public user: string = '';
   panelOpenState = false;
   private rate: number;
   private rateAverage: number;
@@ -37,9 +40,9 @@ export class QuestionComponent implements OnInit {
   private showArrow:string='';
   private showArrowAnswers:string='';
   private showArrowNestedAnswers:string='';
+  private replies:number;
   
   ngOnInit() {
-
     this.route.params.subscribe(params => {
       if (params) {
         this.noteId = params.id;
@@ -53,6 +56,7 @@ export class QuestionComponent implements OnInit {
       .subscribe(data => {
         this.note = data['data'].data[0];
         console.log(this.note);
+        
         this.title = this.note.title;
         this.description = this.note.description;
         this.color = this.note.color;
@@ -70,12 +74,12 @@ export class QuestionComponent implements OnInit {
     this.url = this.server_url + this.savedUrl;
     return true;
   }
-  onEnter(newQuestion) {
+  onEnter() {
     let data = {
-      "message": this.newQuestion,
+      "message": this.newQuestion.nativeElement.innerHTML,
       "notesId": this.note.id
     }
-    this.newQuestion = '';
+    this.newQuestion.nativeElement.innerHTML = '';
     this.questionService.addQuestion(data)
       .subscribe(data => {
         this.getNoteDetails(this.noteId);
@@ -83,11 +87,12 @@ export class QuestionComponent implements OnInit {
   }
 
   reply(parentId) {
-    if (this.replyAnswer != '') {
+    if (this.replyQuestion.nativeElement.innerHTML != '') {
       let data = {
-        "message": this.replyAnswer
+        "message": this.replyQuestion.nativeElement.innerHTML
       }
-      this.replyAnswer = '';
+      
+      this.replyQuestion.nativeElement.innerHTML = '';
       this.questionService.reply(parentId, data)
         .subscribe(data => {
           this.getNoteDetails(this.noteId);
@@ -136,16 +141,18 @@ export class QuestionComponent implements OnInit {
     this.rate = 0;
     return false;
   }
-private replies:number;
   replyCheck(questionAsked){
     this.replies = 0;
-
     for (let index = 0; index < this.questionAndAnswers.length; index++) {
       if (questionAsked.id == this.questionAndAnswers[index].parentId) {
         this.replies++;
       }
     }
-
     return this.replies;
+  }
+  @ViewChild('replyIdentity') replyIdentity: ElementRef;
+
+  showFocus() {
+    // this.replyIdentity.nativeElement.focus();
   }
 }

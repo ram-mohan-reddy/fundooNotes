@@ -34,6 +34,7 @@ export class NotesComponent implements OnInit, OnDestroy{
   list;
   totalNotes: any = [];
   pinedNotes: any = [];
+  spinner:boolean = false;
   separateOthers : string = 'Others'
   separatePinned : string = 'pinned';
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -51,9 +52,11 @@ export class NotesComponent implements OnInit, OnDestroy{
   }
 
   getNotes() {
+    this.spinner = true;
     this.notesService.getNotes()
     .pipe(takeUntil(this.destroy$))
     .subscribe((data: Notes[]) => {
+      this.spinner= false;
       this.note = data['data'].data;
       this.notesCollection(this.note)
     });

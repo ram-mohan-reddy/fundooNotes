@@ -16,15 +16,18 @@ export class TrashComponent implements OnInit, OnDestroy {
   private list: Notes[] = [];
   private note: Notes[]=[];
   private componentName: string = 'trash';
+  private spinner:boolean = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private notesService: GetNotesService) { }
   ngOnInit() {
     this.getNotes();
   }
   getNotes() {
+    this.spinner= true;
     this.notesService.getNotes()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Notes[]) => {
+        this.spinner = false;
         this.note = data['data'].data;
         this.list = [];
         for (let index = this.note.length-1; index >= 0 ; index--) {

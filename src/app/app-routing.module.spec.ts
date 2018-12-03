@@ -17,16 +17,16 @@ describe('AppRoutingModule', () => {
     expect(appRoutingModule).toBeTruthy();
   });
 
-  it('navigate to "" redirects you to /login', fakeAsync(() => { 
-    router.navigate(['']); 
-    tick(); 
-    expect(location.path()).toBe('/login'); 
-  }));
+  // it('navigate to "" redirects you to /login', fakeAsync(() => { 
+  //   router.navigate(['']); 
+  //   tick(); 
+  //   expect(location.path()).toBe('/login'); 
+  // }));
 
-  it('navigate to "home" takes you to /home', fakeAsync(() => {
-    router.navigate(['home']);
-    tick();
-    expect(location.path()).toBe('/home');
-  }));
+  // it('navigate to "home" takes you to /home', fakeAsync(() => {
+  //   router.navigate(['home']);
+  //   tick();
+  //   expect(location.path()).toBe('/home');
+  // }));
   
 });

@@ -22,7 +22,6 @@ export class CollaboratorDialogComponent implements OnInit, OnDestroy  {
        this.discardConfirmation(); 
       });
     }
-
   private savedUrl:string='';
   private url:string='';
   private email:string='';
@@ -53,7 +52,6 @@ export class CollaboratorDialogComponent implements OnInit, OnDestroy  {
       }
       this.userService.userPostService('searchUserList',search)
       .subscribe(data => {
-        
         this.userArray = data['data']['details'];
       });
     }
@@ -62,7 +60,6 @@ export class CollaboratorDialogComponent implements OnInit, OnDestroy  {
 getEmail(receiverEmail){ 
   this.personSearch = receiverEmail;
 }
-
 addPerson(receiverEmail) {
   this.personSearch = ''; 
   this.show = !this.show;
@@ -72,15 +69,12 @@ addPerson(receiverEmail) {
     this.newCollaboratorList.push(this.userArray[index])
     this.userArray = [];
   }
-
   else {
     this.snackBar.open('person already added', 'retry', {
       duration: 5000,
     });
   }
- 
 }
-
 removePerson(receiverEmail) {
   let index = this.collaboratorList.findIndex(x => x.email== receiverEmail);
   let indexList = this.newCollaboratorList.findIndex(x => x.email== receiverEmail);
@@ -91,16 +85,12 @@ removePerson(receiverEmail) {
      console.log(data);
     });
   }
-   
   if (index !== -1) {
     this.collaboratorList.splice(index, 1);
   }
-
   if (indexList !== -1) {
     this.newCollaboratorList.splice(index, 1);
   }
-  
-
 }
 
 discardConfirmation(): void {
@@ -110,18 +100,15 @@ discardConfirmation(): void {
       panelClass: 'myapp-no-padding-dialog',
       data: { componentName: "collaboratorDialog" }
     });
-  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.dialogRef.close();
       }
     });
   }
-
   else {
     this.dialogRef.close();
   }
- 
 }
 
 onNoClick(): void {

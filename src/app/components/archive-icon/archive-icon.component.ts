@@ -18,7 +18,7 @@ export class ArchiveIconComponent implements OnInit, OnDestroy {
   } 
 
   archiveRequest() {
-    var note = {
+    var note = { 
       "isArchived": true,
       "noteIdList": [this.notesDetails.id]
     }

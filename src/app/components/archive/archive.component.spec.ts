@@ -23,7 +23,7 @@ describe('ArchiveComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy(); 
   });
 
   it("should call getNotes and return list of notes", async(() => {
@@ -42,4 +42,10 @@ describe('ArchiveComponent', () => {
     component.notesArchiveRequest(false);
     expect(component.totalNotes.length).toEqual(0);
   }));
-});
+
+  it("should call getNotes and return list of notes in ngOnInIt", async(() => {
+    const response: Notes[] = [];
+    component.ngOnInit();
+    expect(component.totalNotes).toEqual(response);
+  }));
+}); 

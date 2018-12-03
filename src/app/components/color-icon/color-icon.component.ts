@@ -43,8 +43,7 @@ export class ColorIconComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe(data => {
       this.colorEvent.emit(this.event);  
-    });
-    // error => LoggerService.log('Error :' + error);       
+    });       
     }    
   }
 

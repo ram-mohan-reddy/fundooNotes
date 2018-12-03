@@ -17,15 +17,18 @@ export class RemindersComponent implements OnInit, OnDestroy {
   token: string = localStorage.getItem('token')
   constructor(private notesService: HttpService) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
+  private spinner: boolean = false;
 
   ngOnInit() {
     this.getNotes();
   }
 
   getNotes() {
+    this.spinner = true;
     this.notesService.getNotesList('api/notes/getReminderNotesList')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Notes[]) => {
+        this.spinner = false;
         this.notesCollection(data)
       });
     // error => LoggerService.log('Error :' + error);

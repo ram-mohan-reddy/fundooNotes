@@ -9,26 +9,29 @@
       <div fxLayout='row'>
         <div fxFlex>
           <mat-card-title [innerHTML]='title'></mat-card-title>
-          <mat-card-subtitle [innerHTML]='description'></mat-card-subtitle>
-          <div class="check-list" *ngFor='let list of checkList'>
-            <div *ngIf='list.status == "open" && list.isDeleted == false'>
-              <mat-checkbox (click)="$event.stopPropagation();" class="list-check-box" 
-                (click)='updateChecklist(list,index)'>
-              </mat-checkbox>{{list.itemName}}
-            </div>
-          </div>
-          <div class="check-list" *ngFor='let list of checkList'>
-            <div *ngIf='list.status == "close" && list.isDeleted == false'>
-              <mat-checkbox class="list-check-box" (click)="$event.stopPropagation();" 
-                (click)='updateChecklist(list,index)' [checked]='true'>
-              </mat-checkbox>
-              <span><del>{{list.itemName}}</del></span>
-            </div>
-          </div>
         </div>
         <div fxFlex=25 fxLayout='column'>
-          <div fxLayoutAlign='end'>
+          <div fxLayoutAlign='end'> 
             <button mat-button routerLink="/home/notes">Close</button>
+          </div>
+        </div>
+      </div>
+      <mat-card-subtitle [innerHTML]='description' class="notes-description">   
+      </mat-card-subtitle>
+      <div class="notes-checklist">
+        <div class="check-list" *ngFor='let list of checkList'>
+          <div *ngIf='list.status == "open" && list.isDeleted == false'>
+            <mat-checkbox (click)="$event.stopPropagation();" class="list-check-box" 
+              (click)='updateChecklist(list,index)'>
+            </mat-checkbox>{{list.itemName}}
+          </div>
+        </div>
+        <div class="check-list" *ngFor='let list of checkList'>
+          <div *ngIf='list.status == "close" && list.isDeleted == false'>
+            <mat-checkbox class="list-check-box" (click)="$event.stopPropagation();" 
+              (click)='updateChecklist(list,index)' [checked]='true'>
+            </mat-checkbox>
+            <span><del>{{list.itemName}}</del></span>
           </div>
         </div>
       </div>
@@ -37,21 +40,20 @@
         <div>
           Question Asked
         </div>
-        <p class="asked-question">
-          {{questionAsked.message}}
-        </p>
+        <div [innerHTML]='questionAsked.message' class="asked-question">
+         
+        </div>
       </div>
       <div *ngIf='questionAndAnswers.length == 0'>
         <div>
           No Question Asked
         </div>
-        <div fxLayout='row'>
-          <div fxFlex=80 (keyup.enter)="onEnter(newQuestion)" contenteditable="true" 
-            [textContent]="newQuestion" (input)="newQuestion=$event.target.innerText"
-            placeholder="Enter a Question?">
+        <div fxLayout='column'>
+          <div (keyup.enter)="onEnter()" contenteditable="true" 
+            placeholder="Enter a Question?" #addQuestion>
           </div>
-          <div fxFlex fxLayoutAlign='end'>
-            <button mat-button (click)="onEnter(newQuestion)">Save</button>
+          <div  fxLayoutAlign='end'>
+            <button mat-button (click)="onEnter()">Save</button>
           </div>
         </div>
       </div>
@@ -80,13 +82,12 @@
                     {{questionAsked.createdDate | date:'medium'}}
                   </span>
                 </div>
-                <div class="display-text">
-                  {{questionAsked.message}}
+                <div [innerHTML]='questionAsked.message' class="display-text">
                 </div>
               </div>
                 <div  fxLayout='row' fxLayoutGap='10px'  fxLayoutGap.xs='0px'>
                   <div class="cursor-pointer">
-                    <mat-icon (click)='showReply= questionAsked.id' (click)='replyShow = true' 
+                    <mat-icon (click)='showReply= questionAsked.id' (click)='showFocus();' (click)='replyShow = true' 
                       class="reply-icon">reply</mat-icon>
                   </div>
                   <div class="cursor-pointer question">
@@ -148,10 +149,10 @@
             </div>
           </div>
           <div fxLayout='column' *ngIf='showReply == questionAsked.id && replyShow == true'>
-              <div contenteditable="true" [textContent]="replyAnswer" class="reply-input" 
-                (input)="replyAnswer=$event.target.innerText"
-                placeholder="Write your comment">
+              <div contenteditable="true" class="reply-input" 
+                placeholder="Write your comment" #replyQuestion>
               </div>
+              <input  #replyIdentity>
               <div>
                 <hr>
                 <div fxLayoutAlign='end'>
@@ -189,7 +190,7 @@
                   </div>.
 
                   <div fxLayout='column' fxLayout.sm='column'>
-                    <div [innerHTML]=" question.message | safeHtml"  class="display-text-answer">
+                    <div [innerHTML]=" question.message"  class="display-text-answer">
                     </div>
                     <div fxLayout='row' class="answer-icons" fxLayoutAlign='end' 
                       fxLayoutGap='10px' fxLayoutGap.xs='5px'>
@@ -262,9 +263,9 @@
                     </div>                 
                   </div>
                   <div fxLayout='column' *ngIf='showReply == question.id && replyShow == true'>
-                    <div contenteditable="true" [textContent]="replyAnswer" 
-                      class="reply-input" (input)="replyAnswer=$event.target.innerText"
-                      placeholder="Write your comment">
+                    <div contenteditable="true"  
+                      class="reply-input" 
+                      placeholder="Write your comment"  #replyQuestion>
                     </div>
                     <div>
                       <hr>
@@ -378,9 +379,9 @@
                       </div>
                       <div fxLayout='column' 
                         *ngIf='showReply == questionNested.id && replyShow == true'>
-                        <div contenteditable="true" [textContent]="replyAnswer" 
-                          class="reply-input" (input)="replyAnswer=$event.target.innerText"
-                          placeholder="Write your comment">
+                        <div contenteditable="true"  
+                          class="reply-input" 
+                          placeholder="Write your comment"  #replyQuestion>
                         </div>
                         <div>
                           <hr>
