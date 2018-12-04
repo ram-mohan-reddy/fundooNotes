@@ -15,11 +15,11 @@
     <div class="sk-circle11 sk-child"></div>
     <div class="sk-circle12 sk-child"></div>
 </div>
-<div *ngIf='pinedNotes.length != 0'>Pinned</div>
+<div *ngIf='pinedNotes.length != 0' class="text">Pinned</div>
 <app-notes-collection (notesEditRequest)="notesAddRequest($event)" 
     [separate]="separatePinned" [notesListArray]="pinedNotes" >
 </app-notes-collection>
-<div  *ngIf='pinedNotes.length != 0'>Others</div>
+<div  *ngIf='pinedNotes.length != 0' class="text">Others</div>
 <app-notes-collection (notesEditRequest)="notesAddRequest($event)" 
     [separate]="separateOthers" [notesListArray]="totalNotes" >
 </app-notes-collection>

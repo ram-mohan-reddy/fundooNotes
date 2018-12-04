@@ -32,6 +32,7 @@ describe('QuestionComponent', () => {
     let question = {
       like : likeArray
     }
+
     expect(component.checkLike(question)).toBeTruthy();
   });
 
@@ -84,7 +85,6 @@ describe('QuestionComponent', () => {
   }));
 
   it('should return true when there is image url', () => {
-  
     let user = {
      
       imageUrl:"images/1543497799459blob"
