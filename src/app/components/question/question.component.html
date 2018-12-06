@@ -48,16 +48,15 @@
         <div>
           No Question Asked
         </div>
-        <div fxLayout='column'>
-          <div (keyup.enter)="onEnter()" contenteditable="true" 
-            placeholder="Enter a Question?" #addQuestion>
-          </div>
-          <div  fxLayoutAlign='end'>
-            <button mat-button (click)="onEnter()">Save</button>
-          </div>
-        </div>
       </div>
     </mat-card>
+    <div *ngIf='questionAndAnswers.length == 0' fxLayout='column' fxLayoutGap='10px'>
+        <div  [froalaEditor]="options" [(froalaModel)]="editorContent"></div>
+
+        <div  fxLayoutAlign='end'>
+          <button mat-raised-button color="primary" (click)="onEnter()">Save</button>
+        </div>
+      </div>
     <div *ngIf='questionAndAnswers.length != 0' class="question-container">
       <div fxLayout='column'>
         <div *ngIf='questionAndAnswers.length != 0'>
@@ -73,7 +72,7 @@
             </div>
             <div fxFlex fxLayoutGap=10px fxLayoutGap.sm='20px' class="details" fxLayout='row' 
               fxLayout.xs='column'>
-              <div fxLayout='column'>
+              <div fxLayout='column' fxLayoutGap=0px>
                 <div fxLayout='row' fxLayoutGap='10px'>
                   <span class="display-text-size">
                     {{firstName}} {{lastName}}
@@ -82,12 +81,13 @@
                     {{questionAsked.createdDate | date:'medium'}}
                   </span>
                 </div>
-                <div [innerHTML]='questionAsked.message' class="display-text">
+                <div [innerHTML]='questionAsked.message | safeHtml' class="display-text">
+                  
                 </div>
               </div>
                 <div  fxLayout='row' fxLayoutGap='10px'  fxLayoutGap.xs='0px'>
                   <div class="cursor-pointer">
-                    <mat-icon (click)='showReply= questionAsked.id' (click)='showFocus();' (click)='replyShow = true' 
+                    <mat-icon (click)='showReply= questionAsked.id'  (click)='replyShow = true' 
                       class="reply-icon">reply</mat-icon>
                   </div>
                   <div class="cursor-pointer question">
@@ -149,10 +149,11 @@
             </div>
           </div>
           <div fxLayout='column' *ngIf='showReply == questionAsked.id && replyShow == true'>
-              <div contenteditable="true" class="reply-input" 
+              <!-- <div contenteditable="true" class="reply-input" 
                 placeholder="Write your comment" #replyQuestion>
-              </div>
-              <input  #replyIdentity>
+              </div> -->
+              <!-- <input  #replyIdentity> -->
+              <div [froalaEditor]="options" [(froalaModel)]="editorContent"></div>
               <div>
                 <hr>
                 <div fxLayoutAlign='end'>
@@ -168,12 +169,12 @@
       <div fxLayout='column' class="answer-container">
         <div *ngIf='questionAndAnswers.length != 0'>
           <div *ngFor='let question of questionAndAnswers; let i=index'>
-            <div *ngIf="i != 0 && question.parentId == questionAsked.id && showReplies == questionAsked.id">
+            <div *ngIf="i != 0 && question.parentId == questionAsked.id && showReplies == questionAsked.id && question.isApproved == true">
               <div fxLayout='row' fxLayoutGap.xs=25px fxLayoutGap.sm=20px>
                 <div fxFlex=5 *ngIf='imageUrl(question)'>
                   <button *ngIf='savedUrl == ""' mat-mini-fab>
                     {{question.user.firstName | titlecase | slice:0:1}}
-                  </button>
+                  </button> 
                   <button mat-card-avatar *ngIf='savedUrl != ""' 
                     [ngStyle]="{'background-image': 'url(' + url + ')','background-size': 'cover'}"
                     mat-mini-fab>
@@ -263,10 +264,11 @@
                     </div>                 
                   </div>
                   <div fxLayout='column' *ngIf='showReply == question.id && replyShow == true'>
-                    <div contenteditable="true"  
+                    <!-- <div contenteditable="true"  
                       class="reply-input" 
                       placeholder="Write your comment"  #replyQuestion>
-                    </div>
+                    </div> -->
+                    <div [froalaEditor]="options" [(froalaModel)]="editorContent"></div>
                     <div>
                       <hr>
                       <div fxLayoutAlign='end'>
@@ -281,7 +283,7 @@
               </div>
               <div class="answer-reply-container" 
                 *ngFor='let questionNested of questionAndAnswers; let j=index'>
-                <div *ngIf="j != 0 && questionNested.parentId == question.id && showAnswerReplies == question.id">
+                <div *ngIf="j != 0 && questionNested.parentId == question.id && showAnswerReplies == question.id && questionNested.isApproved == true">
                   <div fxLayout='row' fxLayoutGap.xs=25px fxLayoutGap.sm=20px>
                     <div fxFlex=5 *ngIf='imageUrl(questionNested)'>
                       <button *ngIf='savedUrl == ""' mat-mini-fab>
@@ -379,10 +381,11 @@
                       </div>
                       <div fxLayout='column' 
                         *ngIf='showReply == questionNested.id && replyShow == true'>
-                        <div contenteditable="true"  
+                        <!-- <div contenteditable="true"  
                           class="reply-input" 
                           placeholder="Write your comment"  #replyQuestion>
-                        </div>
+                        </div> -->
+                        <div [froalaEditor]="options" [(froalaModel)]="editorContent"></div>
                         <div>
                           <hr>
                           <div fxLayoutAlign='end'>
@@ -397,7 +400,7 @@
                   </div>
                   <div class="answer-reply-reply-container" 
                     *ngFor='let answersNested of questionAndAnswers; let j=index'>
-                    <div *ngIf="j != 0 && answersNested.parentId == questionNested.id && showNestedReplies == questionNested.id">
+                    <div *ngIf="j != 0 && answersNested.parentId == questionNested.id && showNestedReplies == questionNested.id && answersNested.isApproved == true">
                       <div  fxLayout='row' fxLayoutGap.xs=25px fxLayoutGap.sm=20px>
                         <div fxFlex=5 *ngIf='imageUrl(answersNested)'>
                           <button *ngIf='savedUrl == ""' mat-mini-fab>
@@ -455,10 +458,11 @@
                           </div>
                           <div fxLayout='column'
                             *ngIf='showReply == answersNested.id && replyShow == true'>
-                            <div contenteditable="true" [textContent]="replyAnswer" 
+                            <!-- <div contenteditable="true" [textContent]="replyAnswer" 
                               class="reply-input" (input)="replyAnswer=$event.target.innerText"
                               placeholder="Write your comment">
-                            </div>
+                            </div> -->
+                            <div [froalaEditor]="options" [(froalaModel)]="editorContent"></div>
                             <div>
                               <hr>
                               <div fxLayoutAlign='end'>

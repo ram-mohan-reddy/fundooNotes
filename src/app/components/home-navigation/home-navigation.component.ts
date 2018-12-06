@@ -35,7 +35,7 @@ export class HomeNavigationComponent implements OnInit, OnDestroy {
         this.getLabel();
       }
     })
-    this.dataService.identityEventEmitted.subscribe(message => {
+    this.dataService.identityEventEmitted.subscribe(message => { 
       if (message) {
         this.identify = message;
         localStorage.setItem('identify', message)

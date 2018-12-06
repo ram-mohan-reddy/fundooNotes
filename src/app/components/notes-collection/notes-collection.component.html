@@ -177,8 +177,7 @@
                         <div>
                           Question Asked
                         </div>
-                        <div class="question-asked">
-                          {{index.questionAndAnswerNotes[0].message}}
+                        <div [innerHTML]='index.questionAndAnswerNotes[0].message' class="question-asked">
                         </div> 
                       </div>
             </mat-card>

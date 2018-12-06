@@ -269,7 +269,9 @@ unArchiveEventClicked(event) {
     });
   }
   askQuestion(id) {
-    this.route.navigate(['home/notes/'+id+'/question'])
+    this.route.navigate(['home/notes/'+id+'/question']);
+    localStorage.setItem('identify', 'Questions');
+    this.dataService.changeIdentityEventTrigger('Questions') 
   }
   ngOnDestroy() {
     this.destroy$.next(true);

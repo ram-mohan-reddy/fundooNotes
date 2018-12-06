@@ -20,6 +20,7 @@ import {MatCardModule,
         MatCheckboxModule,
         MatNativeDateModule,
         MatExpansionModule} from '@angular/material';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ChecklistModule } from 'angular-checklist';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { BarRatingModule } from "ngx-bar-rating";
@@ -148,7 +149,9 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     MatCheckboxModule,
     HttpClientModule,
     MatExpansionModule,
-    BarRatingModule
+    BarRatingModule,
+    FroalaEditorModule.forRoot(), 
+    FroalaViewModule.forRoot()
   ],
   providers: [HttpService,
               AuthService,

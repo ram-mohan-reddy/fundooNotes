@@ -1,21 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../../core/services/questionService/question.service';
-import { environment } from '../../../environments/environment'
+import { environment } from '../../../environments/environment';
+import {Subject} from 'rxjs';
+import{takeUntil} from 'rxjs/operators' 
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements OnInit {
+export class QuestionComponent implements  OnInit, OnDestroy {
 
   constructor(private notesService: GetNotesService, private route: ActivatedRoute,
     private questionService: QuestionService) { }
-    @ViewChild('addQuestion') newQuestion: ElementRef;
-    @ViewChild('replyQuestion') replyQuestion: ElementRef;
-    
+  @ViewChild('addQuestion') newQuestion: ElementRef;
+  @ViewChild('replyQuestion') replyQuestion: ElementRef;
+  destroy$: Subject<boolean> = new Subject<boolean>();
   note: any;
   title: string = '';
   description: string = '';
@@ -41,7 +43,38 @@ export class QuestionComponent implements OnInit {
   private showArrowAnswers:string='';
   private showArrowNestedAnswers:string='';
   private replies:number;
-  
+  public editorContent: string;
+  public options: Object = {
+    charCounterCount: true,
+    toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 
+                      'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 
+                      'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 
+                      'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 
+                      'formatUL', 'outdent', 'indent', 'quote', 'fontAwesome', 
+                      'specialCharacters', 'selectAll', 'clearFormatting',
+                      'spellChecker', 'help', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS:['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 
+                      'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 
+                      'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 
+                      'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 
+                      'formatUL', 'outdent', 'indent', 'quote', 'fontAwesome', 
+                      'specialCharacters', 'selectAll', 'clearFormatting',
+                      'spellChecker', 'help', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM:['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 
+                      'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 
+                      'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 
+                      'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 
+                      'formatUL', 'outdent', 'indent', 'quote', 'fontAwesome', 
+                      'specialCharacters', 'selectAll', 'clearFormatting',
+                      'spellChecker', 'help', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD:['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 
+                      'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 
+                      'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 
+                      'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 
+                      'formatUL', 'outdent', 'indent', 'quote', 'fontAwesome', 
+                      'specialCharacters', 'selectAll', 'clearFormatting',
+                      'spellChecker', 'help', 'html', '|', 'undo', 'redo'],
+  };
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params) {
@@ -53,10 +86,10 @@ export class QuestionComponent implements OnInit {
   }
   getNoteDetails(noteId) {
     this.notesService.getLabelData('api/notes/getNotesDetail/' + noteId)
+      .pipe(takeUntil(this.destroy$)) 
       .subscribe(data => {
         this.note = data['data'].data[0];
         console.log(this.note);
-        
         this.title = this.note.title;
         this.description = this.note.description;
         this.color = this.note.color;
@@ -76,24 +109,26 @@ export class QuestionComponent implements OnInit {
   }
   onEnter() {
     let data = {
-      "message": this.newQuestion.nativeElement.innerHTML,
+      "message": this.editorContent,
       "notesId": this.note.id
     }
-    this.newQuestion.nativeElement.innerHTML = '';
+    this.editorContent = '';
     this.questionService.addQuestion(data)
+      .pipe(takeUntil(this.destroy$)) 
       .subscribe(data => {
         this.getNoteDetails(this.noteId);
       });
   }
 
   reply(parentId) {
-    if (this.replyQuestion.nativeElement.innerHTML != '') {
+    if (this.editorContent != '') {
       let data = {
-        "message": this.replyQuestion.nativeElement.innerHTML
+        "message": this.editorContent
       }
       
-      this.replyQuestion.nativeElement.innerHTML = '';
+      this.editorContent = '';
       this.questionService.reply(parentId, data)
+        .pipe(takeUntil(this.destroy$)) 
         .subscribe(data => {
           this.getNoteDetails(this.noteId);
         })
@@ -105,6 +140,7 @@ export class QuestionComponent implements OnInit {
       "like": true
     }
     this.questionService.like(parentId, data)
+      .pipe(takeUntil(this.destroy$)) 
       .subscribe(data => {
         this.getNoteDetails(this.noteId);
       })
@@ -115,6 +151,7 @@ export class QuestionComponent implements OnInit {
       "rate": value
     }
     this.questionService.rate(parentId, data)
+      .pipe(takeUntil(this.destroy$)) 
       .subscribe(data => {
         this.getNoteDetails(this.noteId);
       })
@@ -150,9 +187,9 @@ export class QuestionComponent implements OnInit {
     }
     return this.replies;
   }
-  @ViewChild('replyIdentity') replyIdentity: ElementRef;
-
-  showFocus() {
-    // this.replyIdentity.nativeElement.focus();
-  }
+ 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }   
 }

@@ -95,6 +95,7 @@ margin-top: -20px
 .card-details {
   margin-top:10px;
   width: 900px;
+  min-height: 150px;
   overflow: auto;
 }
 
@@ -102,6 +103,7 @@ margin-top: -20px
   .card-details {
     margin:10px;
     width:89%;
+    min-height: 150px;
   }
 }
 
@@ -109,6 +111,7 @@ margin-top: -20px
   .card-details {
     margin-top:10px;
     width:92%;
+    min-height: 150px;
   }
 }
 
@@ -116,12 +119,14 @@ margin-top: -20px
   .card-details {
     margin-top:10px;
     width:91%;
+    min-height: 150px;
   }
 }
 @media all and (max-width: 350px) and (min-width: 320px) {
   .card-details {
     margin-top:10px;
     width:90%;
+    min-height: 150px;
   }
 }
 

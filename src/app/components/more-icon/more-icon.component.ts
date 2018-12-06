@@ -19,7 +19,7 @@ export class MoreIconComponent implements OnInit, OnDestroy{
   @Input() componentName: any;
   // list = ['frontier']
   constructor(private notesService : GetNotesService,private data: DataSharingService,
-    public dialog: MatDialog,private route: Router) { }
+    public dialog: MatDialog,private route: Router,public dataService: DataSharingService) { }
   note : any;
   labelMenu: boolean = true;
   newLabelName: string;
@@ -144,7 +144,9 @@ onClick(value): void {
   }
 
   askQuestion() {
-    this.route.navigate(['home/notes/'+this.notesDetails.id+'/question'])
+    this.route.navigate(['home/notes/'+this.notesDetails.id+'/question']);
+    localStorage.setItem('identify', 'Questions');
+    this.dataService.changeIdentityEventTrigger('Questions') 
   }
   
   ngOnDestroy() {

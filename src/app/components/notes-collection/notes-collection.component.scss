@@ -90,7 +90,9 @@
 .question-asked {
     opacity:0.5;
     margin-top:10px;
-    @include word-overflow;
+    max-height: 100px;
+    overflow: auto;
+    // @include word-overflow;
 }
 
 // .container-center {
