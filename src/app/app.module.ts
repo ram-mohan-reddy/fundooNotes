@@ -76,6 +76,7 @@ import { LabelDialogComponent } from './components/label-dialog/label-dialog.com
 import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
 import { DeleteLabelComponent } from './components/delete-label/delete-label.component';
 import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
+import { ProductServicesComponent } from './components/product-services/product-services.component';
 
 
 
@@ -113,6 +114,7 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     CollaboratorDialogComponent,
     QuestionComponent,
     SafeHtmlPipe,
+    ProductServicesComponent,
   ],
   entryComponents : [DialogComponent,
                     LabelDialogComponent,

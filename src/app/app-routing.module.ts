@@ -14,11 +14,13 @@ import { LabelComponent } from './components/label/label.component';
 import { SearchComponent } from './components/search/search.component';
 import { ErrorComponent } from './components/error/error.component';
 import { QuestionComponent } from './components/question/question.component';
+import { ProductServicesComponent } from './components/product-services/product-services.component';
 
 const routes: Routes = [
  
   { path: '', redirectTo: '/login', pathMatch: 'full' }, 
   { path: 'login', component: LoginComponent},
+  { path: 'services', component: ProductServicesComponent},
   { path: 'register', component: RegisterComponent },
   { path:'resetpassword/:id',component: ResetPasswordComponent},
   { path:'home',component: HomePageComponent,canActivate: [AuthGuardService],children:[

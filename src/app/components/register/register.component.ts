@@ -72,7 +72,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
         this.newServices[i].first=false;
       }
-    }
+    } 
 
     newUser() {
       if (this.user.email != '' && this.user.password != '' && this.service != '' ) {

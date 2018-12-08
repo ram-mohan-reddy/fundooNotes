@@ -1,0 +1,36 @@
+@import 'src/sass/variable';
+@import 'src/sass/mixin';
+
+.tool-bar {
+    background-color: $navbar-color;
+  }
+
+  .header {
+      margin-left: 20px;
+      padding: 10px
+  }
+
+  .container {
+      margin-top: 40px;
+      @include font(#000000,20px,("Times New Roman", Times, serif));
+  }
+
+  .cards {
+      margin-top: 70px
+  }
+
+  .first {
+    width:150px;
+    height:250px;
+    z-index: -1;
+    position: absolute;
+    background-color: $navbar-color;
+  }
+
+  .second {
+    width:150px;
+    height:250px;
+    z-index:-1;
+    position: absolute;
+    background-color: grey
+  }

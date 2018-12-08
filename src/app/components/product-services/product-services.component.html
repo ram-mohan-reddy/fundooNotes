@@ -1,0 +1,31 @@
+<!-- <p>
+  product-services works!
+</p> -->
+
+<mat-toolbar class="tool-bar">
+<div class="header">
+  fundooNotes
+</div>
+</mat-toolbar>
+<div fxLayout='column' fxLayout.xs='column' class="container">
+  <div fxLayoutAlign='center'>
+    Which fundooNotes service package do you want?
+  </div>
+
+  <div fxLayout='row' fxLayout.xs='column' fxLayoutAlign='center' class="cards" fxLayoutGap='80px'>
+    <div *ngFor='let service of newServices' (click)="onClickChange(service)">
+      <mat-card style="width:150px;height:250px;padding-top: 0px">
+        
+        {{service.name}}
+        <mat-card  [ngClass]="service.first? 'first': 'second'">
+            <div style="margin-top:240px">
+              Add to cart
+              </div>
+        </mat-card>
+      </mat-card>
+
+    </div>
+  </div>
+  
+</div>
+ 
