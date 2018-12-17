@@ -27,7 +27,7 @@ import { Subject } from 'rxjs';
   templateUrl: './notes.component.html',
   /**It is used to provide style of components */
   styleUrls: ['./notes.component.scss'] 
-})
+})  
 /**To use components in other modules , we have to export them */
 export class NotesComponent implements OnInit, OnDestroy{
   note: Notes[]=[];

@@ -1,11 +1,15 @@
-export interface Notes {
+
+import { Label } from "./label";
+import { Checklists } from "./checkList";
+
+export class Notes {
     title: string
     description: string
     color: string
     createdDate: Date
     modifiedDate: Date
     id:string
-    imageUrl: string
+    imageUrl: string 
     isArchived: boolean
     isDeleted: boolean
     isPined: boolean
@@ -16,23 +20,5 @@ export interface Notes {
     questionAndAnswerNotes:Array<any>
 }
 
-export interface Label {
-    id: string
-    label: string
-    isDeleted: boolean
-    userId: string
-}
-export interface Checklists {
-    createdDate: Date
-    id: string
-    isDeleted: boolean
-    itemName: string
-    modifiedDate: Date
-    notesId: string
-    status: string
-}
 
-export interface Services {
-    name: string
-    description: string
-}
+

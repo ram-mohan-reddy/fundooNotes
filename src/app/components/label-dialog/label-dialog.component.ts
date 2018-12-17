@@ -5,7 +5,7 @@ import { DataSharingService } from '../../core/services/dataService/data-sharing
 import { DeleteLabelComponent } from '../delete-label/delete-label.component';
 import { MatDialog } from '@angular/material';
 import { LoggerService } from '../../core/services/loggerService/logger.service';
-import { Label } from '../../core/models/notes';
+import { Label } from '../../core/models/label';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs'; 
 import { GetNotesService } from '../../core/services/notes/get-notes.service';
